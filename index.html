@@ -1,0 +1,752 @@
+<!--
+    paste-to-cue
+    Copyright (c) 2026 sakamoto-king (https://github.com/sakamoto-king)
+    Contact: sakamoto-king@outlook.com
+    Released under the MIT License.
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>paste-to-cue</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tcq-box {
+            height: 100vh;
+            /* fallback */
+            height: 100dvh;
+            /* 覆盖 */
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 8fr 2fr;
+            grid-template-rows: auto 1fr;
+        }
+
+        .aspect-bar {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-bottom: 1px solid #000;
+            font-size: 0.75em;
+            flex-wrap: wrap;
+        }
+
+        .aspect-btn {
+            padding: 2px 8px;
+            border: 1px solid #000;
+            background: #fff;
+            cursor: pointer;
+            font-size: inherit;
+        }
+
+        .aspect-btn:hover,
+        .aspect-btn.active {
+            background: #000;
+            color: #fff;
+        }
+
+        .aspect-custom {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .hotkey-tip {
+            margin-left: auto;
+            white-space: nowrap;
+            opacity: 0.8;
+        }
+
+        .aspect-custom input[type="number"] {
+            width: 40px;
+            border: 1px solid #000;
+            border-radius: 0;
+            padding: 1px 4px;
+            font-size: inherit;
+            text-align: center;
+            appearance: none;
+            -moz-appearance: textfield;
+        }
+
+        .aspect-custom input[type="number"]::-webkit-inner-spin-button,
+        .aspect-custom input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .tcq-area {
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        .tcq-view {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            flex-shrink: 0;
+            background: #fff;
+        }
+
+        .tcq-content {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+            transform-origin: top center;
+        }
+
+        .tcq-touch {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #000;
+        }
+
+        .up,
+        .down {
+            flex: 1;
+        }
+
+        .mid {
+            font-size: 0.5em;
+            height: 20dvh;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            white-space: pre-line;
+            text-align: center;
+        }
+
+        .mid:hover {
+            background-color: #000;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .zoom-row {
+            font-size: 0.5em;
+            border-top: 1px solid #000;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .zoom-row label {
+            white-space: nowrap;
+        }
+
+        .zoom-row input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .zoom-control {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .zoom-expand {
+            width: 22px;
+            height: 22px;
+            line-height: 20px;
+            border: 1px solid #000;
+            background: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .zoom-expand:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .test {
+            padding: 100px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tcq-box">
+        <div class="aspect-bar">
+            <button type="button" class="aspect-btn active" data-free>自由</button>
+            <button type="button" class="aspect-btn" data-w="16" data-h="9">16:9</button>
+            <button type="button" class="aspect-btn" data-w="9" data-h="16">9:16</button>
+            <button type="button" class="aspect-btn" data-w="3" data-h="4">3:4</button>
+            <button type="button" class="aspect-btn" data-w="4" data-h="3">4:3</button>
+            <span class="aspect-custom">
+                自定义：<input type="number" class="aspect-w" min="1" placeholder="宽">：<input type="number" class="aspect-h" min="1" placeholder="高">
+            </span>
+            <span class="hotkey-tip"></span>
+        </div>
+        <div class="tcq-area">
+        <div class="tcq-view">
+            <div class="tcq-content" contenteditable="true">
+                <h1 class="test">请粘贴内容</h1>
+                <h1 class="test">请粘贴内容</h1>
+                <h1 class="test">请粘贴内容</h1>
+                <h1 class="test">请粘贴内容</h1>
+                <h1 class="test">请粘贴内容</h1>
+                <h1 class="test">请粘贴内容</h1>
+                <h1 class="test">请粘贴内容</h1>
+                <h1 class="test">请粘贴内容</h1>
+            </div>
+        </div>
+        </div>
+        <div class="tcq-touch">
+            <div class="up"></div>
+            <div class="mid">悬停停</div>
+            <div class="down"></div>
+            <div class="zoom-row">
+                <label>缩放: <span class="zoom-value">100%</span></label>
+                <div class="zoom-control">
+                    <input type="range" class="zoom-input" min="50" max="200" value="100" step="5">
+                    <button type="button" class="zoom-expand" title="扩展最大缩放">+</button>
+                </div>
+            </div>
+            <div class="zoom-row">
+                <label>灵敏度: <span class="sensitivity-value">100%</span></label>
+                <div class="zoom-control">
+                    <input type="range" class="sensitivity-input" min="20" max="300" value="100" step="5">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // ─────────────────────────────────────────────
+    // CONFIG: 在此处修改所有可调参数和快捷键
+    // ─────────────────────────────────────────────
+    const CONFIG = {
+        maxSpeed: 7,          // 最大滚动速度 (px/帧)
+        smoothing: 0.18,      // 速度平滑系数 (0~1)
+        keyStep: 0.5,         // 快捷键每次调整速度的步长 (px/帧)
+        zoomMin: 50,          // 缩放最小值 (%)
+        zoomMax: 1000,         // 缩放最大值 (%)
+        zoomStep: 5,          // 缩放步进 (%)
+        zoomDefault: 100,     // 初始缩放 (%)
+        zoomExpandStep: 50,   // 点击 + 时扩展的最大值增量 (%)
+        sensitivityMin: 20,   // 灵敏度最小值 (%)
+        sensitivityMax: 300,  // 灵敏度最大值 (%)
+        sensitivityStep: 5,   // 灵敏度步进 (%)
+        sensitivityDefault: 100, // 灵敏度默认值 (%)
+
+        // 比例预设（顺序与顶部按钮对应）
+        aspectPresets: [
+            { label: '16:9', w: 16, h: 9 },
+            { label: '9:16', w: 9,  h: 16 },
+            { label: '3:4',  w: 3,  h: 4 },
+            { label: '4:3',  w: 4,  h: 3 },
+        ],
+
+        // 快捷键绑定：一个功能可绑定多个键（使用 KeyboardEvent.code）
+        keybindings: {
+            speedUp:   ['ArrowDown', 'KeyS'],           // 加速（向下）
+            speedDown: ['ArrowUp',   'KeyW'],           // 减速（向上）
+            pause:     ['Space',     'KeyP'], // 暂停 / 恢复
+            zoomIn:    ['Equal',     'NumpadAdd'],      // 放大
+            zoomOut:   ['Minus',     'NumpadSubtract'], // 缩小
+        }
+    }
+
+    class TCQ {
+        // 构造函数：初始化 UI 引用、业务状态、输入映射和运行时状态。
+        constructor() {
+            this.ui = {
+                touch: {
+                    upZone: document.querySelector('.up'),
+                    midZone: document.querySelector('.mid'),
+                    downZone: document.querySelector('.down'),
+                    panel: document.querySelector('.tcq-touch')
+                },
+                view: document.querySelector('.tcq-view'),
+                area: document.querySelector('.tcq-area'),
+                content: document.querySelector('.tcq-content'),
+                aspect: {
+                    buttons: document.querySelectorAll('.aspect-btn'),
+                    widthInput: document.querySelector('.aspect-w'),
+                    heightInput: document.querySelector('.aspect-h'),
+                    hotkeyTip: document.querySelector('.hotkey-tip')
+                },
+                zoom: {
+                    input: document.querySelector('.zoom-input'),
+                    valueText: document.querySelector('.zoom-value'),
+                    expandButton: document.querySelector('.zoom-expand')
+                },
+                sensitivity: {
+                    input: document.querySelector('.sensitivity-input'),
+                    valueText: document.querySelector('.sensitivity-value')
+                }
+            }
+
+            this.state = {
+                aspect: {
+                    width: null,
+                    height: null
+                },
+                zoom: {
+                    max: CONFIG.zoomMax,
+                    current: CONFIG.zoomDefault
+                },
+                sensitivity: {
+                    current: CONFIG.sensitivityDefault
+                },
+                speed: {
+                    max: CONFIG.maxSpeed,
+                    keyStep: CONFIG.keyStep,
+                    target: 0,
+                    current: 0,
+                    remainder: 0,
+                    smoothing: CONFIG.smoothing,
+                    lastTargetBeforePause: 0,
+                    lastCurrentBeforePause: 0,
+                    resumeSource: 'none'
+                },
+                pause: {
+                    isPaused: true
+                }
+            }
+
+            this.control = {
+                keyMap: {},
+                mouseMap: {}
+            }
+
+            this.runtime = {
+                lastFrameTime: 0,
+                rafId: null,
+                pointer: {
+                    x: null,
+                    y: null
+                }
+            }
+
+            for (const [action, keys] of Object.entries(CONFIG.keybindings)) {
+                for (const key of keys) {
+                    if (key.startsWith('Mouse')) {
+                        this.control.mouseMap[key] = action
+                    } else {
+                        this.control.keyMap[key] = action
+                    }
+                }
+            }
+
+            this.initialize()
+        }
+        // 数值钳制：将 value 限定在 min 和 max 之间。
+        clampValue(value, min, max) {
+            return Math.max(min, Math.min(max, value))
+        }
+        // 渲染中间提示区文本：展示暂停状态、当前速度与速度来源。
+        renderMidStatusText() {
+            if (this.state.pause.isPaused) {
+                this.ui.touch.midZone.innerText = '已暂停\n点击恢复'
+                return
+            }
+
+            const sourceLabel = {
+                keyboard: '键盘 Keyboard',
+                mouse: '鼠标 Mouse',
+                pauseRestore: '恢复 Resume',
+                none: '未指定'
+            }
+
+            this.ui.touch.midZone.innerText = `速度: ${this.state.speed.current.toFixed(2)} px/帧\n来源: ${sourceLabel[this.state.speed.resumeSource] || sourceLabel.none}\n点击暂停`
+        }
+        // 按鼠标 Y 位置计算并更新目标速度。forceApply 为 true 时可在暂停态强制计算。
+        updateTargetSpeedByPointer(clientY, forceApply = false) {
+            if (this.state.pause.isPaused && !forceApply) {
+                return
+            }
+
+            const panelRect = this.ui.touch.panel.getBoundingClientRect()
+            const midRect = this.ui.touch.midZone.getBoundingClientRect()
+
+            if (clientY >= midRect.top && clientY <= midRect.bottom) {
+                this.state.speed.target = 0
+                this.state.speed.resumeSource = 'mouse'
+                this.renderMidStatusText()
+                return
+            }
+
+            if (clientY < midRect.top) {
+                const upHeight = Math.max(midRect.top - panelRect.top, 1)
+                const upDistance = midRect.top - clientY
+                const upNormalized = this.clampValue(upDistance / upHeight, 0, 1)
+                this.state.speed.target = -(upNormalized ** 2) * this.state.speed.max * (this.state.sensitivity.current / 100)
+            } else {
+                const downHeight = Math.max(panelRect.bottom - midRect.bottom, 1)
+                const downDistance = clientY - midRect.bottom
+                const downNormalized = this.clampValue(downDistance / downHeight, 0, 1)
+                this.state.speed.target = (downNormalized ** 2) * this.state.speed.max * (this.state.sensitivity.current / 100)
+            }
+
+            this.state.speed.target = this.clampValue(this.state.speed.target, -this.state.speed.max, this.state.speed.max)
+            this.state.speed.resumeSource = 'mouse'
+            this.renderMidStatusText()
+        }
+        // 若指针位于控制区，则按鼠标位置应用一次速度，返回是否应用成功。
+        applyPointerSpeedIfInsideControlZone() {
+            if (this.runtime.pointer.x === null || this.runtime.pointer.y === null) {
+                return false
+            }
+
+            const panelRect = this.ui.touch.panel.getBoundingClientRect()
+            const midRect = this.ui.touch.midZone.getBoundingClientRect()
+            const isInsidePanel = this.runtime.pointer.x >= panelRect.left
+                && this.runtime.pointer.x <= panelRect.right
+                && this.runtime.pointer.y >= panelRect.top
+                && this.runtime.pointer.y <= panelRect.bottom
+
+            if (!isInsidePanel) {
+                return false
+            }
+
+            const isInsideMidZone = this.runtime.pointer.y >= midRect.top && this.runtime.pointer.y <= midRect.bottom
+            if (isInsideMidZone) {
+                this.state.speed.target = 0
+                this.state.speed.resumeSource = 'mouse'
+                return true
+            }
+
+            this.updateTargetSpeedByPointer(this.runtime.pointer.y, true)
+            return true
+        }
+        // 切换暂停状态：暂停时记录速度，恢复时先还原再可选鼠标覆盖。
+        togglePauseState() {
+            this.state.pause.isPaused = !this.state.pause.isPaused
+
+            if (this.state.pause.isPaused) {
+                this.state.speed.lastTargetBeforePause = this.state.speed.target
+                this.state.speed.lastCurrentBeforePause = this.state.speed.current
+                this.state.speed.target = 0
+                this.state.speed.current = 0
+                this.state.speed.remainder = 0
+                this.state.speed.resumeSource = 'none'
+            } else {
+                this.state.speed.target = this.state.speed.lastTargetBeforePause
+                this.state.speed.current = this.state.speed.lastCurrentBeforePause
+                this.state.speed.resumeSource = 'pauseRestore'
+                this.applyPointerSpeedIfInsideControlZone()
+            }
+
+            this.renderMidStatusText()
+        }
+        // 计算键盘步进：根据灵敏度缩放基础步长。
+        getKeyboardStepBySensitivity() {
+            return this.state.speed.keyStep * (this.state.sensitivity.current / 100)
+        }
+        // 应用缩放值并更新对应 UI。
+        applyZoomValue(zoom) {
+            this.state.zoom.current = this.clampValue(zoom, CONFIG.zoomMin, this.state.zoom.max)
+            this.ui.content.style.transform = `scale(${this.state.zoom.current / 100})`
+            this.ui.zoom.input.value = this.state.zoom.current
+            this.ui.zoom.valueText.textContent = `${this.state.zoom.current}%`
+        }
+        // 扩展缩放上限并同步滑块最大值。
+        expandZoomMaxLimit() {
+            this.state.zoom.max += CONFIG.zoomExpandStep
+            this.ui.zoom.input.max = String(this.state.zoom.max)
+        }
+        // 应用灵敏度并更新对应 UI。
+        applySensitivityValue(sensitivity) {
+            this.state.sensitivity.current = this.clampValue(sensitivity, CONFIG.sensitivityMin, CONFIG.sensitivityMax)
+            this.ui.sensitivity.input.value = String(this.state.sensitivity.current)
+            this.ui.sensitivity.valueText.textContent = `${this.state.sensitivity.current}%`
+        }
+        // 应用画面比例：按容器尺寸决定宽占满或高占满。
+        applyAspectRatio(w, h) {
+            this.state.aspect.width = w
+            this.state.aspect.height = h
+
+            const areaRect = this.ui.area.getBoundingClientRect()
+            const areaW = areaRect.width
+            const areaH = areaRect.height
+            const ratio = w / h
+            const areaRatio = areaW / areaH
+
+            if (ratio >= areaRatio) {
+                // 横向比例更大时，让视图区宽度占满。
+                this.ui.view.style.width = '100%'
+                this.ui.view.style.height = `${areaW / ratio}px`
+            } else {
+                // 纵向比例更高时，让视图区高度占满。
+                this.ui.view.style.height = '100%'
+                this.ui.view.style.width = `${areaH * ratio}px`
+            }
+
+            this.updateAspectButtonActiveState()
+        }
+        // 重置为自由比例，并清空视图区尺寸覆盖。
+        resetAspectRatio() {
+            this.state.aspect.width = null
+            this.state.aspect.height = null
+            this.ui.view.style.width = ''
+            this.ui.view.style.height = ''
+            this.updateAspectButtonActiveState()
+        }
+        // 更新比例按钮激活态，保证 UI 与当前比例状态一致。
+        updateAspectButtonActiveState() {
+            this.ui.aspect.buttons.forEach(btn => {
+                if (this.state.aspect.width === null) {
+                    btn.classList.toggle('active', btn.hasAttribute('data-free'))
+                } else {
+                    const w = Number(btn.dataset.w)
+                    const h = Number(btn.dataset.h)
+                    btn.classList.toggle('active', w === this.state.aspect.width && h === this.state.aspect.height)
+                }
+            })
+        }
+        // 快捷键标签格式化：将 code 转为更易读的文本。
+        formatHotkeyLabel(code) {
+            const map = {
+                ArrowUp: '↑',
+                ArrowDown: '↓',
+                Space: 'Space',
+                Equal: '=',
+                Minus: '-',
+                NumpadAdd: 'Num+',
+                NumpadSubtract: 'Num-',
+                KeyW: 'W',
+                KeyS: 'S',
+                KeyP: 'P',
+                MouseLeft: '鼠标左键',
+                MouseRight: '鼠标右键',
+                MouseMiddle: '鼠标中键'
+            }
+            return map[code] || code
+        }
+        // 渲染顶部快捷键提示文本。
+        renderHotkeyTipText() {
+            const parts = [
+                `开始/暂停: ${CONFIG.keybindings.pause.map(code => this.formatHotkeyLabel(code)).join('/')}`,
+                `加速: ${CONFIG.keybindings.speedUp.map(code => this.formatHotkeyLabel(code)).join('/')}`,
+                `减速: ${CONFIG.keybindings.speedDown.map(code => this.formatHotkeyLabel(code)).join('/')}`,
+                `缩放+: ${CONFIG.keybindings.zoomIn.map(code => this.formatHotkeyLabel(code)).join('/')}`,
+                `缩放-: ${CONFIG.keybindings.zoomOut.map(code => this.formatHotkeyLabel(code)).join('/')}`,
+            ]
+            this.ui.aspect.hotkeyTip.textContent = parts.join('  |  ')
+        }
+        // 处理快捷键动作：统一调度速度、暂停、缩放等行为。
+        handleActionByKey(action) {
+            switch (action) {
+                case 'speedUp': {
+                    const step = this.getKeyboardStepBySensitivity()
+
+                    if (this.state.pause.isPaused) {
+                        // 暂停时按方向键：以 0 速度基线启动并进入播放态。
+                        this.state.speed.target = 0
+                        this.state.speed.current = 0
+                        this.state.speed.remainder = 0
+                        this.state.pause.isPaused = false
+                    }
+
+                    const next = this.state.speed.target + step
+                    // 跨越零点时截断为 0，避免方向反跳。
+                    this.state.speed.target = (this.state.speed.target < 0 && next > 0) ? 0 : next
+                    this.state.speed.target = this.clampValue(this.state.speed.target, -this.state.speed.max, this.state.speed.max)
+                    this.state.speed.resumeSource = 'keyboard'
+                    break
+                }
+                case 'speedDown': {
+                    const step = this.getKeyboardStepBySensitivity()
+
+                    if (this.state.pause.isPaused) {
+                        // 暂停时按方向键：以 0 速度基线启动并进入播放态。
+                        this.state.speed.target = 0
+                        this.state.speed.current = 0
+                        this.state.speed.remainder = 0
+                        this.state.pause.isPaused = false
+                    }
+
+                    const next = this.state.speed.target - step
+                    // 跨越零点时截断为 0，避免方向反跳。
+                    this.state.speed.target = (this.state.speed.target > 0 && next < 0) ? 0 : next
+                    this.state.speed.target = this.clampValue(this.state.speed.target, -this.state.speed.max, this.state.speed.max)
+                    this.state.speed.resumeSource = 'keyboard'
+                    break
+                }
+                case 'pause':
+                    this.togglePauseState()
+                    break
+                case 'zoomIn':
+                    this.applyZoomValue(this.state.zoom.current + CONFIG.zoomStep)
+                    break
+                case 'zoomOut':
+                    this.applyZoomValue(this.state.zoom.current - CONFIG.zoomStep)
+                    break
+            }
+        }
+        // 启动渲染循环：按帧平滑逼近目标速度并推动滚动。
+        startRenderLoop() {
+            const tick = (now) => {
+                if (this.runtime.lastFrameTime === 0) {
+                    this.runtime.lastFrameTime = now
+                }
+
+                const elapsed = now - this.runtime.lastFrameTime
+                this.runtime.lastFrameTime = now
+                const frameFactor = this.clampValue(elapsed / 16.6667, 0.2, 3)
+
+                if (!this.state.pause.isPaused) {
+                    const blend = 1 - Math.pow(1 - this.state.speed.smoothing, frameFactor)
+                    this.state.speed.current += (this.state.speed.target - this.state.speed.current) * blend
+
+                    const frameDelta = this.state.speed.current * frameFactor + this.state.speed.remainder
+                    const wholeDelta = frameDelta > 0 ? Math.floor(frameDelta) : Math.ceil(frameDelta)
+                    this.state.speed.remainder = frameDelta - wholeDelta
+
+                    // 仅对整数像素执行滚动，余数保留到下一帧累积。
+                    if (wholeDelta !== 0) {
+                        this.ui.view.scrollTop += wholeDelta
+                    }
+                }
+
+                this.renderMidStatusText()
+                this.runtime.rafId = requestAnimationFrame(tick)
+            }
+
+            this.runtime.rafId = requestAnimationFrame(tick)
+        }
+        // 初始化：绑定事件、设置控件初值并启动主循环。
+        initialize() {
+            this.ui.zoom.input.min = String(CONFIG.zoomMin)
+            this.ui.zoom.input.max = String(this.state.zoom.max)
+            this.ui.zoom.input.step = String(CONFIG.zoomStep)
+            this.ui.zoom.input.value = String(CONFIG.zoomDefault)
+
+            this.ui.sensitivity.input.min = String(CONFIG.sensitivityMin)
+            this.ui.sensitivity.input.max = String(CONFIG.sensitivityMax)
+            this.ui.sensitivity.input.step = String(CONFIG.sensitivityStep)
+            this.ui.sensitivity.input.value = String(CONFIG.sensitivityDefault)
+
+            document.addEventListener('mousemove', (event) => {
+                this.runtime.pointer.x = event.clientX
+                this.runtime.pointer.y = event.clientY
+            })
+
+            this.ui.touch.panel.addEventListener('mousemove', (event) => {
+                this.updateTargetSpeedByPointer(event.clientY)
+            })
+
+            this.ui.touch.panel.addEventListener('mouseleave', () => {
+                this.state.speed.target = 0
+                this.state.speed.resumeSource = 'mouse'
+                this.renderMidStatusText()
+            })
+
+            // 中间区域始终可点击暂停/恢复，不依赖快捷键映射。
+            this.ui.touch.midZone.addEventListener('click', () => {
+                this.handleActionByKey('pause')
+            })
+
+            this.ui.zoom.input.addEventListener('input', () => {
+                this.applyZoomValue(Number(this.ui.zoom.input.value))
+            })
+
+            this.ui.sensitivity.input.addEventListener('input', () => {
+                this.applySensitivityValue(Number(this.ui.sensitivity.input.value))
+            })
+
+            this.ui.zoom.expandButton.addEventListener('click', () => {
+                this.expandZoomMaxLimit()
+                this.applyZoomValue(this.state.zoom.max)
+            })
+
+            // 比例预设按钮点击后直接应用对应比例。
+            this.ui.aspect.buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.hasAttribute('data-free')) {
+                        this.resetAspectRatio()
+                    } else {
+                        this.applyAspectRatio(Number(btn.dataset.w), Number(btn.dataset.h))
+                    }
+                })
+            })
+
+            // 自定义比例仅在宽高都有效时生效。
+            const applyCustomAspect = () => {
+                const w = parseFloat(this.ui.aspect.widthInput.value)
+                const h = parseFloat(this.ui.aspect.heightInput.value)
+                if (w > 0 && h > 0) {
+                    this.applyAspectRatio(w, h)
+                }
+            }
+
+            this.ui.aspect.widthInput.addEventListener('change', applyCustomAspect)
+            this.ui.aspect.heightInput.addEventListener('change', applyCustomAspect)
+
+            // 窗口尺寸变化时，按当前比例重新计算视图区大小。
+            window.addEventListener('resize', () => {
+                if (this.state.aspect.width !== null) {
+                    this.applyAspectRatio(this.state.aspect.width, this.state.aspect.height)
+                }
+            })
+
+            document.addEventListener('keydown', (event) => {
+                const action = this.control.keyMap[event.code]
+                if (!action) return
+
+                // 在可编辑区域内，仅放行暂停与缩放快捷键。
+                if (document.activeElement === this.ui.view || this.ui.view.contains(document.activeElement)) {
+                    if (action === 'pause' || action === 'zoomIn' || action === 'zoomOut') {
+                        this.handleActionByKey(action)
+                        return
+                    }
+
+                    // 方向键/WASD 在编辑区内不拦截，避免干扰光标移动。
+                    return
+                }
+
+                event.preventDefault()
+                this.handleActionByKey(action)
+            })
+
+            document.addEventListener('mousedown', (event) => {
+                const mouseCode = event.button === 0
+                    ? 'MouseLeft'
+                    : event.button === 1
+                        ? 'MouseMiddle'
+                        : event.button === 2
+                            ? 'MouseRight'
+                            : ''
+                if (!mouseCode) return
+
+                const action = this.control.mouseMap[mouseCode]
+                if (!action) return
+                this.handleActionByKey(action)
+            })
+
+            this.applyZoomValue(CONFIG.zoomDefault)
+            this.applySensitivityValue(CONFIG.sensitivityDefault)
+            this.renderHotkeyTipText()
+            this.renderMidStatusText()
+            this.startRenderLoop()
+        }
+    }
+    const tcq = new TCQ()
+</script>
+
+</html>

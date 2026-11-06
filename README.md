@@ -38,7 +38,7 @@ A single-file `index.html` — open locally or use the GitHub Pages demo. Script
 `空格` 匀速开始/暂停 · `W/S` 调速 · `M` 镜像 · `L` 目录 · `F` 全屏 · `+/-` 缩放（50%–500%）· `Esc` 返回整备 · `?` 帮助 · 首页 `Ctrl+Enter` 一键导入
 
 ### 语音识别说明
-浏览器 Web Speech API 需要联网：Microsoft Edge 走微软语音（国内一般可直连）；Chrome 走 Google（国内通常需代理）。没有麦克风可点「模拟试读」看效果。
+浏览器 Web Speech API 需要联网：Microsoft Edge 走微软语音（国内一般可直连）；Chrome 走其云端语音（国内通常需代理）。没有麦克风可点「模拟试读」看效果。
 
 ---
 
@@ -64,7 +64,7 @@ Dark = **shadcn/ui Zinc** (`#09090b`), light = **Vercel Geist Paper** (`#FAF9F6`
 `Space` start/pause · `W/S` speed · `M` mirror · `L` outline · `F` full screen · `+/-` zoom (50%–500%) · `Esc` back to edit · `?` help · `Ctrl+Enter` on Home = Import & Cue
 
 ### Speech recognition
-The Web Speech API needs a network connection. Microsoft Edge uses Microsoft's service; Chrome uses Google's (often blocked in mainland China). No mic? Click "Simulate".
+The Web Speech API needs a network connection. Microsoft Edge uses Microsoft's service; Chrome uses its cloud speech service (often blocked in mainland China). No mic? Click "Simulate".
 
 ---
 

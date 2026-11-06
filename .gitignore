@@ -1,0 +1,3 @@
+# Project-local files managed by external sync and backup
+/_storage/*
+!/_storage/README.md

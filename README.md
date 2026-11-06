@@ -1,67 +1,72 @@
-# paste-to-cue
+# Paste to Cue · v4.0
 
-一个粘贴后即可使用的提词器（Teleprompter）。
+> 粘贴带样式文稿，开口即自动跟读 · Paste rich scripts. Speak, and it scrolls with your voice.
 
-## 简介（中文）
-paste-to-cue 是一个面向口播、直播、拍摄场景的轻量提词器工具。
-它的核心思路是：你已经在表格里把文案整理好了，就不需要再二次整理，直接粘贴进来即可滚动使用。
+**Live demo:** [https://sakamoto-king.github.io/paste-to-cue/](https://sakamoto-king.github.io/paste-to-cue/)
 
-相比“直接滚动表格窗口”，这个工具把提词控制做了专门优化：
-- 速度可控：支持键盘步进、鼠标区域控制、暂停恢复
-- 阅读友好：尽量保留你原本内容的格式和重音标注
-- 场景适配：支持定义屏幕比例，便于匹配不同监看屏和提词屏
+单文件 `index.html`，本地打开或直接用 GitHub Pages 在线体验；文稿与配置只保存在本机浏览器（`localStorage: paste-to-cue-v4.0`），不上传任何服务器。
+A single-file `index.html` — open locally or use the GitHub Pages demo. Scripts and settings stay in this browser (`localStorage: paste-to-cue-v4.0`).
 
-## Introduction (English)
-paste-to-cue is a lightweight teleprompter for recording, livestreaming, and content creation.
-Its main idea is simple: if your script is already prepared in a table document, just paste it and start cueing.
+---
 
-Instead of scrolling a raw spreadsheet directly, paste-to-cue provides teleprompter-focused controls:
-- Fine-grained speed control with keyboard and mouse zone input
-- Pause/resume behavior designed for real shooting workflows
-- Better readability by preserving formatted content and stress/accent marks
-- Custom screen aspect ratio support for different display setups
+## 中文
 
-## 项目缘起
-之前帮同事拍视频时，直接滚动表格并不方便：
-- 节奏不稳定，速度很难细调
-- 画面和操作区域不够聚焦
-- 临时改稿时体验不好
+### 三态流转
+| 视图 | 进入方式 | 用途 |
+| --- | --- | --- |
+| **首页 Home** | 首次打开 / 点左上角 Logo 或「首页」 | 单框富文本粘贴（`contenteditable`，飞书 / Word / Notion 的加粗、字色、荧光笔、表格原样保留）→「一键导入并准备」直达提词台；「智能格式化导入」顺便拆段排版；「进入编辑台」先改字。已有文稿时显示「继续当前文稿：《标题》（N 段）」胶囊。 |
+| **整备台 Setup**（`#edit`） | 首页「进入编辑台」/ 提词台按 `Esc` | 左侧目录全文显示（无省略号，可勾选、可拖宽）；格式化（保留原标记）/ AI 标重音 / 还原；字号、画幅、镜像、示例稿。 |
+| **提词台 Cue**（`#cue`） | 「一键导入并准备」/「进入提词准备」/「语音开拍」 | 左 8 右 2 满屏；左上角「← 返回整备 · 03 / 19」；23% 偏上视线；已读段落淡出；左下角语音监控小窗；右侧三段全高触控栏 + 缩放 / 灵敏度滑块。 |
 
-最近我也在准备做自媒体，于是做了这个简单项目：把做好的提词器表格内容直接粘贴进来，就能马上开始使用。
+### 视觉
+- **暗色 = A · shadcn/ui Zinc Dark**（`#09090b`，纯白加粗 + 底横线重音，深灰描边胶囊关键词）
+- **浅色 = D · Vercel Geist Paper Light**（`#FAF9F6`，墨黑正文，`#0070F3` 电光蓝下划线 / 淡蓝胶囊关键词）
+- 全部图标为 Lucide 1.5px 线性 SVG，零 Emoji。
+- 粘贴的近黑 / 近白中性字色（且无底色）会被剥离、继承主题前景色，两套主题切换都清晰可读；彩色字与荧光笔底色原样保留。
 
-## 核心特色
-- 直接粘贴已整理好的表格文案
-- 保留格式与重音标注，适合口播与镜头前阅读
-- 鼠标控制区 + 键盘控制，快速调整节奏
-- 支持灵敏度（Sensitivity）与速度平滑（Smoothing）
-- 支持定义屏幕比例（自由比例 / 预设比例 / 自定义宽高）
+### 中英双语
+- 右上角 `中文 | EN` 一键切换全站文案（无需刷新），记忆在本机。
+- 识别语言默认「自动」：文稿英文单词占比 > 55% 用 `en-US`，否则 `zh-CN`；也可在右上角「配置」里手动指定。
+- 中文跟读：内置离线拼音表 + 平翘舌 / 前后鼻音模糊匹配。
+- 英文跟读：整词 token；完全一致 1.0、数字词互认（`seven ↔ 7`、`sixty ↔ 60`、`first ↔ 1st`）0.95、词干 / 编辑距离 ≤1 / 公共前缀 ≥75%（`optimizing ↔ optimize`、`ads ↔ ad`）0.86；自动过滤 `um / uh / er / ah / hmm / like / you know`。
 
-## 使用方式
-1. 打开页面。
-2. 在内容区粘贴你的文案（可包含表格格式和重音标注）。
-3. 用空格开始/暂停。
-4. 用方向键或 W/S 微调滚动速度。
+### 排版与缩放
+- **50%–500%** 真实字号重排缩放，最外层铁壁防横向溢出；行距约 **1.34**。
+- 「格式化」清除飞书 / Word 固定列宽与字号，**完整保留**加粗、字色、荧光笔底色与下划线。
 
-## 快捷键
-- 开始/暂停：Space / P
-- 加速：ArrowDown / S
-- 减速：ArrowUp / W
-- 缩放+：= / Num+
-- 缩放-：- / Num-
+### 快捷键
+`空格` 匀速开始/暂停 · `W/S` 调速 · `M` 镜像 · `L` 目录 · `F` 全屏 · `+/-` 缩放（50%–500%）· `Esc` 返回整备 · `?` 帮助 · 首页 `Ctrl+Enter` 一键导入
 
-## 说明
-- 暂停后恢复时，会先应用暂停前速度。
-- 若恢复时鼠标位于控制区，会再按鼠标位置应用一次速度。
-- 暂停状态按方向键，会直接开始滚动，并从 0 速度基线应用方向键步进。
+### 语音识别说明
+浏览器 Web Speech API 需要联网：Microsoft Edge 走微软语音（国内一般可直连）；Chrome 走 Google（国内通常需代理）。没有麦克风可点「模拟试读」看效果。
 
-## 通过 OBS 使用提词器
-1. 打开提词器页面并粘贴文案。
-2. 在 OBS 中添加窗口采集，选择提词器窗口。
-3. 如果你使用的是反射式提词方案（镜前提词），在 OBS 里对该源执行右键镜像翻转（通常为水平翻转）。
-4. 如果你使用的是正投屏（无需镜像的方案），可跳过上一步。
-5. 在 OBS 中将画面全屏投影到对应提词屏幕（或监看屏）。
+---
 
-## 未来更新计划
-1. 本地多窗口协同：可同时开多个窗口，减少对 OBS 投屏 + 水平镜像的依赖。
-2. 多语言版本：提供更多语言界面与提示文案。
-3. 直接输入文本并简单标注：除了粘贴表格外，也支持原生输入和基础标记。
+## English
+
+### Three views
+| View | How to get there | What it's for |
+| --- | --- | --- |
+| **Home** | First visit / click the logo or "Home" | One rich-text paste box (`contenteditable`, keeps bold, colors, highlights and tables from Docs / Word / Notion / Lark). "Import & Cue" goes straight to the cue stage; "Smart Format" also splits it into tidy paragraphs; "Open in Editor" lets you edit first. A "Resume current script" pill appears when a script exists. |
+| **Editor** (`#edit`) | "Open in Editor" / `Esc` from the cue stage | Full outline (never truncated), Format (keeps marks), AI Emphasis, Revert, text size, frame, mirror, sample script. |
+| **Cue stage** (`#cue`) | "Import & Cue" / "Get Ready" / "Voice Take" | 8:2 full screen, "← Back to Edit · 03 / 19" pill, eyeline at 23%, read paragraphs fade, voice monitor bottom-left, three-zone touch rail plus zoom / sensitivity sliders on the right. |
+
+### Look
+Dark = **shadcn/ui Zinc** (`#09090b`), light = **Vercel Geist Paper** (`#FAF9F6`, `#0070F3` accents). Lucide 1.5px line icons, no emoji.
+
+### Bilingual
+`中文 | EN` switches all UI text instantly. Recognition language is **Auto** by default (`en-US` when > 55% of the script is English words, otherwise `zh-CN`), or set it in Settings. Chinese matching uses a built-in offline pinyin table; English matching is word-level with number words (`seven ↔ 7`), stems (`optimizing ↔ optimize`, `ads ↔ ad`) and filler removal (`um`, `uh`, `like`, `you know` …).
+
+### Layout & zoom
+**50%–500%** real font-size reflow with zero horizontal overflow; ~**1.34** line height. Format strips fixed column widths / font sizes while **keeping** bold, colors, highlights and underlines.
+
+### Shortcuts
+`Space` start/pause · `W/S` speed · `M` mirror · `L` outline · `F` full screen · `+/-` zoom (50%–500%) · `Esc` back to edit · `?` help · `Ctrl+Enter` on Home = Import & Cue
+
+### Speech recognition
+The Web Speech API needs a network connection. Microsoft Edge uses Microsoft's service; Chrome uses Google's (often blocked in mainland China). No mic? Click "Simulate".
+
+---
+
+### Upgrade from v3.3
+Scripts, zoom, eyeline and follow settings saved by v3.3 / v3.2 are carried over automatically. MIT License.

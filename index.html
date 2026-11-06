@@ -18,7 +18,7 @@
   --kw-bg: #1f1f23; --kw-ring: #3f3f46; --kw-fg: #ffffff; --em-fg: #ffffff; --em-line: #71717a; --term: #e4e4e7;
   --shadow: 0 0 0 1px #27272a; --pop-shadow: 0 0 0 1px #27272a, 0 16px 40px rgba(0,0,0,.55);
   --radius: 8px; --scrim: rgba(9,9,11,.72);
-  --side-w: 264px; --eye: 23%; --zoom: 1; --eff-font-size: calc(var(--font-size, 28px) * var(--zoom, 1));
+  --side-w: 264px; --eye: 40%; --zoom: 1; --eff-font-size: calc(var(--font-size, 28px) * var(--zoom, 1));
   --font: Inter, "Geist", "Segoe UI", -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", system-ui, sans-serif;
   --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
   color-scheme: dark;
@@ -60,7 +60,7 @@ kbd { font: 500 11px var(--mono); padding: 1px 5px; border-radius: 5px; backgrou
 .pill { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px 0 12px; border-radius: 999px; font-size: 12.5px; color: var(--fg2); box-shadow: inset 0 0 0 1px var(--border); background: var(--card); }
 .pill:hover { color: var(--fg); box-shadow: inset 0 0 0 1px var(--border2); }
 input[type="range"] { accent-color: var(--accent); }
-input[type="number"], select, .pop input[type="password"], .ai-grid input, .ai-grid select {
+input[type="number"], select, .pop input[type="password"], .pop input[type="url"], .ai-grid input, .ai-grid select {
   background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 3px 7px; color: var(--fg); font-size: 12.5px; height: 28px;
 }
 body.ui-en .zh-only { display: none !important; }
@@ -125,6 +125,8 @@ html[data-theme="paper"] .ghost-link { color: var(--accent); }
 .prow b { font: 600 11.5px var(--mono); color: var(--fg2); text-align: right; }
 .prow input[type="range"] { width: 100%; }
 .prow select, .prow input[type="password"] { grid-column: 3 / 5; width: 100%; }
+.prow.asr-row { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+.prow.asr-row select, .prow.asr-row input { grid-column: 1; width: 100%; min-width: 0; }
 .prow .switch { grid-column: 4; justify-self: end; }
 .prow.more { grid-template-columns: 1fr; }
 .prow.more .link { font-size: 12.5px; }
@@ -297,8 +299,8 @@ body.cue #cueCap { display: inline-flex; }
 #vmon .vm-cells i.on.r { background: var(--warn); }
 #vmon .vm-db { margin-left: auto; font: 500 11px var(--mono); color: var(--fg3); }
 #vmon .vm-dev { color: var(--fg3); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: -4px; }
-#vmon .vm-text { height: 56px; overflow: hidden; background: var(--muted); box-shadow: inset 0 0 0 1px var(--border); border-radius: 7px; padding: 6px 9px; font-size: 13px; line-height: 1.45;
-  display: flex; flex-direction: column; justify-content: flex-end; word-break: break-word; }
+#vmon .vm-text, #vmon .vm-tx { box-sizing: border-box; min-height: 50px; max-height: 68px; padding: 7px 9px; font-size: 13px; line-height: 18px; overflow-y: auto; overflow-x: hidden; word-break: break-word; scrollbar-width: thin;
+  background: var(--muted); box-shadow: inset 0 0 0 1px var(--border); border-radius: 7px; }
 #vmon .vm-text .fin { color: var(--fg2); }
 #vmon .vm-text .int { color: var(--fg); font-weight: 550; }
 html[data-theme="paper"] #vmon .vm-text .int { color: var(--accent); }
@@ -373,7 +375,7 @@ body:not(.cue) #vmon { opacity: .96; }
 <!-- ═══ 视图 1：极简首页 Home ═══ -->
 <section id="home">
   <header class="h-top">
-    <button class="logo goHome" type="button" data-i18n-title="tipHome"><span class="lm"><svg class="ic ic-scan-line" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <path d="M7 12h10" /> </svg></span><span class="lt">Paste to Cue</span></button>
+    <button class="logo goHome" type="button" data-i18n-title="tipHome"><span class="lm"><svg class="ic ic-scan-line" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <path d="M7 12h10" /> </svg></span><span class="lt">Paste to Cue</span></button>
     <button id="hResumeTop" class="pill resume-top" type="button" hidden><span class="rt-txt" data-i18n="resumeShort"></span><svg class="ic ic-arrow-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></button>
     <div class="spacer"></div>
     <div class="ctrls">
@@ -396,7 +398,7 @@ body:not(.cue) #vmon { opacity: .96; }
         <span class="tag"><svg class="ic ic-clipboard-paste" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M11 14h10" /> <path d="M16 4h2a2 2 0 0 1 2 2v1.344" /> <path d="m17 18 4-4-4-4" /> <path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 1.793-1.113" /> <rect x="8" y="2" width="8" height="4" rx="1" /> </svg><kbd class="kmod">Ctrl</kbd><kbd>V</kbd><span data-i18n="keepMarks"></span></span>
         <span class="sp"></span>
         <button id="hFormat" class="btn ghost" type="button" data-i18n-title="tipSmartFmt"><svg class="ic ic-wand-sparkles" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72" /> <path d="m14 7 3 3" /> <path d="M5 6v4" /> <path d="M19 14v4" /> <path d="M10 2v2" /> <path d="M7 8H3" /> <path d="M21 16h-4" /> <path d="M11 3H9" /> </svg><span data-i18n="smartFmt"></span></button>
-        <button id="hImport" class="btn primary" type="button"><span data-i18n="importCue"></span><svg class="ic ic-arrow-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></button>
+        <button id="hImport" class="btn primary" type="button"><span data-i18n="importCue"></span><svg class="ic ic-arrow-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></button>
       </div>
     </div>
     <div class="h-links"><button id="hEditor" class="link" type="button"><svg class="ic ic-square-pen" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /> <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /> </svg><span data-i18n="openEditor"></span></button></div>
@@ -413,7 +415,7 @@ body:not(.cue) #vmon { opacity: .96; }
 <div id="app">
   <header id="topbar">
     <div class="grp">
-      <button class="logo goHome compact" type="button" data-i18n-title="tipHome"><span class="lm"><svg class="ic ic-scan-line" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <path d="M7 12h10" /> </svg></span></button>
+      <button class="logo goHome compact" type="button" data-i18n-title="tipHome"><span class="lm"><svg class="ic ic-scan-line" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <path d="M7 12h10" /> </svg></span></button>
       <button class="btn sm ghost goHome" type="button" id="btnHome"><svg class="ic ic-house" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /> </svg><span data-i18n="home"></span></button>
       <button id="btnReady" class="btn sm primary" type="button" data-i18n-title="tipReady"><svg class="ic ic-play" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /> </svg><span data-i18n="ready"></span></button>
       <button id="btnVoiceGo" class="btn sm ghost" type="button" data-i18n-title="tipVoiceGo"><svg class="ic ic-mic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 19v3" /> <path d="M19 10v2a7 7 0 0 1-14 0v-2" /> <rect x="9" y="2" width="6" height="13" rx="3" /> </svg><span data-i18n="voiceGo"></span></button>
@@ -481,9 +483,10 @@ body:not(.cue) #vmon { opacity: .96; }
           <button class="vm-fold" id="vmFold" type="button" data-i18n-title="tipFold"><svg class="ic ic-chevron-down" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m6 9 6 6 6-6" /> </svg></button>
         </div>
         <div class="vm-body">
+          <select id="vmEngine" data-i18n-title="asrEngine" aria-label="ASR engine"><option value="auto" data-i18n="asrAuto"></option><option value="local" data-i18n="asrLocal"></option><option value="browser" data-i18n="asrBrowser"></option></select>
           <div class="vm-meter"><div class="vm-cells" id="vmCells"></div><span class="vm-db" id="vmDb">-- dB</span></div>
           <div class="vm-dev" id="vmDev"></div>
-          <div class="vm-text" id="vmText"><div><span class="fin" id="vmFinal"></span><span class="int" id="vmInterim"></span></div><span class="ph" id="vmPh" data-i18n="vmPh"></span></div>
+          <div class="vm-text vm-tx" id="vmText"><div><span class="fin" id="vmFinal"></span><span class="int" id="vmInterim"></span></div><span class="ph" id="vmPh" data-i18n="vmPh"></span></div>
           <div class="vm-hint" id="vmHint"></div>
           <div class="vm-foot"><svg class="ic ic-crosshair" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <line x1="22" x2="18" y1="12" y2="12" /> <line x1="6" x2="2" y1="12" y2="12" /> <line x1="12" x2="12" y1="6" y2="2" /> <line x1="12" x2="12" y1="22" y2="18" /> </svg><span class="vm-match" id="vmMatch"></span><span class="vm-bar"><i id="vmBar"></i></span><span class="vm-pct" id="vmPct">0%</span></div>
           <div class="vm-actions" id="vmActions"></div>
@@ -496,9 +499,9 @@ body:not(.cue) #vmon { opacity: .96; }
         <div class="row"><button id="zoomDown" type="button" data-i18n-title="tipZoomDown"><svg class="ic ic-minus" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> </svg></button><input type="range" id="zoom" min="50" max="500" step="5" value="100"><button id="zoomUp" type="button" data-i18n-title="tipZoomUp"><svg class="ic ic-plus" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="M12 5v14" /> </svg></button></div>
         <div class="ticks"><span>50%</span><span>500%</span></div>
       </div>
-      <div class="zone up" id="zoneUp"><div class="zbar"></div><span class="ci"><svg class="ic ic-chevron-up" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" > <path d="m18 15-6-6-6 6" /> </svg></span><div class="zlab" id="upLab"></div></div>
-      <div class="zone mid" id="zoneMid"><span class="ci"><svg class="ic ic-pause" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" > <rect x="14" y="3" width="5" height="18" rx="1" /> <rect x="5" y="3" width="5" height="18" rx="1" /> </svg></span><div class="zlab" id="midLab"></div></div>
-      <div class="zone down" id="zoneDown"><div class="zbar"></div><span class="ci"><svg class="ic ic-chevron-down" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" > <path d="m6 9 6 6 6-6" /> </svg></span><div class="zlab" id="downLab"></div></div>
+      <div class="zone up" id="zoneUp"><div class="zbar"></div><span class="ci"><svg class="ic ic-chevron-up" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m18 15-6-6-6 6" /> </svg></span><div class="zlab" id="upLab"></div></div>
+      <div class="zone mid" id="zoneMid"><span class="ci"><svg class="ic ic-pause" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <rect x="14" y="3" width="5" height="18" rx="1" /> <rect x="5" y="3" width="5" height="18" rx="1" /> </svg></span><div class="zlab" id="midLab"></div></div>
+      <div class="zone down" id="zoneDown"><div class="zbar"></div><span class="ci"><svg class="ic ic-chevron-down" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m6 9 6 6 6-6" /> </svg></span><div class="zlab" id="downLab"></div></div>
       <div class="sz sens">
         <div class="t"><svg class="ic ic-activity" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /> </svg><span data-i18n="sens"></span><b id="sensVal">100%</b></div>
         <input type="range" id="sens" min="20" max="300" step="5" value="100">
@@ -510,13 +513,15 @@ body:not(.cue) #vmon { opacity: .96; }
 
 <!-- ═══ 配置浮层（shadcn Popover）═══ -->
 <div id="pop" class="pop" role="dialog">
+  <label class="prow asr-row"><span data-i18n="asrEngine"></span><select id="asrMode"><option value="auto" data-i18n="asrAuto"></option><option value="local" data-i18n="asrLocal"></option><option value="browser" data-i18n="asrBrowser"></option></select></label>
+  <label class="prow asr-row"><span data-i18n="asrUrlLabel"></span><input id="asrUrl" type="url" spellcheck="false" data-i18n-title="asrUrlLabel"></label>
   <h4 data-i18n="prefs"></h4>
   <div class="prow"><svg class="ic ic-a-large-small" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m15 16 2.536-7.328a1.02 1.02 1 0 1 1.928 0L22 16" /> <path d="M15.697 14h5.606" /> <path d="m2 16 4.039-9.69a.5.5 0 0 1 .923 0L11 16" /> <path d="M3.304 13h6.392" /> </svg><span data-i18n="pZoom"></span><input type="range" id="defZoom" min="50" max="500" step="5"><b id="defZoomVal">100%</b></div>
-  <div class="prow"><svg class="ic ic-scan-line" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <path d="M7 12h10" /> </svg><span data-i18n="pEye"></span><input type="range" id="eyeLine" min="15" max="55"><b id="eyeLineVal">23%</b></div>
+  <div class="prow"><svg class="ic ic-scan-line" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <path d="M7 12h10" /> </svg><span data-i18n="pEye"></span><input type="range" id="eyeLine" min="15" max="55"><b id="eyeLineVal">40%</b></div>
   <div class="prow"><svg class="ic ic-waves" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /> <path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /> <path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /> </svg><span data-i18n="pVisc"></span><input type="range" id="visc" min="2" max="12" step="0.5"><b id="viscVal">5.5</b></div>
   <div class="prow"><svg class="ic ic-gauge" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /> </svg><span data-i18n="pCruise"></span><input type="range" id="cruise" min="60" max="200" step="5"><b id="cruiseVal">115</b></div>
   <div class="prow"><svg class="ic ic-move-vertical" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 2v20" /> <path d="m8 18 4 4 4-4" /> <path d="m8 6 4-4 4 4" /> </svg><span data-i18n="pDrift"></span><input type="range" id="drift" min="0" max="40"><b id="driftVal">18</b></div>
-  <div class="prow"><svg class="ic ic-chevrons-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m6 17 5-5-5-5" /> <path d="m13 17 5-5-5-5" /> </svg><span data-i18n="pFwd"></span><input type="range" id="fwdWin" min="20" max="80"><b id="fwdWinVal">40</b></div>
+  <div class="prow"><svg class="ic ic-chevrons-right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m6 17 5-5-5-5" /> <path d="m13 17 5-5-5-5" /> </svg><span data-i18n="pFwd"></span><input type="range" id="fwdWin" min="30" max="180"><b id="fwdWinVal">90</b></div>
   <div class="prow"><svg class="ic ic-chevrons-left" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m11 17-5-5 5-5" /> <path d="m18 17-5-5 5-5" /> </svg><span data-i18n="pBack"></span><input type="range" id="backWin" min="4" max="20"><b id="backWinVal">8</b></div>
   <div class="prow"><svg class="ic ic-languages" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" > <path d="m5 8 6 6" /> <path d="m4 14 6-6 2-3" /> <path d="M2 5h12" /> <path d="M7 2h1" /> <path d="m22 22-5-10-5 10" /> <path d="M14 18h6" /> </svg><span data-i18n="pRec"></span>
     <select id="recLang"><option value="auto" data-i18n="recAuto"></option><option value="zh-CN">中文 zh-CN</option><option value="en-US">English en-US</option><option value="yue-Hant-HK">粤语 yue-HK</option></select></div>
@@ -554,8 +559,8 @@ body:not(.cue) #vmon { opacity: .96; }
 
 <script>
 window.__PY_DATA__ = {"start":19968,"end":40869,"syl":["a","ai","an","ang","ao","ba","bai","ban","bang","bao","bei","ben","beng","bi","bian","biao","bie","bin","bing","bo","bu","ca","cai","can","cang","cao","ce","cen","ceng","cha","chai","chan","chang","chao","che","chen","cheng","chi","chong","chou","chu","chua","chuai","chuan","chuang","chui","chun","chuo","ci","cong","cou","cu","cuan","cui","cun","cuo","da","dai","dan","dang","dao","de","den","deng","di","dia","dian","diao","die","ding","diu","dong","dou","du","duan","dui","dun","duo","e","ei","en","eng","er","fa","fan","fang","fei","fen","feng","fo","fou","fu","ga","gai","gan","gang","gao","ge","gei","gen","geng","gong","gou","gu","gua","guai","guan","guang","gui","gun","guo","ha","hai","han","hang","hao","he","hei","hen","heng","hong","hou","hu","hua","huai","huan","huang","hui","hun","huo","ji","jia","jian","jiang","jiao","jie","jin","jing","jiong","jiu","ju","juan","jue","jun","ka","kai","kan","kang","kao","ke","kei","ken","keng","kong","kou","ku","kua","kuai","kuan","kuang","kui","kun","kuo","la","lai","lan","lang","lao","le","lei","leng","li","lia","lian","liang","liao","lie","lin","ling","liu","long","lou","lu","luan","lun","luo","lü","lüe","m","ma","mai","man","mang","mao","me","mei","men","meng","mi","mian","miao","mie","min","ming","miu","mo","mou","mu","na","nai","nan","nang","nao","ne","nei","nen","neng","ng","ni","nian","niang","niao","nie","nin","ning","niu","nong","nou","nu","nuan","nuo","nü","nüe","o","ou","pa","pai","pan","pang","pao","pei","pen","peng","pi","pian","piao","pie","pin","ping","po","pou","pu","qi","qia","qian","qiang","qiao","qie","qin","qing","qiong","qiu","qu","quan","que","qun","ran","rang","rao","re","ren","reng","ri","rong","rou","ru","ruan","rui","run","ruo","sa","sai","san","sang","sao","se","sen","seng","sha","shai","shan","shang","shao","she","shen","sheng","shi","shou","shu","shua","shuai","shuan","shuang","shui","shun","shuo","si","song","sou","su","suan","sui","sun","suo","ta","tai","tan","tang","tao","te","teng","ti","tian","tiao","tie","ting","tong","tou","tu","tuan","tui","tun","tuo","wa","wai","wan","wang","wei","wen","weng","wo","wu","xi","xia","xian","xiang","xiao","xie","xin","xing","xiong","xiu","xu","xuan","xue","xun","ya","yan","yang","yao","ye","yi","yin","ying","yo","yong","you","yu","yuan","yue","yun","za","zai","zan","zang","zao","ze","zei","zen","zeng","zha","zhai","zhan","zhang","zhao","zhe","zhen","zheng","zhi","zhong","zhou","zhu","zhua","zhuai","zhuan","zhuang","zhui","zhun","zhuo","zi","zong","zou","zu","zuan","zui","zun","zuo","乥","乲","兙","兛","兝","兞","兡","兣","兺","匁","厼","叾","哛","唜","唟","喸","嗧","囕","夞","巼","怾","旕","朩","朰","栍","桛","椧","烪","猠","瓧","瓩","瓰","瓱","瓲","瓸","瓼","甅","硛","硳","穒","縇","莻","虄","襨","覅","迲","闏","黁","龥"],"idx":"aQFFAJQA/AAjAVcBcQBPAX8BGgEjAVcB/AAUAG8BxwBdACcAJwCKAQEB8wAoASgBBQESAGgBMQBHADIBJABGAAUBrgBGAG4BrgBlARIAGwFtAIsAYQBkAe0AhQGCAIcAWABqACsAHwCxAI4BhwEFAE8BOgBRAYcBiQCrAIwA9gBbAGkBaQHRAFUBiwCLAEwBwgBpAWkBhAFVAXwBegBTAKgAagH4AO4AAAF6AGkAJAAkAGkBcwBpAd4AiwD8AGgBVgFZAV0AiwBXAZcBKgFIACgBggDTAIMAjAAoAcEAegC+ALcAmAETAWIBZQFbACAB0AD+ADkBbwGHAYEB/gCEAWwA/gC3ALEAaQGOAK8AYQBvAYMBKAEoAVIAKABvAaAAbwFyAXoA/ABVAYkAMgE3AWMAYwBkAVsBZAH8AGQBggBHAVABkwA4AIYAcABpAR8AdwDPAGgBWQGJAEUBrgBZAYkAaAECARMAbgFbAToArQBNAFEBDgEOAYIAggBQAWkBJgEOAagARQB4AYgA+wAnAAUAfwGIAIcAEgAPATEAWQCIALgAEgAYAHQBKAE6AX8BWwBYAVgBTAF4AEYBDgH+AF4AaQETADkAsgBpASEAIAAYASAAaQHPAMQADgFUACEAZgH+AIUB8wBUAVUBhACDAGcBWAAYAA4BUAFXAEAAVQCFAfwA8ABvAUMATABSAWkBXAGTAGkBggABAFUBggBbAFMAXwGIAPMAOgBbAD0BhQFuAYEAfwBvATUAcgEaAVEBKwAiAGQB/gAjASAAuAAjAGMBXAFRAYcBJQBYAeQAEwBnANoA2gBbAQcAYAGyAIYBJgEGATIBDAAyAYMA8wBpATIBaQGDAUIAcQC+ADoAhwEUAAYBDQCAATAAUQFAAIcBlgFuAWYBQQF+AXQADQBMASUBbwFpAVkAlgFmAOAARgHaAFgBBgFtAU0B/gBuAZAACQDwAHwAYQCnAFkBYQBmAQYAUwDLAIMAUgASAIIAdgCBAGwABwFDAYYAMABpASgBXQEmAUwBkgCEAV0ApABpASUAnABlAKsAagEoAcYAhwFgAW4BAgC2AM4AUgC4AEcAHQAlAGMBZQCGAWkBEwGEAFcBMgE5ALoAOgGGAIIBGgAAAZ0AHgDgAOIAiABVAXkAigAkAIIBlgEnAAIBugCMACoBRQEmAUoBEwDSAFoBDgBKAW8BVgEzAE4ABQFgAWsAmwBVAY8AaQFbAK4AkgEAAasAbQGAAIkA/gAaAfAANQFbAFYBqwBbAPgACQBvATIBVwFcAV8BbwFAACIAJwCEAWUBrACrAKQAMgGEAF8BWwCBAIwAWgHsAIQADwAoAFYAWABkAQIACgBvAVwBDQB6ACAAhAESAIsAZwE1AK4ATwGkABgAkAFhAGoACgBCASoBKgHEADwAPAGOAC0AXQHyAD0BeQBpAfwAQQFeAK4AhwA3ASAAhwBVAIQBmQCNAJABjAD+ANoAuACOAVQBuQAzAaoAgABHAI8BCwBVAYwA0QAWAIQAfQFoAYQBIAEDAeAAawEkAP4AZQEUAYUBLgCDAIIAUQFvARIAFwFBAVEB9ABlAVgAPQFUAU4AWwEiACcBkgBAAJYBHQBFAQoAWwF+AGcBfgEnAAIAbgGEAGABfAEwAFsADQCEAZABxwCCAGkBWwFjARYASgAaAIIB6gBHAUcBCgB1AboAhwBRAVcAIACgADQBhAE1AVcBWwBwAREBqwDkAHIBZgC9AAgAQgA9AXMAhwBWASIB/gAIARgAKAAaAQoAWgERAWcBOgE5AWYBUwASAIMAOQB0AT0BZwARACgA5gAXAKkANQBtAXcBkAHyADMBBAArAG8BfQH8ACMBLACJACUAIAFxAH8BAwFlAUAAWwG6AAoA9QCIAK0AtgC/AP4AWAE8AWsBRwCKAVkBIgEAAYoASgGVAfsAVgGnACAAawCvAPwAPwAfAFEBggATAH8AKwBEAToAhgCLAB8BVwBYAW8BTgCGAIQARgGxABMAZwBYATUBWAGFAMoAaAGIAIMAAAHzAFgAhgEBABkBaQGPAOIAHwBpATsAiQBhAZ0AhAAoADoAhgAgAXQBFwARAAIAEwE7AScAHgClANoAiAD+AMUAVQHgAAQB2gAgALAAqQC6AJ8ACQBvAQ8AdQGEATIBbgFzAAMBIwCrAEABUQG0ACgAHwALASoBfwCrALkAdQHmAD0BZQGpANMAUgBVAXIBdQFwAV4BJgCAAV4BWAFrAEsAlQBLAMcASAEgAFIASwBSAAIBSAEyAWUBZQEoAZkBOwCaAUgAmwGcASYBSACdAYkAngF+ABMBUAHWAAcBrgBvAQUAZQCzAFYBcQClAGUAQgFqAF0BEgD8AIwAQgCPAZ8BZgGEACkBggBpAYIAHwCKAMEACgHWAHABwQBfAAoBGgCKABoAdAFoAIoAwQCGAcEAZgBgAccAxgARAW4BWwGSAI8A4gBpAcYAKAFqAMUAhQGUAXABywCaALEAWwBbAcYAEgBHADsBXwBYABIAegAmAI4AZAGfAGgBqgDtAFMAygBHAFgBsAD9AIQAiQA0AcMASAH8AGcAjQEzAYkArgADAUMAsgBHAF4AhABqATIAAQCrABgAywCNATUAMgFNAIgAsQCxAOAAVgFJAIIAVABUAFQAWACMACgAgwFYAM8AhAFbAFgA+ABYAJEAfgCRAF4APwD4AJIAXgGdAEgBBAAoAIIAOwBxAHEAdwE8AEMAPAAOAQ4BLABXAAEBaQGCAJIA/gA2ACgAUgGCADoAXQF7AE8BjgCrAHEBsACzAHgBXwAsAFsAKAAGAUMAIgHKALIAhQHtABAAhwCHAO8AqwAiARAAHwCJAGgAZAA8ACwAoACbAE0AUgCEASsBBwEdADAAlQCHAGwAMABsAJEATQCCAEEBiQC1ALkAeAFwATcAWgGWAKMA/gAdACwAaACEADcAqwBBAVYA+gAfAPwALACPAV8ATwEJAIIATQADAWUBSQCEAIIACQBlAYwAgQAnAYQATQBKAFUBaABbACcBhABhADgAkQAsACsAHwBJAbYAqwDyACIB9QCaAIYAaAAAAY4AewB8AY4BrQCMAPMAswBsAIYAbACEAIQAPQGBAIIAhABpAYQAhAEfAJMBzQCrAIcBqwBkAQcBBwBlAIMAVQG+ALAAiACYAFsBhAFHAIcB5ACHAAYBJAFpAYcByACrAIgApwCnAI0AmgBmAU0BWgHOAJ8AhwCwAHQAKAGVAIgAYAATAMoAJQCmAG0BbQHHAJUAYwGNAAMBtgAUAMUAJQCoAJEAxwBHAGABYAGSAFUBaQFjAVMBJwGnAM8AtgD1ACgBggACAYUAhgAHAVkBaQEAAVQAjQBGAYwAOgBbAb4AYwFjAboAqwAiAAsBBwEJACQBcgGLAAkAZgBVAXIBoAFeAV0AXQAJADEAaQFeAfIAjAA+AWEA+wBOAO8AWwBlADgAiwBlAA0AewAKANQAJQBVAIsAaQFzAYUAkwCFAJ8AegBXAQYBVABsAAEBdgGfAFYAegBvAWwAoAB/ADoAoACtAK0ANgFJAIsAjgBWAfMABgFpAZUAZQEOANoABgEoAWMB/gDbABgBkgEnAVUBfwAHACgBVgFPAXsAWwFPAQoAkgGOAVsBOgC+ANIAOgCCABMALAEUAJ8ADgAUAH4BkAC2AG4BtgBWAWgAVAFbAYcAhwBRAQMABAGEAcEAagFRASQBggAIAbcAJQCNAFsBYAGIAAgBVQGCAE4AAwFWARoBIABRAU4ARQGrAIEBcQCrAGQBZAFlASUBQAB8Ae4AZAEBAWQBhAEaAMAAQQGrACUBeQBFAZQBNwBWAHABGgBwAVkBZQGrAI4AIAFCACgAiwCIAAQAbABlATIBqwAgAKUAqwBlAWUBcAEyAWUAsQAFAQYBBgGhAakASQBYAYoBGgEXABcAFwAXAAEAOQBuAR0AggBuAS4BVAApAWkABQBTABcBqwAqAY4BBgEpAQ4AYAGDAO0ANAGCAFEBNAFEABUBMQCaAGcAjACyAGgAPACaAIQBhgCAAQUARQCVADsBJQAoAW4BBQH5AGgBcwAyATwBJQCoAEMAggCiAXgAyQBgAcAAJQBhAGEBZwGPAXQAggBDADYARgHLAHkAqwBIAVkBfAFXAWgBugAAAL0A6gCBAGkBjwAnALEASwFqAVYADQACAQIBhwAUAFoABQBMAFcATgBxAEUBmAAwAfwAeACEAWoBVQFVASEA0ABiAVYBLQBIAFIBeQB4AFUBYABkAY8AugBOAGEAUgE5AMQAJABVAWAAWwCGAHgAJQAnAdAASwFbAGkBOQDqAKsABgBwAW4AewD/AFUBTgAoAY0A8QBSAdUAvACyAAoBbgFAAIYBKAGGAUQBVgFpAfwA+ACPAWgAMABRAXkAdADUAFcB8ABpAXMAJgF6AMsAOAAGAZQBWAFzAUwBTQD6AO8ADQBbAGYBdABzAXQAcACLAG0BWwA4AIYBTQGQAGcAkACWARQAtABHAOAATAEyAVgBgQD8AFIATgBrAHwBVgFpAbAAjwHJAMYAhAFnAYIAhgFhACoBdQFaAXAAfwCcAHwAPgFYAU4AYQFfAU4BZQGnAGkBAQD3ACYBRgF4AF4BTQBNAW8AdAFuAUAA7ABZAQEAYwCfAGQBOABaAQ0AcQHbAHsAXQGdAE0AowGCAOIAzgBsAXMAcAG0APoAwABhAOkAJQAkAasA0ACSAXQAmwBaAVgBpwATAIEBfAGuAAUAyQCwADcBWwAUAHEAdwBkAC8AYQBuAWUBZwBnAAoAcQA5AS4AaQEBAIMASAFlAU8BqwBWAT0BlgEFASIAVQF3AWQBSAD8AEAAAgG+AKQBZQBIAKUBpwCuADkBdwF9AKoAIAGCAJIBVAFYAGoBegD8ACkBUQErASAAUgCrAP8AAgCHAGwB2wBvAUIBpAAgAVYBTAF6AAEAhgFmAJcAjgGOASMBQAB3ALEAAAAWAP8ASwFVAVIBNQBEAGcA/AD8AD4BOgA6AHEBjwENADUALwB0AGQB/ACBAVYArgBYAfMAIAGjAHgBawFoAOsAgQEdAYoB3gBuALkAZQFAAAcBPAETAEUApgBaAYwAPQElAEEBAgCLADoAkABtAVEB0gAiAW8BgQGjAIcAeQBxAEQAhgEeAE4B5gBgAWoBdQFnAVQBxwB6AHIBKwB/AH0AfQBWAXQAggCgAIUBUQEgAWABfgBNAGUBYQGuAG8BGwElAAABZQE6APEAFwCrAGwBfAFRAcgAawHxAKYBoABWAW8BhwC1AJsAdwF6AEEBZwF0AAAAXwH/AB0BbQE1AWUAWwEBADkBvQAdAHAAlQA4ABsBIwATATQBTQGCAO4AVQFYASgBYQCPAYcApwBTAU0BMgElAHMAOQGnAXUAOQECAd4AdACPARkB2QBhANAAQQABAP8ARgENAAQABACtAJQBgQHNADQBNAE8AUAA/ACGACYAhgCRADwBIgEZAIMAAQBaAfUAtQBcAGcAhgB6AH8AbgDqAFgBeAEgAGAB+QA9AL0AvQB6AKgASQBcAD0BaAEMAGsBGQGGAMYAWgF7AL4ACgGWAfIApwBaAYIAhwEhAKAAlAFaATIBcwBbAK8AAAFWASgAPAE6AHUAYwFOAJUBVAAlAH8AdQEsADMAOgCOAEsBHACGAGgBVgH8AHMArQBgAT8AfwBqAfsAjgACAWMB3gC2ADIBZQFrATgAfgHpAIYBiADiAHEBWwH8AE4AdwFpASgBhgBwAQEAbQGOAJ0AbwHxADwAXABcAUwAOwBcARkB8wDzAGoBlAHgAEAApQA6AYEAEwFzAHQAZQFNAF8BhgGCAIgAcwBBASAAYwHCAB0AQQG2AH8AEwBuAd4AagF6AMIAeACBAasAswBbAdMABADNAGUBqwC2ALQA+QA6ACMA9wDzAFkBgQDCAFYBTQCbAGUBHwBrAQsBQgCjADoBWgGGAC8AfQCBAIoB3gBaAXMBqwAfAB4AqwBpAbkA0wBzATUBVgF7AYQAcwGHAaUA3gDTAKgBuQBRAX8AagEFATIB3wCEAH8AXAFqAdIASQFJAUsBkwBwAYoA9AByATEAegB/AHABTgBuAKEAMQBRAUgBUQG4AG4ACQEQAbIAZwBuADsBbgBIAW4BbgBqAYAA+wBvAXEAcAG4AAcBbwEDAW4ALQBRAXABBwGbAPsAcAFwAWQBSQFIAUgBSQG7AH8AaQF9ALcAtwBIAWQBSAFFAScB+wC2AJ0AZAF0AWABYQBMAVUBbADzAGkBQAD+AP4AggGOATsA/QBXASIBnwAgAPwA3gDNAIIAgwCEAYQBBwBjAWkBAgHDAI8AEQFLAVUAVwALADwBkgB8AJYBmAANAIkAQACJAIIAnQBAAIkAhAA8AasABQBVAVcAjAH5AO0APQGhAAYBPAGEAUwBXgD4AEIATQHaADsB8wCKAGYBWQAEALYABQHPAJUAZgBiAVMAQAAiALIAhwFbAHoAhAEtAKMAtAC0ALYABAA5AO8AygBdAUcAggB0ALoAMAAlAKkAXQBqAXkASwCAAVsAawBnAU0ATQBsAB0AZgFqAVMAZgBwAUQAWwGXACMBKQFOABIAQgB4AGQBnAA4AJAAOwCRAHIA1AACAF0BWAFwAQgA+gAFAGkBagFxAGABLQAbAGQAAQAMAEAACAFtAY8AVwFAAL4ApgCNACQAIgECAYEBsACwAPsAJAB7ABQAKAFjAW4AigBoAdsAQABvARQAZAEHATcB8wADAU8BjAC4AIMBmQA9AUcAOQA8AQIAFgAoAAwAkgCEAU0AaQGEAWkB8ACCAI0B/AAcAYwA2gCbAJUAPQGhANoAhABLAIgAXwBvAU4A8gBnAEgBqgBVAGQB/gChAAIAJgFNANQASAEkAGoBfQANAK0AbgBEAIoBeQAJAAkAbwFAAMEAhwAUAQEAZACSAJABbwF+AE4AZwFlAQkAggDDACAASQBMAWoBWACFAYcAiAB3AF8ALgCEAPgAqQCFAH4AqgBKAE8BYQGCAIIAnQBrAToBJABtAZEANQE1ASgBxgA6AVMBJABIAT0BCAGFAasA8gAIABkBdgFLAEIBVQGDAWMBYQCCAQEAZQBlAVgBQgFwAVIBWwGzAHAApgAgAPIADAAjALYAtgDqAP4AwwDNAIoBLgEqAbUAJQC/AA8AiQD8ACoBQAB/AZIAbQFCACMAhAFWAW4A/wCIAEAAIwHPADUAZQE6AXsB/gD/AK4AUQGMAQABewFgASIBIgFTAPsAnQBJAVQAAAHNAEwATACVAUAAJwFNAE0APAE/AFUBVwB+ADwBOABoAYcBhAAEAP8AggAAAZcAaQHzAA0AQgCFAGgBbQFiATwBpQCMAHwAOwALAf4AYwGlAFYBdAABAGQBPABzABQBiACpAJ8AtgBlATwBUQF8ALQAtAAVAasAsQALAR8AYwFlAakABQBPASgBDgEaAYsBiwEnAWkBvgCVAIcBiwF6AHoAoQBpAXoAYAGhACkBwAA2ACkBaQGEAWcAKACFAO4ACgB9AQ4ANwEJAbIAWwA3AFcBYQFbAdQAVwGgAFYBTgFPAcEANQFNAE0AaAEDAakBZgBmAPwAxQDFAGoBgQAjADgAGgBCATsBWwBpAGcBZgFyAGAAKAE+ATsBRwFlAQ0AaQGcAIMATQB7AJ8AcgGDAAUAUACtAH0AQABlAe8AjQD8ANEAWABbAVcAQgAHAaAAkQF9APwAkQB8AQsAaQGFAD4BdgELAFYBfgBWAEMAYwEMAEIABAAlAVMBbwAEAFUBBACFAK0ATQByAYUAKAFXAIEADQC3AE0A5wDkAEUA0QD+AIQAOgGLAOUAHQBzAFgBVACCADEBEwFWAFABeACLAVsAvQA6AA4BWwCJAGUBcABSAYUB6wBJAIIAmACFAWcBiAByAcgAWgAlAHEBiwHhAGUB0ABcAVcADQBvAUwBWABPAVUAVQFvAWwASQAFANoAhgGOAYABOADRAHABRwFYAYQBTgDDAM0A/AANACYBAQFOAHQAYAFTAIMBygAHAM8AWwCyAI8BjwEoAQoBIgFmAb8AhwBnADIBXQFRAY8BjAAiAfcADgFnAUcAhQAqAYIAXQBZAXsAjQCGAGYApwCEAIQAaQHbAIQBggGCAFgBdwBrAI8AnABlAcsAsADwAE4AbgFlAR0AWAFqASgBbAAHAY8BMwFRAXgATQG1AGQBDAGGALcA+ABYASQBqwAkAFsBwABbADkBVQFRAZUALwAvAEUB3ABdAdIAbwHQAPoA1gCNACYBhAFxAEAAiwFOAPcASgG/AMcAVQFlAVUBVgFlAW8BMgFvAU0BqwBYAYwABgGMAfwAWAGOAUcAIAC2AAEATgBOALUAxwAxAPoAjAD5ABYAsgBPAQ8AWgEqAfwAfwBbAFQBVAE8AVYAVgCHAEIB2gAHAYkAgACJAP4AQgBdAXoATwGkAA0AagGGAS8AWwCJALgA6AClAIAAagFkAYwAqwBCAFgBewB7AGsBHwAmAUUBOwBnAVUB0gAXAYMARwFgAW8BUQFAABIBwwA6ABQBAgF/AFQB/gAuAMgAWwCHAEoAaQGFAcMAfgDHAAIAawFhAYcAUQHDAHABgwEFAUEBWwFNAK0AwQAKATIB9ABRAU0BMwB6AAQAhwAJAGABRwFsACgAZwHzAFYBcAFrAREBEwElALMAwwDtAAQAvQBmAKAAAgGDABwBggFwAYcAEQHLAGsBggA1Ad0AWAE+Ae4ApgDUAA8AAQDzAPcAaQH1AG8BqQBhAb8AaQF/AZMAbQHaAKsAQABsAGUBiACKASAAeAFxANcApwDNAIEBegB6AAQA1wD/AL0A9gBnAFUBAAFMAX4ByABYAVgBzQCvAK0AewBsAD8AhAFgAWkBewBWAaAADAFWAWUBHwCGAMMAVABUAFgBaQF/AIYAWwAoAQ0AIgE3Af8ArQAEAVwB3QBHAGkBFwABANwA4ADNAEMBJwCIADAAbwH3ABEBEwHRAGUBOwFrAf4A3QBxAWsBxwANAM0AJgFdAdoASQCzAHABpQBlAS4BsgCGANwApQD+AGsBLgFbAX0AxgCrALcAZQGHAaUAjwGHAI4AjgCZAHIBvQCPATYAOAFbAAoAjwFaAVwBxQAyATsBCQCCAGcA5ABiAW4BigFwALcAOAHUAMkAMQD+ACoBHwBkAY8B2gBbAI8BqwBiARMAEwHRAN4A3gBrAbcAxwDgABEBOgFsAH0BBAFvASkBAgBIATMBTwESAWcBeABpAYkAjQHGAIcBOwB4AJABagCGAUUATwFpAQkAKAEoASYAJgGVAGEBKAFuAX0AaQFDASgBWAFlACQACQFlAFoBdAF8AQkAcABlAVoBgwAmASMAEQF+AMYAmgCeABEANQEWAIcAggBwAYIAagHGAJoAAwF0AIIBhABbAOAAEgB9AMMAAgFxAG8BKAHgAIgA4ACEAW8BCQCeAOAAAgHNAB0AtQBoAAIBegBVAa8AKAHgAH0BJgFRAVsBngB/AK8AjwB9AGkBaQEJAAIBJgAJAFgANgBLADIBYwE8ALsASwApAfkAWACKAVsAJQGWAIUAhQCKAVEBlQFjASoBSwA8AFoBhwAkAVIAUgBSAFwAhAAqASMAIwEjAc0AXAAgAK8AWAFYAYAAUAFQAW4BrwCvAGcBxQBQAVABUAFcAGcBTQCgAIUBiwBeAGcAXgBKAV4AXgAoAWoBJQCUANoAiABRAd0AjADzABwAVgENAIwAhwBCAQYBQQGHAFUBQwAoASgB+ACCAFsBggFWAdoAfgFWAVEBvwBOALUAEgBBAVYAKgFbAUgBugC6AFYBHAC6AIwAWwGMAI4ArwCOACoBVgEiAEsB2gAiAU0BWAGrAAIAfwB/AHgAaQH8AA4BVQFxACYBbwEoADcB/AAOAXEBBwBnAQMAZAFVAYcATgCCAP4AVwBPAfwAGwD+APwAHQCHAAYBXwBYAQQApQA8AAUAlgGWAWYBjABfAJUAZgBiAfkAqwBDAQYBZQFbAF8BgwCyAEwB8wAEADkAnwBxAQYBegD5AMoAAgBDAbIAQAD4AEcAfgGgAF8BwQBGAWIBaQEOAHQABQC5AE4AWwBjAUQAtgBQAFIAXQAHAUcAaQHPACgBAgBRAX0AhAHGALAAUwBGAVEBbgH9AFcBqwBnAQABgwG3AIYATgBOAG8BWwEUAAABCQFYAFgA1ACrAG4BWAERATwAJgEkAEgBZACPAGAAVwFqAVUBpgCSAKcApABYAQgBmQAmACYAOgGxAHsAjACkAPwAygChAKEAkgFnADUAZAFkAV8AuAC4ALIAjgBNAIMBbgBqAUcAcQCDAVEBWgHzAGUBMwGHAAwAkgGOAEcAfgFnAGoBjwF4AX4AbwFOAWYBWAAFAWYBQQFpAYQBKAF0AWcBTgCHAZIAugBlAcMAcQCCAIIAfQBFAScBwwD+AFUBbwGQAaUAlQBlAWUBUQGQAR0ANwERAZUAAgFvAfwAtQBIATUAVgFTARgAOwARAYcAAQCzAFUBMwGUAI8BUQEMAEIANwD+AG0B3gA3AIIAKAEXATMBkAGFAK8AkwAfAEAAGwBFAEgBtQB/AX4BfgEEABkABgH/AFEBlAE8ADwAVgFvAfMAtABZARwAEwACAYYAZQGnAH4BsQCvAK8AAgE/AEwBlQGGAI4AZwGGAGcBjgB+AWkBYgHUAGgBaAFpAd4AWAGCAFsBlQBsAEAABACUAVEBaQERATwAsgCHAG8BcQFqARMBhwCrAFYBtAC0AEIAawFWAYwAHwBrAaAAZQFRAdQABwEhADQAtwBCAEIA3gBlAWUBZQGgAGUBKwCdACsAhgF+AIkAYwEhACEAsABlAJYBAAGMAGUAjABVAWcAZwAdAAUBBQGCAGkBMgEFAIQBgAFZAWkBiABjAY0AqgFjAYgAWwBzAQ0AKAEUAEUALAFUAN4AKAFXAOsAhAFWAXoAOgBRAX8BPQE5AM0A8ADrAEQBWwCtAIQBhgETAIQBQADNAGkBaQH4AP0AjQATASwBOQCCAS8BAAGCASgBCQFWAQgAOQBsACcA+AB/AYQATwE5AFEBIAAgAfwAeAFuAMEAhwF5AIIBgwHGAFEBVAFbAGkBCAD4AEQAZQDtAH4APgHGAIMAQAF/AIUBIgG/AM8ADwBuAHgBzwAIAH8BiQAfAFsAhAF6AFQAiwENAA0AfwHGAAABHwBXAMUACAAnAMkAKACHAFgBpQBeAPgA2wCEABIAEgBdAV4AZwF9AG4BbgGCAGsA8wBFAXgBawCLAcIAAwENAAIBTAAsAGwAZAEGAIcAYAG2AFUBiwGbAGsBQADvAEIAZAHIAGQAMABbAEYB7gBWAFkBaQGEAUMBhAFfAUkAlgFaAUgBbACbAMAARQFuARQAEgAkAKQADQCCAAIAKgGTAG0BTAEzASoBAwFvAW8ByAA0ARoAWQFWAIsATgBsALMAIAGtAKYANAGEARQAAwGLAIsAiAAEAKIAtQBqAa8AOQC2AGkBKAAfAEgBMgFcAcgAIABVAVYAawCbAJ0ADQD/AFsBsQCxAK8AtgCCAGsBWAFFAW0BqwBFAWoBYwFlAUUBQAD5AIQAfwDRAH8AZQDbAJEADgBpAfwA4gBXAIwAZQFpAXYBDQBpAWkBUgAaASgBUgAoASgBZQBDAGoBegBbAHgAVQFKASUAhQAFACYBQAB/AY4APgFbAEAAxgBYAXoAIQDkAIkAggFpAcYABwFPASQBFwFhAYkAQwB/AYUA/wDyADwB/wANAA0AJQE6AIQAZgBhAFMADQCaAIQAEABaAToAbgD/AHgAxgBuAE8BjgCCAIIAbAA7ALYAtgBJAX8AhAF/AH8AaQFpAWkBaQFxAYEAIgFdAVIBRgFlAWUBbwElABYADwBDABEA8gBtAfUAfwFrASUAJQCOAUwBggDuAIUBaQFQASIADQBAALIAWwBQAYMBMwBQAYkAOQBWAWMBdgBmAXwAugB5AE0BJACEAWABiQBIATEAMQCkADEAPQDsAFYBRwCCACAAhAExAIYBpABvAVsBhwCEACgBgwAOAH4AWwBjAVEB7gBnAVEBVgGDAfUAQQE9AIQBhAEQAD0AJgAiAIYAfwCGAH8AwwC0AFkBCQAGAVwBXAENAGkBqAAOATwARQBdAIIADgEOAR8APAE/AT8BXgBpATsBNgCEAVABwABWAVQAawFCAcoAygCFASYAVQGCAFUBVgGDAG4BTwExADMBnQBvAQ4AhAH8ADUAIwA7AUsB/gDbAIAAXgHhAJ8AWAFcAZMAegCRAFcAfAA7ATMBVQHqACAALACMAGkBCQAhAMoA8ACWAXoBZgGaAAcA5ADUAIMB6wAUAEQBegB6ADMAOACtADIBbgFAADkAaQFIAW4BWwCCAPIAXQFwAdoAaQBbAFYBDQBuAQEBYQExABIAfgBgASgADQAqAVYBPAFtAZABSwDGAKsBaQEoAdcAYwEoAVYBpwB3AJ8AzgCEAVsBrQBDAX4ARABzAJkAbAB3AFYBWgEqATIBegAFAWYBfwB/ACUAgwBpAV4BaQCxAH8AjwFgASUAIwHnAHYAUACVAEcAQgFlAAcBVgH9AHEB8gCXAD0AfwBOAAUBRgFlAZEAGgDUAHIBwABtAW0BcAHzAKEAAAFxAW8BSAGHAFYBgQGxAEEBcQBzAAEBQQEUAGkB/gB/AFYBCgC/AGkBdwAzAQcBJACgAFUBVQFuAasArgB9ADEAaQFxAasA3wDUAE4ACAFhAf4AVQHKADEAVgAKAD0ANQAgAMQAqwCCAGoAagBdATwA/ACZAEIBuABWAZIAbQDaAAMBJwBMAG4AfgGJAE8BcAGIAIIApQBvAYEAdAAHAToAQQFBAdsAUAEvAHoAgABWASAAXAFRAX8ATgA5AZABhABtAUIAjAAXACQAPQAKAAEBFwA6AGoATQDUAHIBWQGMAUQAfgAuAAQBDQFdARoADgDKAJABQQEAAScACgBhAVEBYQD+AFEBbwFvAQ0AYQF9AMoADQBpAccAbQGRADsAagFOACMAwQCVAJUAbwEBAAEBZQHmAF4AcgExABkBqgBXAGsBoACgAAgBZQByATUBMQH8AGcBMwF+AIIAZwCMACwA2gBbAZEAgwFtARkAYwEmARMAkQBwAVYBgABtAWYBqwAZAD4BagEwAGABAQE7AX4AcgEmAcsAZQAlARkA9QDPAM8AbgAlABcAFwAXADUAygA/AX8BRgEEAC4BvwBqAAgBdwGLAH8AkQCtAOoAMwGIAGoBugAjAVEBSQG/AP4AJQFtAQMBkwBAAIQBtQCNAPwA/ABvAfgArwAxAG4BJgCEAUYBJAD8AAYB8gAKABAABAGGAHsBJQCtAPgAoAB/AAABJABqAWoBVgFWAToAPAFNAEsASwA1AY4AGgBaAVQAVwCnAKcAJgBxAPwAWAHKAIkArwBVARcAjgAzAFgBPAEnAfMAaQEoAFgB1AA6ADwBiQAzAXEAggBRAWEBRwACAQIBjAAZAJcAWwFrAQQAwQBpAbEAHQGPAHwAxAClAAEAsQBlAW4AVwElAG8BagE5AMUAAQDFAEsA/ADNAKUAxAAnAIQB5gDmAGUBZgETAIQBnwCfAG4BWwCzAMkAJAB/AB8AxQClAHwAYQELAR8AggCMAH0AJQFpAa0A0gDGAD0BjgBfAF8AiwFhAHEBVQGEAGABKgERAVYBJABUAYcAYQCEAP8AgQD/AH4BRwD8AIMARAB5AYMAggCEAZIAggCgAF0APwB+Af8AYQCEAIcAbwGEAGUBtgBWAX4BegBWAS8AOQAGAXoAegB6AE4AKAFBAcEAegCrAFUAOQEOAEIAigAjAWkBaQEiAXoAVgBlASkBKQEWAHwBBQGoAPsABQA4AA8BVAATAXQBTAF/AUMAkwBvAW8BcQAmAR0ATAFnAJoAVQE+AP4AhAEOAaIAxAAcAWYB4QAHACIADAFWAf4ABwCDAG8BWwAFAFYB8wCEAYQBTgA+AIABJACCAGUBnwAOACEAjABSAXoAcQGOAAUAAgE6AIMBcgFPAdUAaQEqAYgB+gBHAUgAkwCBAfoAWwDvAAUABAB4AUkBmgC4AP8AcgF6AAkAEgCEAfIA0gAUAPMAOwFnAYIBfAFmAQkAdADaAGgBQAAlAPMAgwDNAMMAIwBkAScABgHKAIcBgwBbAHwBhwE6AB4AzwDbAKMAWwDvAAcA7ACxANAAaQD+AIwATAEFAEwBTAEEAIwAjgH3AIABBgAGAEAA2gCMAKIAtACEAP0AbQGlAOAAEwB4Af4AdgCiACgBhwCDAd8AZQBlAAcBLQE2AHMBlABpAVsBGgB/APcAiQEoAdAABgAlAGgAhAGiAE0ATQCEAQEBAgDiAIIBYQCGAJwARwDQAEMBsAB8AboARABNAY4AsACMAIQBtwBkAVQBOgFbAdQAOwCGAIMBggB/AFgBbwEBAEwB5gA3ABMAZABBAYIBJAA5ARgBmADDAOIAjAAIAIQAaQFFASIBFwFPAVsBHQDyAIYAVQGPAIsARgGhAIEASAGOAfoAugAFAHEAJAHeAI0AeAEqAWgBjgAUAE8BFACVAWgBfQG6ADQBTAGnADgBCACEAH0APABRAU8BAgHyACUBsADKAMQAWwAGAIwAPAC5AAEAjQBxAZABIwAtAIcASAELANAA2wAXAZYBVAH8AFgBJABCABwBuAADAV8ATQApAUMA+gBAAH8BgACCAD4B/QD8AOwAKgH+ALIAaAFkAY4AgwGuAGgA3gCBAGUBgwG7ABYAPAEiABIAhwBBAZkASgFlATcAkQGMAEIB/gCXAAYA6wCHALYAbgDLAIcAhAE6AMUAHwAcAWoA8gBwAeYAhACDAYsAhABvAWUBoADSAHgAEgHzAFEBGQGRAWEByABBAd4AHQAoAZABggFpAWMBfgAOAGYBfQBlAXUBAgBgAWQBVAGVACoAggBAAKMAowAkAJEAiwCLAEgBhwB/AGMAJgBaAUQAWwFwAYQAaAEdAHwBCgBnAVEBDAClAFIBAgEfAGEAtQCQAWMAhgBmAAIBEQEIAScAKgB+ATgBOAETACgAEQHyADcAHAGVAGcBPACEAeQAowCEADQBBQFgAFgBMQEbAYgAyQBOAC0A5gAiAToBhwA9Ae0ABwA4AKsAPgF6AIQBTQF7AP4AUgH/AEIBggFOAFsB0AAHAR0AfAFhAFUBUAAlAV8AJQEqAQYAZwERADQBPAEgAR8AOQGLACYALABuABIAWAAsAUAA/AA0AX0BrQAkACUAagC2ALkAtQCQAV0AegB8Af8APQF7ADUA0QDNAIUAbABrAYQBBACEAd4AvwAfAJoAKAAdAUkBhgDNAM0AgQEfAJgADwCFAGcBZgD+AK8AggBrAY4A9gD2AKcATABYARQBbAB1AWkBWAEkACQAGAHUAHgAMgFxAHcAOACVAdsAsQAkAH8AiwGGAIIAGQA6ADoAIgATACIAjgBaAa8ACwBbAAABEwA3AI4BigFRAfsAAgFMANsAewBbAbYAhgA0ADoBcQAAAYgBhABeAG0BqQDTALYAIgGOAXgB+wAvAIIAOwAdARkAAwEDAX0AhwACAZ0AOgBbAZAA8wATAAQAjABoAU4AxQA0AcYAggA7AY4BPABdAaUAFQCMAGgBEwFoAWgB2gCBAIcAEQDgAGEAhAGEAaIAzQCEAFsBowA8AQYANAG2AKsADAFBAe0AZgGpABUAKgF1AdsAWAGPAIEAqwCjAH0AawG2ALQA/gD+AHUB/gClAFgBawHDAAsBHwBTATQAWwElAbkAjwDGACUAdQG3ADwBkwGrAEIATQE7AIYAjgClAKsA0wCEAWwAbACCAGMB+wD7ACkBlABuAV0AaQFlAF4ABwBVAIMB+QBCAJoAygBVAWcAdAAaAFoBxgAoAGEAQABgAYYAygAjAIsAJgFNAG8BJQAEAAYAYAGGAE0ArQDeAA0AIABCAE0AaQFeABoBlQBlAUwA/ABHAVoBTQCGAIkAZgFXAcoAKgEBAAABAQCDAUAAIwBbACoBrwAGAV4BaQGGACIBhgCOAWkBrQANAKsAWgFaAVIBYgH8APwAfQERAIYAfQGmAFYABwAHAKUAbwGlAFEBSAAnAa8AgwB6AFsBgwBvAYIBhgBUAUcBSACIACUAagFbAP8AfgEGAY4BfgFKAI4BMgFcAY4BjgECAbEAjgEoAEoAhwFVAB8AcgBVASgB8ABuAcMA7gD8AH4BwQC6APAA8wCzAFsAVQBhAYkAiQDaAJIBgAFpAbMAJAGEAKwBaQH8AIQBVAD1AFQAfgGdADcBbwFVAYIAggCCAIEAEAE6AIsAhAF3AVsBQwFjAWABXACjAF4AcQA7AUAAYAEfACgBnwBmASgBUAHKAMoASwEuAFUBcgEKAAMAeAEHAIcAoQAnAXoAVQBzAGwAIABhAcsAgABXAAIBegBpAVYBXAFlAXgBVQA8ASYBjABmAXUBEgBdAWsBYQH5AIIBsgAuAHMAwwCWAc0ADgBgAYAAgAGQASgBKAFvAVYAaQHBANoAIABSAUcAAQASAAMAhgG0AFgBnwBDASEAKAF+AH4AYQGgAGABhgCIAIQBiAAjAUYBeABlAV0AWQEhAVoBaAFyAX8AcQBxAI8ATwFYAaEAhgFWAScBJwEUAIEBgQFVAU8BfwBzACMATwFCAY4BlAGGAfsAiQBWASIB2gBWAQMB/ACJAGwAgwFpAYQBAgBPAbEArgAkAFABWgF1AVYAYQFkAGkBVwFyAX8AYAHKAKAAaAFrAUkAUQEqAQMBwQDSAIQA5QACAGYBLgBnATkB+wDLAIYAkQBzAFMBIAD8AHMAZQGrAAEAggCCAMQAdQFbAXMAzwDPADEA2gB/AX8ACQBxAGEBKwCvAFgBPAGJAPYAsQBLAVYBaQGCAH4AOQBoAWgBqwA8AUYBWgFWACYBgAFzAGkBWQFdASYBhgAJAIkAZQEBAGgBEwEqAcUAYwFnAfsAqwAjAJ8ARACvAGUBgQC2AFYBEQG0ANMAuQC3ACEBPQFlAYcBcQFxAQYBaAFkAGgBegB0ACoBGQAZACcBvwB7ARwAQQGUARcAYAF/AGoBAQFXAA0AcQFuARQB8gAHAFsAsgBWAAYBQQHnAEMBMQGCAaYApgCNAMsAfgBQAUsBIQCCAPwAawGQAVABRgGmAKcAxQC0AM8ArQFRAc0ACwB8AYcBKgGuAYcBDgEFAPsATQBNADwAqwBsAIIAiwANAF8BJAAwACABEwFzAQcB/gBvAV4AVQEdACIBYwFUAFUBjwGrAF0BFgA2AA4BJAFMAUAAfwHAACUAaQFnAGUASQBpAfwAKgFfAEMBhwDHAE8BpACLAMAAZgG9AMgAMgFwAXIACgAKAIcARwBgAGcBWAEoAC4A6wAqAXsAXAHhAIcBJwAzAQcAMwGCAFQBiABmAIIAwQDzAPMAUAEDAFUAVwBpAVsA0gBWAXoAZAFIAFwBggFnAbEAFQFOAMMAgAFuAIQBMQByAXsAJwEqAXcBQACrALYAhAAkADMB/wBYAH4BWgFYAZsA+AA7AVYBhAFpAFoBgwCDAGYACQDNAGkBaAFoASgB3gANAEwBaQGyABIA2gCjAHQA7QBUAIUBOQAwAGYBWwAGAM4AXgD8AAoBEgHBACQBMwGBAVcBbgEmAWwATAF8AdIA4ABtAUAARAB8AR0AOgBnABQAiwAEAFsAhAAFAE0AlQDRAIcBDQCzAB4AIgEyAYcBCgAoAWkAHQBnASQAiwAoAYQBswDDAKsAEQEiAXcBDwB+AYQBtABHALYArwGrAKUAbQEqAWMBLQH8ACMA/ACrAGkBWQGCAasAHQFoAJIAEgAOAVoBBgAOARIAjwEnAGkBMABgAYcBhACUAVIAUgBuAVMAZQCUAKcAfgGwAGoBZgF0AGMAhAEoAWEAdAG3AFsAhwB3AGwAPgFrAFEBnwATAQIAAgCNAGkBjgGbAIQBBAFGARsBGwF9AIwAiwBiAU0ALQBvAXMBsAFrAYcAswB+AWQBDAGCATsA/AAAAXsAbACFAIsBYwE5ASABIwAKAEUBaACJABMACwBbABUBRgGOAFYBpgCzAFgA/ABSAY8AXgA1Aa4ABQFFAW4BwwAIALQA8gCLAUAAYQFIAXcBBABnAA0AQABxAI8BhAEOAQoAZACEAH0ATwHmAIMAQwGCAFoBugCeACQBAgFXADMBxQBVAasAqwBIAAIBawE5AYwAQQFbAaEAjgEqAR8AVABRAYkAqwARAFcBWQA+AYQBpACtAIQAjgGyAKsA/AASALgAMQD+AMcA/AD8ABYAbQAfAD0AVgDsAAgACACAAJABJAB3AYIAqwDyAG8BbwFnAI8ARwA9AV8AUAFAADcAVAAkAH4B/ABwAWUBbwEHAWkBHgEOAS0AqgD8AI4BWwCVAKQAkQGRAYABagBXAFcAIwADAdoATwFuALYAcwCHAGkBJwCMAIwAJwGSAa4A/wCEAYwBZAGMAAoAhgCOAY8BEQDyAEUAKAAgAMQAewCEAGwAVgFJAP4APABsAEIAuQCEAQcBsQFbAGQA8gAiAWkBTAEeAU0AaAFbAFEBUQFKAIMAkAFxAGkBJgFWAWUBZQErAIQALgBvAXQAfAFUAfQADQBnAW4AYAEXAWYBowBlAQsAfwCgAIcAoAAyAVgAWwFMAYIAhADPAMEAKACbAHoArQCqAEUB0gBvAW4BwwAzAXABYQFmAYIB9ABEAIIAhwBoASgATABvATIAUQHDAEAAggCHAJEABQFrARIBfgC1AKgABwFZAfcAKAFdADwBpQBSAW8BIwC6AIwAJgEoAA0AWwGDAGkBfgFbAOYAxgCmABEBZwCEAIwAOgFnAYIBCAAgAXABjwHLADUBgwBnAYcAfgBeAFYAfAH+AL0AOAFwAVsBEQEoAYQBNQBSAUUBswARAT0BCAF9ATIBJwE6AZUAVgFnAPwAYABgADgB7QA+AWEALgBCAOMAggAxAWYALQD/AB0A/gB8AMMAYAFfAGAAjgFMAQABZgFCAIMAkgCUATwAtAARAIcBGwFWAYIArQB/ABEB/gBuAF0AXQBJAXsA/AAeATUA8gBuAXoAhQB6AH0AbADeAGkBYACTAGwAbAAZAL8AiABAAIsBqACmACMAMQCrAF8BAwEjAVQARgFqAHgBNQGpALYArgDGALUAIQA1AZUAKAAkAA8AtgCLAIEBfAEqAX8BvwDNAN0AZgFDAfIAhwEgAVYBBwF3AIQAMQCCAGUB/wBiAWsBUgBjAYQBAAGUATEA+wAqAXsAbACCAZUBcQEiAVYBLgBCAFMAXgDNAFUBAAEMAbEAswAAAVgBFgFUAH4BTAGvAHIBMAFKASQAPQHFAIwAJAA1AY4AjgA8AX8AggDmAFkBTAHgABUBhwFGAXsBVwAEAQoBdwD+AGcAswCnAGAAKABWAScBjwF1AYIASACJALYAWAEzAHABOgEqAYUAPAGxAOIAagFWAX8AIgGUAWEBJABeAIwAlAFpAQIB+wBlAakAWAB/ADsAggA3ARMA+AAkACgAiAFsAIIAhwCDAAMBfQGEAP8APABpAQ8AMwElAbEAqwAdAMUAagE+ATsBxwD8AEkBEQCBAIIA/gDaAOAAaQFgAIQAagHjAAMBZQH8AMYAgAFsAC4AggCgAPkAPwAoAGEAxwBuAYQBfgD+AKkAqQAYAbYAqwA0ALoAyQB/AOoAugCEAWAASQBwAasAVgCHATQBrQCFACgAAwGHAbYAZQGrAIcBIwCOAE4ANQF8AN4AbwG0AKMAAAFYAWwAjABaAbIAawGEAGoBbgFrAVkB4gATAB8ApQCMAC4BJQFRATEABwEGARgAiwBvAbkAqwA0ALcAOwAGAWUBpQClAIcBqQCrAAUA0wBvAbIAagD+ADAAfQBcAW8BbwH+AOoAYAEhACgA/ACRAGkBjgBWAWABdABvAZ0ApgCeADEBVgEBAPwA/AApACUAAgGeAJIAngCSACsAIAFoAGoBXAFbAW8B/gBaAWgBYQBVATwBiADqAHoAQQF9AGAB8QBWAVoBYAFWASIBrQAoAGkBTgBvAS8AfQCEAYMBMAAUAFUB/AAUABQATgGMAP4AhAEdASUAHQGFATcBNwGrAHgBbwGrAGwAOQBOADIBhACBAVIBzQBnAc0AMwBmAUIBJwE5ACMBYAFjASoBFwCJAPUA/QAFATUBAwFyAa0AaQFaAIQBaAEXAIAAOgCCAEQAggFyAVIBJwARAEEBiAAjAWoBJQCLAKAANABpAToASQCFAK0AEQBJAIQAhAAqAeoASgCHAWoBAwFpASABAAGVAGcBYwFCAH8AfwBnAAABggBpAeoAfwBKAGkBWgFVAWoAzwDDAMMAAQCHAEkAbwENAA0ADQDzAPMADQAfAMEAcwAWAA0AsACDAH4BGQHPAEwBYwFSABEBWAGMAM8AcwAFAUgAIAE8AfAAjABNADUADQAaARoBwQAZASoBKgFMAXQAhAA6ARoBugDPAMEARgERASAA+wC2AH4BHAF+AcUAtgAGAUQAKAFAAMoAjgDAAPwA9gDRAPwAPABYASsAVwBmAdYA1gBbACYBRwADAfwAagFWAXAAZgECAGQBlQADAWQBRwA6ALoAAwFmAXIBcgEvAS8BgwESAG0BOwAvAagA2gBLAVQAbABFAYQBBQERAHgBxwA0AH8AQwBxAB0AjgErAE8BVAA4AFYBTAHAAAUB/AAiAfcAcQD+AFUBVQFjATIBEwFlAIUAJQBVAUgBiwA9AYQBhAH+AMYAZwBQAYkAiQAVAY8AeAA7ATsBggAOAA4AXgBSAYUBVQBeAY4AegDhAPwAVwBgAWABAgFpAVQBcgFwAXIAZQEmASMAOgBuAUwAegCBAPwAzwDnAMMAOgHHAMYAJgB4AA0AIAGEAfAA7QCMAXMBZgDsAMMAeAFYAOoAqwC4ABgAWABRAXoAzQDDACoBjABzAUwBTAFNAHQAqwDGAGkBUwBWAG4BQgGEAYABZwB+AWUBMgGfAIoAjABbAQUBaQGDAIUBBwETAH8AxgALAHgBKACoAG4BZwB4AF4AUwDBADIBegDyADAAVACEATUB4AAkALIA7wATAPwAMgHaAIwAcQGHAScBqQBhAY4AWwDtAMoAOwFmAYIAbQFqAAwAYgG0ALYAOgC5AFsB+QB4AYkAagHtAIcAaAF/AH8AdAEkAGoBUQF5AIQAZgGwADIBggBSAF0BWwAYAR0BhAFqAVUBVgGUAIcBhQC5ALkAAgBHAGkBMgGpAGkBxgAHAYgA+QBRAVoBWwF4AGABMQGfAD4BAQGMAFIAhgETAfgAYwFeAYQBawB9AMsAgQBNAf0A7ABVAQYBswBpAYMAiQD+AIUAhgCCASgBjgEaAFMAfwCCALMAHwCAAHoA4gBjAYgAsAAFAVEBgQGPAHEACADAAI4BbgFWARMASAB9AHgAaQH7AGsBpQBzAKYAcQCrAGQAWwBVAa0ALgBYAGkBbwFGAacAcACIAIMAJgCKAMMANwEkAPAAWAEmAUgBoQD4AN4AcQCJAFoBJQHbAEgBbQFaAVgBRQFOADUBSwGNABsAQQGrAC8BMgGpAC8BPgFJAKcApACtAFEBVAFyAX0AQAB3ABYBhAB/AR0BWwBqAF0BKQEtAWQBLwB/AWgBmQBUAXEATAFHAHQAVAGMACUBrgCAADoBjgFCAAEBPQCNAI8BVgFaAfwAZwBuAGUBsQA9AYYB8gBzACAAKgH8AFUAhAG2ANQAjAA+ATEAqQCBAfIAVgAzAUIB8wA6AG8B2gBvAbYAXgDGAIkAsgC4AGoBNQAGAXwAbwHbACYBDwAuAHoAcAGkAIAAAwFlAf4AQgHIAIQBagETAAsAcAFSAQ0BVgADAXABlQCCACUBcAEdAbYAjwFJAGkBhADHAOwAVgFvAXABJgEmARIBfQCHAYQA5QBvAQUBRQEGAUkAWAB8ARMAVAFUAUAAUQFSARMBWwEaAFEBdABfAGUBeABhAcYAlQDBAGsBZQFuAXgAyAAnAcMAdAGAANEAbAAlAE4A7ADDAK0A/AD8AMMAQgEyAFEBFwBJAccAfwD5AGABggDxAIQAhAB6AFgAWQFpAWoBfgEoAYcAggF+ADwBbwENAMoAKAFIAScBbQGMAEcASQEFAQUBBQFlAT0BtACBAHAB0gAHAG4BBwGLAa4AHwBYAS4A3gCPAU8BKAG/AGsBowCgAFgAhABgAbUAUQFdABMAawH5AIgAZQE9AXABOQFwAa0AZwHFAI0BJACVADsBOABNAbMAZgAcAcsAfAEoAWkBuAC9APsAUQGrAHQBVQFWAVIB/wB4ASgBNQEBAIIBNAFyAV8BagERAYAANQE5AdoAOgEoARMBAQDtACgAKADuAFMBGADJAGEAQgBzAH4A/ACPAUAAhAFdAVsAhwB7AGEAjwE+AUABNwENAIYAfwBtAGoBeAG0AIQBZQElAb8AawEuALoApQC3AGcBEQA8AW8BXwF6AA0ADwCEAYUAmgAmASMBQADGAAQAtgB6AHoAbgEfAFQAbQFtAL8AAwFvAfUAggBkASEA/ABWAYIAtgC1ALQAiABuADEAtQCEAV0A/wCrAGUBGQCGADEALgBJAeoAQAFoAVYBxgA9Ac0AIwFxAK0ApQBNASUAXgBYAGEBaQG/AI8BwACTALkA8gAqAX8BfwEmAGABfQCBAIQAZQEuAa8ANQBBAWYBhQAxAGsBeABfASoBagBrAVoBMQChAGABrQCEAVEB8wBvAYYA+QA7AH8AhwBVAesAggDtAFEBNQH+AP4AVgG2AFYBYwFMAH4AygAWATUBrwCCATEAaQGEAU8BPAE8ASEAYwGgAGgBJAFIAYcBGgF1AA0AIgEfAB8AKgFGAfsAsQBRAR0BHQEkAIoAJAB7AIYApwAiAF4ANgCJADIBKgHyAHEAcgGzAHgAWwBzAHQAWAGEACIBVgEEALYApQDgAG8BsQDHAHcBOwB9AHgBWwFvAasAKAFiAbIATwGPAW0BnQAXAK0AQgBoAQQAfQCCAR8AvwBeADoAaQE3AfMAjAA6AQIBggCOAa0A4gBuAIgA8QAdAYIANwF/ACgAOgEzAUUAHQGHAaQAEQCtAMYAKAEqAcYA4ABrAWsBxQCIAPwADQCCAHMAEwE1AFQBPgFqAWoBSwAwAHoAAwGlAI8AAQD7AI4BUQERAGcA/gBrAREAogBWABgAwgCEAFEBuQB1AboAqwBuAWYBtgAyAYQBawFJAFABfwBbAe0AJgEPAB8AzQCzAIQA+wAdASQAZwARAIEAWAG2AAIBcQBrAREBqwCJAFoBawE3AVEBWwF8AGIBhwG0AKQASwBUAHoApAAqAa0AawHGAIIArQCVAWsBVwCxAGkBhABxAR8AOQALAYQApQBUAC4BcAGOAVgAJQGpAKUAMQAGAW0B/gBTAGoAjgBlAXMAawEYAXUBtwBlAasAxgAiATwBOwCGAB8AawFzAAUAhwGlAKUA0wBPAbcAYwFYAWUBXgBlAW8BgQCBAMkAawA/AH8AWgFaAX8AeACyAHcBigGLAHwBWwElAI4BdAF0ARcAZgH8AIUBVwDhAIoAUgH7AGkBtgAtAPMAkQDtAGUBZQHuAM8AIQCvAAgBkwBMAGsAXAGEAWsAawBRAf8ADgA4AFcBgwGHAZUAgAFbAAUAWwFbAbIAjgFhAYwAPAHvAIoA7wA7ATsBEgBmAUYBIgGHAXwBQgBRASgBrQAlAH4AhgF6ADEBpQBFAYYAYAF3AAcBsAB9AGYBWgFfAVgBagFVAYYBZwEoAVEBRgHJAHQBkQB4AKcAVwGHAWEBgwH5AGUBfwBrACIAfwCUAIwAVAAkAWgBfwCyAT0BiAANAbAAVgFbAIoAWwH7AEUBjgFFAU8BcADyAKYAZQFgAVgAJQARAXoAVgEqAXQAgACUAI0AWgFWAWUBcQCLAY8AQABbAYIAVQFlAboAcQBlAX0AxACMAD4BCgBXALEAoQCAAEsBVgE1AFUBeAAhAFsAVAGGAJABWAD4AAQBFwFWAQQBXAEhAGUBZQFpAY4AbwFfAAoB8wBeAV8AJwEgACQBXgHbAGQABgEjAHQAoACFAUoAVwF/AFgArQBhAV0BfgCGAIQADQBrAYcBUQFJAf4AVgFhAeUAHwBlAYoAigBvAcMAIAFRAWgBiAAEARIBwwB9AGABgAFRAVQABQE3AWYBsACHAYcAdwFoAAkAegByAdIAKAGBAA4AZgBKAT0BIQAiAVAAEwB+AFsBVgFVAVYBcgF0AHQAVgFyAV4BXgEiAQQBZwFjAcYArQBrAVUBEQFlAGUB/wCzAFYBDQAPADEAtgCEACoBaQG1AFgANQBpAUABjgCQAXIBegBpAYQBBABRAbMAcQDqAA0BigC/AKEAIwE0AHsBhABWAVYBVgFpAVoBJQB+AB8AaAE8AQoBZQFjAQABjwA/AEwAJgGGAFcAMgGvAG8BsQBGASQBVwBUAGUBYwGlAMMAPQFpAYoAxACHAYYAawFvAWkBYgGlADsBdwEXADcBVgEIAZABrQB/AIcBWwGyAFEBaQFbAYABfwA4AOIApQBgAVgBdABjAYgAJwA8AGcBdAClAA8AEQGrAM0ACQAXAboAowAEAGMBnwAxAa8AqwC2AI4ArwBlAVYBWwG0AGgBFwALAXEBpQAxAI4AJgBqAAYBIgDGAD0BpQCHAaUAsgA0AG8BiAGAAesAgwHvACQAcAEBAFEBcQCOAI4AWwBoAQUARABoAWcBkgEuAVIA7QAsAJUAdgFEAP8AbQH/APQABwDtACEAhADsAEkALABvAXwBDgBEAAgAEwAsAG4BbgFJAGQBJADhAOEA9wCLAM8AOgHPAKcADgHAAFUAwQDPAF8AVQFlAWEACgAyAYQAZwBuAZUAJwHPAEAA/gAHAQcBjwE/AVYBwACYAP4AVQFnAFYBqwCrAPoAggBfAD8BCwAHAS4ASQCMAIMAhABYAPQAlQCMAJQAKABWAQoAuQCHAL0AGgFRAcEATABGAQABhQBWAasASQCwAOwA9QAJAFYBJwBRAaAAJwAHAQcBBQBUAAUBggAeAI4BAgBhAIsBawC9AG4BkwDwAHkAZAFqAVQAiwFyAZ8A4QBAAJ8AhQHPAAoA8wCMAGkBXQHvAFcBTAF6ALIAVgDzANoAZwFuAWYAYgGMADoAEwCbAFgB4AB9AHYAhgB0AIABhwBjASIBOgERASkBRgGnAEkAVwEoAZ0AgwFvATgBbwENAMAAVgGNAKsAVwFqATYBpgAKAIQBZQEgAasAcQBYAYkA7ABWAFoBBgD8ANoADwBqAaQAsACEAP8AoQBlAW4AkAHGACAAaQGEAYMBZAHFABYAMwAlAbAAswG5AHoAkAFsAFEBWABUAXABXQGHAcEAUQErAFgBSQFkAdQAdACDAHkADgBuAW4BwwAdAGcBOAETAMsAewBwATQBvQB9ADkAbwEoAXMA/wBpAYIBGABzAL8AiQCFAM0AfwEfAAQABABzADUAVwCOAA0ADQB+APsAsQBgAUYBZwGvADEBWgEpAUwAhgBhAI0ASQB/AJ0AWAFbAToBWAFjAeAADgCBAOMAxQCwANQAawApAbYAOgFYAcYACwF9ANQAuQBYAfwAjgBhAcgAjwG6ALYAbwE1AVABBQFcAEUAqAAFAIIAeABAACsAXgCLAG8B/ABvAWYBvQB4AFUBWwDKAIcAZAERAA4ACABxAY4AxACOAE8BhADDADoA9wBRAX0AWAH/ALIAOQBpAQIA+ABCAFsAYQFWARMAMABmAIMAJAH5ADAAlQAKAScBJgFpAZIBgwDKACIBswANAIIBggGOAFMAtACIAIYAhACrAGsAWAGGAWUAZQFfAWYBYAG5ADUBhwECAWoBYwEJAFIAWQFnAVcBdwBsACYAYAEHAPAApwA7AGsBfwBSAU4AJABAAFUBVQEkAI8AwwAKAEUBWAEoAHEAYQFlAQUBYQGmAKsAXwFbALMAZAFWAbIAqwCIAK0AOQE5AVgATwFCABIAfgE1AMoAbwGMACMApADKACcBbwFCASgAjgEMACQAegD8AE4AoQAgAPwADABPAbYAMQBqAGUBQwAKALEAAgHzAOsACAGOAQIBUwCIAAQBSQCHAIAAbwHBAMMALgBhAUEBXQE5ABIBygCEAFEBFAF9AFsBKwCEAIoBIACtAAcBVwFKAHABaAHUAHoAawFvAX4AFQEdAbMAKAERATkBZwFSAVUBggGIAGsBvQA+AbMAPQGrAKYAbABCAf8ANwCOAIABZwEBABEASAEgAKEAigExAIgAaQE1ADEA/ACrAIkAdwEFAWEBBACtAMQAfwFqAWgBawGEAbYAVQE/AF8BewFjAQYBOwCxAK8AjgA1AX4AbAD7AIkAVACIALMAggB/AIkAAQANABcABgF3ATsAhgBqADwBfwB9AB0BNwFCASgAbwGIALYAEQAqAVIBlAGlAFYBggBhARQBVAFdAKkASQCrAIQBEgGrAHUBBAFBAWwANwGjALQAtgCrAHUBpQBrAcYAWQEEAWoAPAB1AX0AaAATAEQAEwB6AIQB9QAHAAsBqwBNAbQBWQG1AQcA8QBVADoAUwHqALYBtwG4AXoAsgBpAfgAMAC5AY0AIAAlALoBOwBNARQAjAH4AA4AhgGCAbsBMABrAfwAWAG1AEAA6gDFAIoBDACxAHsBVQHzADoAUwFrAWUBXgA5ACYBQgFCAXEAIAAnAQMBJgEfAB8AFQEnATUBJgFtASwBtgBbAG0BDAAMAOAAQgFuAYMAJgFuAUIAWwDSAEIA+ABFAXsARQGCAXQBxQANAA0AzwBjAbMAIADPAHIBVABbAGQAQgGHAIcABwFRAVsAQgHPAE0A7QCFAE0BOADSALMACwCCASgAzwDPABoAdAFdAA0AOACEAbsA/AC7AFQAaQFUAHsAJQElAc8AjwBpAbMAJQFEACcAewA7AIwBggBPAYUAJAAgAEkBqQCCAB0AswBEAEkBsQCFAIUAJwDzAEQARADzAIcAOgAqASoBQABpAdUA0QBFAA0AhwCvAF8AYQCLAIYBVwEiAWAB6ACrAGYBIwBuAQUAhwCOAPwAZAE1AA0AaQGrAJABLABYAIcB7wDzAF4AlQAwAGIBhAE6AIIBUwCEAUABjACCAFYAZgAiAYMAYQF8ARIA3gCDAW0BiQAHAUABRgFpAYcAUQF/ADwBZgElAIQBdgBkAcMASACJAFoBRgFIAcAA8wBaATYB+wCrAIQBNwBNAFUBIAGnACkBfQBYAWkBDAB/AWoAPAFWAL0AvQAlAIIAQgECACUADQANAMoAZwBLAJUAUQFvATUAZAGHATMAOgAmAYUBhAFvAXkAWACjAGYBIwBIAW8BbgBSAX0AmwCDAGoBaQG1ABwBjgAlAFYBagBpAVIBggAsAAcAqQCzAB4AKQHoAEIAOAAQADwBfwEPACYBMwC5AGkBkAEnAH8BfQE0AR0BCAFDALUAtQDNAAIBagFrAX4AWwCvALQAAAGzAKcAWAFWADoAagF0AAEABwBYAWoAbADiAG8BUQFpAW0B8wCpAKsAKgE6ALEAQgCxAKQAEACCACUAZgFhAYcAgwHFAKsAgQCkAIIAQgBhAWsBagEGAW0BPAFCALkAtwC3ABMAEwBsAAUAUwA/AFMABgAGABAAggB3AXcBwQA9AOsAhwB+AGwAMACyAGAAzQCCAIYA8gBgAAEATgBzAHEADQBPAScA/gBWAQEAWgFzAH4AcwB4ATUAcwBaAWgB+QBzAIYAAQBdAX4AqwD1AHQAhgDzAF4A7wCGAY8ABQE2AAgBfAFnAI8AjwCGAXwBZwCAAUkAygD8AGsBbwEKAEMAhQHxAHQAawF0AGkBEwBPAXQAAwB+AWUBhAB0AG8BoABUAF0APADtAFsABQEnATwAtgB+AcUAqwCIAGABhADtAGoAAgC2AGABhgE7AAIAZwCrAM8ARQBeAGABwADAAIQB/ABwAUIBWQFMAFwBVgHtAFgATADKAMsAJwEoAXIBxwDtAFUAyAA6AMMAwQCSAFgBmgAoAWsBgwFnASYBgQA4AIIBnwCMACYBaQEnAcMAzQCHAYIBggHHACgBcAFEANoAjwGPASEAfAFhARIA7gC0ADcBRgHGAEQAQADVAMsAYQElAJ8AjQDOAIIBQwFmAWUBzQCFAc0AgQGDAcMAOQEAAXEAfQBAACQANwCNAE4AxwBYAVYBoQCkAIQAIgFCAW0ATwGqACgBBAGrAGQBiQCDAasApAA3AY0ALwE3AUkADQDzAM8AgADaALYAaQGHABYAhgFvAYAAvQBXAV0BfwCAAHQBLgCEAMMASQB5AGEBQQGgAGAAFQHBAGABUwBUAcgAJwBsAMYAUwGaADsAIwCVADQBVwEEAc0AywC/AFcAeAF/AWkBQwCaAM0AMAExALUAJQC/APUAJABsAMUATwEwAfYAVgEAAfsAhwE/ACYBMAGvACIAhACSAGgBYgFGAVUBsQBsAIQAaAEBAH8AfgGEAGcAgAEGAVEBJwAcAeAAYwFnAYEAxQDHAPcAxwCpAJ8AjgBhAccAgQC2AMUAtABqAL8AVgEoAD0BkgCHAcEAiACIAG8BMQF4AY4AKAFpASYBhAF5ACYBawGMAIYBhgA3AEoAAQCGAHsBcQEFACgBRQD8AIIAjwFeAFUBgQGbAF8AVgFUAJ8AOwC9ACABOgCOAKsAWwDKAE4AewCTAIQB/ACSAIcA9wBOAGQB8wCBAWUBNwGKASIATABNAWUBiABYAFMAzQB8AYwAbwG5AEwBTAFAAH0BggFOAFsAzwCHAaMADgDkAPgA8gCyAO8AqAD5ABMA+QAmAXMBAQCrALQARgFtAasAnwAoAJgABwGHAZ8AbABOANQA/QC2AH8AAQBhAGoBXQFlAUcA8gBWAacAZQAxAVcBAAEDAVEBAAG8AZgAWgEIAR8ApgB4AG8BWgFXAcAAuQBtASIAIgBUAbMAawHAAAgBZQEgAaEAbwG9AXsAtgAjAIQA6AAzAY4BmADyAGUBjAGZACQA/ACQAQMBsQCPABMARQCAAEMAhAB0ALYAAQA3AQgBqgAKAGoBSwBVAfwAuABPAUIA1AAKAPwAIwAUAWUBRABFAIYBTAGHAGsBDgCVAA0AUQExAYIBSgBXATsAQQHUAPIAhABAADwBHQBCAfwATABYAGEBCAEAAb0AZQDbADUBTgAwALMAMgE9AQgAewDzAFEBGwGpADcAQgFXAVYBrQDtAFEBcgFLAIEBlQCjAIoBZwFtAIoBHwD8AAQA8gCzALYAkgAsACMAagGpAA8A/ADNAPwANQCQAQMBLwC4AIIAIgGnAAYBewE/AIQAVgGxAEUAPAF+AO0AggAAAUAAqwCEAIYAVgF/AQABTACEAG8BjAF0AJUAeAGpAIcAKABoAQgBOwBpAYUA8wDzAG8B9wBOAAEAlQCEAG8BFAHFAO8AMAATAGYByQAVAFgBnwCpAKkAhAGrAKsAVAAIAe8AawGrALQAtADNABMALgFqAIQAFQBlASgBKAGrAA8BJQFxATIB/AA6Ab0AWwFnAVgB/AD8AIQBDABLAIUBDgFpASgBbgGEAUMBWwBbAA0AkgGEATYBwwCWAQYBegCHASYBNwEwAB4AxgC6AG8BWQFVAUMB9QCHAWwAVwGEAYIAYACCAWAALwGIACYBXQChAEAAPACBAD4B/ABnAGoAlAGyALYAEgCIADwAhAG2AB8ADQAoAH8AbgFWAWoBjwGBAIIBWwBwAWABWAFmAYQBaQHDADIBQAAKAI4BggFrAYIAYAA9ATIBvQA6AVsAYQH8AG8BVgGCADIBIgE6AGwANwGrAOIAxgA8AKsACwFxAUEBdQGpABIBbwFvAasAWwECAXQASAFfATIBDgFIAY8BHQBeAIQBWAESANsABQEFAYUBVwBzAHIBlQDIAIQBiQANAIQBbwHGAJsABwDzANoAqwBuAZIB8wATALIAzQAkANsAAgFmAZYBhAFAACoBjACPAYEAggAkAEYBKAGBAIEAagGPAYQBhwAOAUkAaQGHAX8A4gBbAFYBYACmAFsAYwEvAboAoQBeAIkAQQEkAEgBJAEvAWQBuAC2AGcAlgEOAY0BCAAGAIIAhAGEAaEAqgDyAJUAEgAnAJQBbwE1AbsAWQFpAVYBDgCCAFsA8wDmAIcAhQGQAWABJAA8AFIBWAGPAW8BggBgAYIBhAE8AIMAggBgAGAAZwARATcBEQGCAJMAzwAiAcQAhAGCALYANQGCAGsBUgEFAR0BvgFpAX4AAQGCADcBWgH7AIYAjgFGAZYBtgA3AeIAHQF/AAsB5gBvAfcAggBKAVIBJACBAJ8AugAPAB0BCwGOAasANABiAU0BiwAEAVYBBAGZAG8BJgGJAGcBKwCNAUgBpwABAX0BZwEOAAkAZwESAE0BmwCGAAABQwBVAU0BZwGEASwAZwFDAYYALACKAFoBJACaADQAVAE6AJsAlQCOAYEANQFqAKAASACOAWMBVAFNAWQBbwGMAAQBZwFnAUMBIQBvAUIBQwCMAK8AVgFVAaAALAAhAJ4AngC0ACQANQCvAHcBNAAAAQQBSAB3AbQAAQGrACgAKAFbAP4AKAB4APwAcwAnAVcAKgHIAAYBfgGHAbIAtAASAIkAiQB/AQYAMgGPAHgARgEzAYkAQwBpASoBiQAGAYcA+ABKAKsAigEcAD8ANgBOAYkAkgCJAIcBhwGoAPIAbwElAF4AwACHAU8BSQCCAIYABQA2AYIAAgGAATgBZAGMAXABegByAFoBGwANAA0AhABpAUcAIgEnATgAQACHAdAAJQBnAKsAAQHKAAkAQwEyAVsAGgALAFMAOACPAUAAsgB4AeQAWwBmAFQAgwBeAFQAKAHBAPkAQQGEAAQBtADKAA4AuQBsAAYBJQBqAWcBWAENAAQBogA/AIYAiAAHATgBEwFTAJ8AhwFGAYIAOAByABoAhQGaAKQADQAhATsAgwEaAFsAcgFIAesAqwCmAIwAagCEAHEARgFXAYQBJAA2ASgBhwGWAVoBJAFFARoAZQFgAJ0AXgAnAJ8AXwByAekA/gBaAYQA+gCkAJEB7AANAA0AYQA7AWkAbwGEAIABZwAlAIMBiQAgAYYBtgATAIIAsQA2AY8AWwB8AWcAmQD+AAcBjwAtAGoAcAEaAJIB+QB4AQEBTAG5ADoAWgEXAYQAYQEOADgBWQFYAfgAggFdAXoAKAGHAXEBLgC6AFUBRwBaAYIAhwB+AF0BwwBUACsAigH0AFgAhwF4AAEBeQAFAcgA/gBnAKAAaQG1AHIBdAA9AXEBJwBgAFYAFwGDAWYA3gD+AFoBNABlAO4ASQCrAA0AjgEoACEBJQCHAf8AtAClAIQAFACrAH8ADQBAADEAZQHyAHUBigHzAPUASABvAckASQF4ASEBbgBpAXoAHwCaADMA+AB3AYIAbAA1AbUAGgC2ANsAOQE0AEMAOQGoAEoAhwFaARMAxgAhATsArwA6AEIAWwCEAMoAoAA5AIYAPwB+ADgBpwB1AVoBtgAoAXUB/ADsAPwA7ABeAIwAtgC2AGUBEwA7ABkBiAFmAP4ArQATAIYBpAAoAaUAoABvAXEBcwCCATsBQQHeACcAggBpAfwAQAGKAYYBVAA0AYYB/gCOAUABtgC2AIQATAFrAW8BpAC0AAEBrQClAP4AcQGFAQYBrQAOAEoAkwGrACEBuQBrAXEBjgFvAcYAQABUACYBgQEmAecAdACpAFgBjwHaADYAfwH+AH0BDQAHAFUBIAGTABIBVwANADUAagGBAcYAOgF6AAUAqwBeAIwA+QBvATMA2wCGASUANQFDAasAVgE1AXgARgGPARoAcQGGAbEAiwEGAKcAVwBSAAYBdACuAFgBWwCuABcAiQCrAHEBtgCMAPwANQAGAH8BsQCQAYkAbgB7ACYBJgE9AQ4AEgHHAHkAYAGQAXoAhAB1ATAAqwBbAVsA5gAKAGcAXwFgAD0BBQGDABkAiwE9AcYAGgFXAHcBkwCFAM0AGgEaAeYAVgGuAIUAnQATAH0AKgGQAVgB5gBJAd4AqwCWAUAA3gBDAaUAxgAyAYsAVgFlAIMBiwBlAIIAHQCGAWMBcQF4AG8BdABPAQ4BUgFSAQUB0ACPAUcB4QBaAIIAKgEuAPMAggEgAXgAhAGCAFcAcgEOAToAiAA1AVUAOQE1AIsAfAFvAIgAWwCEAfwAjwEnAHgAfAGpAFYBWwBbASYBEwCHAQYBsgCHASQBXgBmAVsATAFCATkAKAAoAYUBWAGSAYoABwAGAc0AKgGUAZ8AiQAOAXIAWwGHAIcBJwBoAAYAjgCfAHoAMABkAGQAPgGHAJsAhgAHAV0AuQBhARIAWAFbAGIARgERAUMBagGpAFsBjQBgAV0ARABGATIBhQBZAX8AjgCEAYQAjQAlAFIBggG6ACQABQEqAQgARgFaAX0AAgFkAGABQQFfAVsBeABWAVsARQE3AUsAoQBbAIkAegCEAWUBigBYAIIAYAEOAZABIwBNAKsAugCJACcABwEkAfwA/ACNAYIATwH+AFgBKQFRAQMBPgFPAV8AUAEMAIwBFgBuADUAuACzAPwAfgENAC8AsgDHAPwAggBCAZABbQCRAVYBjwFdAa4AiABWABUBygBvAZABVAC6AGABawEjAY8BYAFZAYQAlQBYARQBxwCCAEoAhQFAAMoAyABwAVsBCQAyAQUBDgB9AGQAkAHHAFEBWwBRAUcBZgDIAFsBrQCQAQ4AcgFqAUEBaACEAXIBJAAfADkAWwFwAZABYAEnAVEBZAC/AWsBiABpAYwB2gAIAGcA7QCGAYQAMAAHAS4BcgFXATUAVgERAT4BWwByAYIBYAATAXoAdAFAAVgBNQGCAZABPgF+ABYADQBYADMAqwA5AWUBVgGQAakAigH+AL8AhAG6AM0A9QCtAMYAYQGQAYIAIgE3AVQAugAMAGkBHAHOAGcB/wAnAVgBggCQAV8BCgFhATcBAAF7AZYBhAEiARoBsQCMAFQArwAvAJUBhAAMAR8AFQFfAX8AewCTAVYB/wBSATgAJwF/AFYBHQGEAIUAfQAAATEAWwGGAA0AOgBpAeIANwFpASABYAGCABEA/gClAPsAYwGTAY8B8gBnAc0AqQBbAZMBnwBuAWABqQBYAR8AhgC2AB8AawEWAAsBWAGUAZMBuQCrADwApQCpAK0AMgGLAG8BeACGAVgBdABxAYIATwGfAIIADgFRAXIBeAAuAPMAIAFfANAADgGQAbgAVwCEAVIBVQCHAYIB4QAqAVgBXgBbAVsArQCSASYBVgGEAYUBhgEHAFsAKAAkAWkBiQA5AAgAEQGHAJsADAFEAHIAfwBiAGEBhQC5AI4AhgBGAWQAWgGNAF8BVgE3AT4BggBBAYIAYAGyAGsBYAH8AFYALwAjAW0AJwFRAccAKQEMACcAPgGzAAcBkAF+AU8BugCMAY8BlQBZAYQAxwClAEEByACCAFIBfwAyAU0ASgAOAFgBZgCMAX0AQAC6AA4AygBwAYgAWwATAYIBWAAsAWAAHwCrAGkBhAARAPUAvwCpAGsBOQHMABwBWwGvACIBewGFAP4AAAF9AIYAkwFaAFsBXwBaAAgBWgAIARMA+ABZAYABXwBrAWsBAwFXAWoAlQE8ASQA/ABTAWsBqQA8AbYAagBQAVABUAFQAXEAUAG5AFsAJgFTAGcAhwGMAMEAZwDKAF8ABQBoAEEBjQBbACYBZQGAAZQBaACOAW8BhAECAFMApQAqATIB8wC9ALMABQBTAKsAIQBRAQ0AggB7ASYAswCCAI0AxgCAAbkA8wCCAIIAtwBmAcYA/wA4AMMAZgGyAG4BVwAFAGAAZgFnAP8AdgHDALIAaQGHAUAAXwH/AGkBWAERAQkBCQH/AH0AOQFYAWkBbgH/AP4AbwFkAIcAPQFwAVYBVAAiAVcAIgGtAKkAZADjAP8AHwBvAXgAaQEmAFMBVwB4ACUAJQA1AFsAVwELAGkBowBpAfMAsgCzAIQBBgFWAVsBWQFWAVYBlQAAAX8AfwBaASABeACFAH0BNQBWADwAIAElAIcBhABhASUA9ACQAU8BfwB5AHQAdABxAAQA9QBpAa0AeQAEALEA8QAAAQQAVABpAX8AYQE8AGcBpwCnAJQAwQCBAfwAZgBmAGYARABEAFIAKwEUAVIA0QCKAakARQGPAWQAIQBzAHIB6wDzACUAMgEGAYMAjACBACgApwC4AIIAPQHqALUA4wCFAO4AfAG1AIIApwCBAG4BzQB8AFIAaQFFAGgBOAAzAQIBcgElADoAOgB4AGQAhAHtAN4AOgCCASIAsgCDAW4BTQGvALQAhAHgAEMBUgBkAUQBbgBgAa0AcwAnAbAA9wCJAIwADQBAAG4AUgFgAfgAMQBFANoARQGMADEAoACtAKAAMQCtAFMBoACtAK0AMQAEACcBMwFFAaAA3gCEAToA4AABAdoARQFFAbQAbwFvAYABMgE1AWkBNQEyAYABgAESAWkBqQCCAAUBlwAZAGEAEwB9AH4AJQAOAVoBEwGGAXABSQBfABEBXgAeAFQBIABnAIQBcQBbAFYABwDwAO4AhABVAI0BbgHQAAMAlwAKAWUAbwFSAWcB/ADzAP4AVgFWAVYAlwCJADsBJgGFAX8BWwEmAVEBhgFEADoAVgAFABMABgFCAQoAaAA7AVYAVgCEAdoA+ACPAVsA7gCCAVgBlgHwAIMAJwGEAQkAzwAGAXoA/QAlAGoBYAFmAbQARwCQALYAiQDkAGUB7gCcAGkBawBdAGEARwAlAIYAXgFeAVIAAgB3APQA2ACPAWwAgwFDAYQBNQDDAFsBNQBbAb4AvgCCAFsB3wCdABgBdgH8ANQAxgDiALcATwETAFIBTwFfAYYAiQASAXcANwCwACIBRQHDAC4AJgGDAD0AlAEzAF8BXAFMAe8AJADWAPsASABMAd0A1ADzAGcAuQCrAK0AfwE1AIcArgAvAfMADwC4APQAbgCNAC0AOgBCAdYAiQDRAKMAaAFlAQ4BJgGMAVsAWwCMAFYA/wBPAUcA8wBuAJABRQBUAcMAFAGKASUAMgC5AOoAQAACAF0B1AAqAS0B0gByAYUBEgFOABkBSAFnAYQAUQGGAG8BgwBKAA0AIABbAFgB2gDHAE0BQAFKAQgA/gC6AE0BKQE9ATUBjAFhAGkBEwCvAIIA8wBbAWAAugARAOoAIAC2AG4A7gAqAA8AhQBbAD0BzQBWAYoBugCGAGsBugCEAWIBNgCxAEYB8gDaACoArwA1AKAAWgFAAVQAhAGGACIBVQE1ABYBWQE3AVcAawEiAYgBOgCdAOIASwGtAA0AbQGOACgAaQGNAKMArQAcAUsBZwD8ADUAEQBjAdQAVAF2AVgBDwBdAZ4AowBlAbYAgQBzAbkABgF2AbcA2gBzASMA/gBUAWsAdgGxAGsAjwGGAN4AJwCCAGAAJwDHAN4AhAGEAWEAhABEAIQBXwE7AYIBiwBYAW8BHQBnAW8BJgBWAVYBiwBvAW8BXQGMAIsAXAElASUBJQGLACgBPAEqASgBQgE8AfsA+wBqAHsAQgErADABVwFVAYYBPAArACIBaQFUAOsAOwFUAAcAKwByAFUABwANALYAhQGEABgAsgCHAXgBTQATAFgBYQArAFcBtgAEAe4AVgGcAFsAdwFYAKsAJAFvAaYARQFvAVEBEwDFANsAjAB+ACkBlQAOAM8ARAA8AAgAHQBpATQBGAAZALUAOQBiAWcBJgA/ADsA/wC2AGkBggCEAIEAxQD8ALYAtgAfAC4BYwCuAIQAhAAdAWUBWwD4AGUBZQEZAAQAaQGoAEUAhgABANEAQwEFAYcA8gBPAWkBHgDHAMYAXgD+AG8BbwEkAV4BSQB6APwAwACPAX8ANwGEAVkB8wBbAEsBUQFVAYQB/AAiAVIB/gAOAVsAmgCHALYAYAGCAAIB/ABwAVcABQAVAVwBggB7ALgAVQBVAY4AZgCEAXIBAgEEACgAwQBkAVYADwFyADEAHwBuAQ4AaQEBAVEBqwDzAE4AWAEgABgAhwE1AUAAcAEKAbIAOwFDAUAAyAADAasAbQGVAM8ACgAJAGYAygBpAWkBjAD2ABcBmwCHAdoA6wASACIBXwFnAVgBCwB4AGsBfAFHAIwARADeAF4AegD4AMMAWwAnAWcADQBRAVsAjgHBAFQAAQHBAMEABQCPAc0AjwGEASUAggCJALQAMQDdAHABYgFrAQQBYQDLAKsAEQFqAWMA/gAeACMAbwFzAI8BsABVAYIAbAAwAIQAMAB5AGsAwAAdAIYAhgBbAG8BhwGPAYUAfwBqAR0AUwARARMBJgDAAEYBhQH+AIcBYwF9AFsABwFdADgAiQBdASsAGQCJAFIAAgAAASUADgGEAGkBfgD4AKsAiACnACoBiwE4AIMADAENABoAAAF/APwAOwCPAREBgABrAbkAawH+AIgAOAFqAb4AeACGAWcBSQBRAasASABbAA4BagF0AA0AFAByAUAASAE3ATcBJAAjAFUBEABWAWQAqwD7AIcBzQCrAIsBlgFMAQUBIAE5ASMA8gCMAMMAxQBdAYkAIgAmAY8AZQFFAW4BNwBPAXEAbgE3AIMAUAFuAeEAJAFYAaYA9QBOAM0AUgGHANIAzwCSAKQArQAoAVQBSAFYAYEAbgFrAWsBwAEuAMAAwAAwAE8BiQBAAAYBRwCEAJEBZwCjALYAjABRAY8A3gChAHQA+wCPAWAAbgBbALgAIAAnADMBLQB+AcQAFgAFAKsASAETAHEACQACAY0AVgECAUAAhwD7ADsAiAAAATsBZAB7AGcAsgBWAAIBAgBQAQwAhgFlAZIBhACxADwBKgFCATwAegD8AHQANQA+AS4ADQAgAH0AVgCkAPwAxQD4AFEBOgAgAX0AZQFpAUMB/ABPARoA0QCCAUwBiwBEAbkADQBpAe0AEwDvAEUAawFrAWsBWgEYAQUBlQBZAU8BbwFvAVsArQBhAWEB0gAaAFQBLgAkAW8BDgDBAAIATgC5AGsBogCiAIUAxwCWAZYBkgEJABIBVgFoAQIABgGEAFsAugCJAPEAWAB4AHgAeQBdAUgBhwGPAVkBJgFhAP0AAwHGAH4AJgH7AF0ARwCGAf4AUQETAFEB6wCCAHoAdgGDAEoAZwGPADEABwFRAYIBoABFAYAAVgEoAfwApQCQAWcBcAHDAHIBKgFAAIoBagAKAWIBHwCRAKAAewCFALUAUQHsAG0BNAFqASgBLgAoAXIBggGmABMBxQCrAAgBNgFwAasAjABWAQgAKABgAUgBswCBAEIA/gCSAfkANwBwASgAbwGdAO0A+wD7ANAAMQFWAVcAcgGDAYQAggAXARgAUADGAHMAOAGCAcYANAFgAbMAVgFnAKYAEQFTAV0ANwAoAT0BuQATATkBYQEKAGcBbAANAJABbQCWAUMBGgDwAKUAOgCCAKsAJgGmAG8BsgBrAc0AQwBDAcEARgGHAfIAAgCtADEAVgH4AGABiAAuAIcAUQFKARkAbwFpAY8BrwANALYAYAEUAH8BqQD/AL8AZQGyAIIA9QBtAHEAQAA1AbYAJQEjAUAAyQCAAL8AEwBAADcAgQEmAWEBUQF6AAQAxgC1ADMAhQEWAPkAhQDGADEA3QB/AI0AagGEANsAKgFqAW4AIwB6ACABmgD+AL0AdgF4Af8ASACtALEAmgABAA0AqwBRAYIA/gAnAVQAxQDqAB8AQgBjAYYAFQEVAakAbwEAAYcBewCEAL4AcgEJAG4BBgG2AAwBfwBOAEEBVgCOAJQBUwATAVcAoAAwARUBZAFgAVsAjgA7AFUBRwAyAVoBVgEYAVIBJAH8AIQAcgE4AbIAbwFXAVMBggB4ADIB4gCpAGEBcgFvAVYBcwAJAHMAAQBRAX8AfwCCADAAWQFPAckAaQGqAIUAFwAmAf8ArQCVAHABOABBAT0BYgENAH4BOAFYAVQARQBbAWcAWwEqAYQAlAB4ABgBXAFjAWcBBgA0ASoBYwFLAPcAcAHgAIYBVAETAfUAOwGCAHcBIwCCAVIA2gBrAWAAMQBaAfwAUwCEAG8BoACHAA4AQwDGAKUAiAAYAMgABAH8AFgBrwDqAFgBNQG6AGkBYAFbAasAaQGjAKkAhgBAAIQBCgBAAWcBzQB9AA8AVAA0ATwBSgEEAQABUQGzAH8A6gBgAHIBCQCrACoBKAABALEAdwFhAQIBpACBAEwBVQEVARUB/AB3ALYANQFKAcAAcgH3AG8BYwGCAIoAYQHNAAUBNQGKAPIA3gATAAsBaQFYAW8BjACtAK0AagH/AGsBtABHAXsAcQGyAAYBZwFUAMYApQBsAKUAggA7AL8AqQCpAH8AWACEAVEBoAB+AXwAqwCCAMYAqQB8ALkAggCgALYAhADBAUABqQAHAVoBaQG3AMQAEAB6AHoAtgDoALoAMgFaAf4AKAB6AGABNwBbAGABYAG2AHoAbwFzAIYAjABuAAkAZQF+AX4BoAARAFYBKgEmAAUBQwCCAAUBRQAoAVcBjgCBASUBbwFeAI8BeAB/AMUAYQA3AVcBHgAoAWkBvQBZAVUATgAFACUA/gBSAVIBFQEIAPMAcQFxAY8A/ABGAWoB/AAXAHABjgB/AAIB/ACFAWQBcwDPAFABVwBXAHIAZQB3AVsACgGHAFsAJQBIAAkAWAHaADkABQFuAXwB+AAlAG4BlQBxAIwAqwBbAAoBfAFmAPMAEwBYAYcBQwAQABIAZwB+AQYBJQFEAbIAZwA6AEsBawGrACQABgHOAGEAMAB/AH8AwABbAGYBTQGwAIcBaQFYAaIAhgCrAGkB+ACHAG8AJQFpAVABzQAEAQEBbAAEAYQBvwCnAIEBgwDUADIB/ABdAYcABQEkAW0BgwBKASIACgBOAHEAKgFhAVgAJgEmAVsAWAGBAVUBWwCrAKYADQAoAHABbgGHADoAZQFFAUIASgF/AFQBhAGFAVYAjADGAPwA/ABvAY8AowDFAP8AMgFWAbgAqwBEAEMBPgGhAHEAcQBvAQgAVgDzAFEBTABpAXABOQEHAf4AFQHaAAMBUQGuAG4ATwFHAE4ABwBAAFABFwBmAWsBbgAfAEUAowCVAIIAWwFFAcEAYAHHAG8BhwAoAWEBfgBlAQ4AEgFRAVsAcAHDAFEBWwATAVsBbgFuAcEAVwFrASgBJgA9AYcBkAFAAFsAcAGgAMUAowA5AHoABQFEAKsAVAFyAQYB0gC1AC4AEQFrAYUABwCmAO4AMgFWATAAVgFwAVMBrQA0AQcAEQERAYIAVQFfAXEAAgFpAQ0AewA9AWkBSQDRAHQAegBsAL0AywBpAVIBawFAAYUBGAAcAfwAvwA8ACMBKAEZACUAQAAEALYAUQGEAT0BIwD1AAYB8wBvAYQAuQC1AAIBhQFqAYUALAFSAVoBTwGBAYEBvQC9AG4AswDBAFYBMQCrAL8AWgEfAH8BwABZAc0AlAEyAQUBPwGEAfIA8gCGAAYBEACvAO0AbABWAYIAigF+AAsApwCOAI4AfwBqAR8AhgAiAdQAWgFVASYAYwEyASgAJAA7AKsAWwEiAWkBiQA4AB8A/AAwAFkBJQG5AAIBawEeAKsAeQFhAa0AhwF4AVsBwABbAfwAEQGEAMUAcwATAYEAjgGHAPcAdADJAFQAqQCHAKMAygCrAC4AqwAFAd4AtgBJAFoBhwG0AKsAtABYAGgB8wDTAGcAjQBrASoBVgEXAAYBBwFJABcAvwAGAYcAhwGOAWIBfgDnAPAA5wBcAYUBvgBSAJUAyQBWAV0BZQGSAHABBgGyAGEBKgFYAUYBWQGHAFgBZAF6AFEBPAAmAFEBPACNAXcABgFpAWkBFABeAG8BDwAdAGkBIgEjAFsAbQBXACwBhwDQAIUBOgAQAYUBhQGHAIQBWwEKAYQBDgECAYgAjwBwAcMAHgAEAN0AfwAKAYMATAGyADkACQDvAGcBlgENACQBPAGMAHQAYgFfAYIBaQHrAFsAQABNAVsAbQCEAYQBCgHtAGkBwQBMAdAAZgBhAYEBBgEKAG8BVgHGABMAEwBbACUAJQCbAA4B8gCDAIQAEwCHAFIAYQATAYcBbABqARYAsACQAHIAiwE7AGABoQCXAN0AKgGDAKEAJACrAI0AJgH6AIcAaQFvAYIBswAFAQkBggBpARQAiwEvASABCQGrAK0ArQCbAIQACQAfAA0AoQA+AXABsgAlACAAPABNAA8ArgAjAfAA8ABWAHABuQBuAGUBSQBBAYQBjABpAfwAbgBoAJcA/ABBAUEBWwAmAFsBDgBEAKEASgBfAV8BdABwAQkACQBbAG8BSQFlAX8ACgAoALoA7wA6AHIBOgFmADgAfAARAXABEwHRAIoAOQEHAEoBJQAbAd0AawGHAP4AfACbAK0ApQCrAIEBKAG6AGkBRABbAVgBUQEPABkAggD/AB4BCQBZAQ0AWwCEAIoBhAA1AIIAOgBzAVQAEwBZAVwBEAAMAb8ApQAEAHgBbAAZADcB4gAfAK0ADQCIADsAKgE8AQ0ApQBbABMBhAHCASoBTQEoAQYAWwETACMApAC0AFYBWAGlAIEBOQCMAHUBKAGEAO0AaQGlAGQBVgFkAWcBWAACAVsAwwFbAAUAdACCAIIAhABqAA4AZQFsAI4A9ADBAMYAxgD2ACgBMgEfAIIBjgDGAEMBrQBnAYQBjwBWASIBUQFWAUIBbwGlAE4ASQACAe4AggDLAGsBZgAGAX4BiABqAD8AhAC5AAYBhABRAY4ABgG5AKUAJgFAAGoAhABqAGUBbADGACgBHwClAI4AggBWAUAAQgFvAWYAiAAGAYYABQGIADMAjgCEASEAggBnADoAjwFAACMBewAHAWEAKAGHAGwAZQAoAIcAgAAFAV0BNQHaAIIAjgCEAXwBDQBdAXoAIwFlAIQBYgEoAFYBaQGrAI4AVgFlAVYBZQFlAUUAWwAFAQUBhgB4AIIAVABjAUMAeAAeAD4BYAGHADoADgFjAWoBIgH8AEwBggBjAWoBTgBXAGQBZwEzASYBagFcAY4AWgHVACMAbgGEAV4BVQBcASEAJQFlARgBjQFgAWkBaQE1ASUAdAAmAXQAYAGCAYcBgwFmAI8BjwF+AWcAWwCEAEQAsgBAAGYBqwDUAO0AhgFeAGkBjABnAXwBTAFpAQYBgAH4AA0AXgEGAQUAOACSAT4BhwEwAIEBbQFgAWMBaQF+AHQAKAEdAFoBKAF2AB0AZgBsAAcBfwCHAHsAXQBZAVEBJgEnAEYBxgB+AcsAuQB/AGUBXgFoAFIAEgBDAGkBqQCHAZ8AnABVAW8BQAGCAIQBDgEzAKYATgCfAE8AKAFFAToACgAfAG4BmAAAAQIBKwECAG8BWgEkAIcAWAFVAVUBYAAzARQAfwCJADEBggFxAUkAewAgAC8BhwCVAAYBMQBaATcBUAFYAVYAJQA6AWkB2gBqAUMA8wCOAR8AIwCNAYIA/AA8AYwBUQGMAAMBRwCDAXgBkQH+AI4BrgCEACgAcwC4ACYBDwB7AA4AbwFEAGAB9AAoAWEBKAGAAHsATgCFAUAAWwFbAPsARQGEAPwAbwGPAYoBVgF/AGoBAgBYAdIAIwBYAIcBZgFlAX4AYQFhAOYAYAHOAGgBUQFdAUABhgEiAYQAEwCgAH4AgQBhAGsBxgBaAcYAVgH/ACMAYgFBATUBCAAlAP4AKAGFAHABWwF0AD4BZwFnAbYAbwEPADEAAwGrAM0AzQAjAYEBzACEAHgBhwCtALUAFwDqAG0AVgGOAQQABACIAIEBaQF6AIUAvwAhAHEAewAfAGABewEdAVYBfAFLAIMB1AClAE4AawGOAIIAlQGGABMAfwCKAVUBegF8ASgBAAE8AYQA+wAnAWEBdwE8ATsANwFYAYIAhgCJAH4B4gBpAQEAfgHzAH8AewBpAWkBIgELARIB/gBLADoBegCGAXMAAQBrAYQAbwGEAH8ASQCBAY0AdQGpACYBUQEfAKsAaQEOAIEBZQFOACcAUQEnAGcBHwALAWoBpQAjAFsB3gB9AHUBaQE7AH4BZQFJAGUBggBFAFsADgGCAIcAeAA+AQsBIgH8AEwBYwFpAWMBggAOAYUAfwDqAIwAZAHVAGABTgC4AF4BMwFYACUBVQCOAIMBZwB0APgAkgEoAV4BfAE1AYIBQACGATAABgGAAQ0AaQFpAZ8AqQAoAWgAKAGHAH8AJACHASYBewA6AGYABwFsAGMBaQGDAV0AWQEdAIAAYAGGAYcAVQFvAQABVQFgAG4BfwCfADEBMwFPAAMBhwGRAeYASQCOAVYAlQBRAW8BLwEmAUMBHwCuAI0BNwE8ASYBaQHOACMARAB+AIQAWwFiAWgBUQFOAG8BYQEfAI8BAgBlAUAAxgD0AGABzQA7ADUBWwFnAQgAKAH+AMYAiAC/AIEBhADMADwBegEAAaUA+wCOAGUB/gB+ASMAZwD+AHgAVwGCAHgAcQB4AFYBVgGBAK8AcQBJALQASACFAPwAJQCrAD8ATwENACoBWAFYAIQBhAFlAWUBKAEoAH8ASwFpAUsBaQGEAAUAeQBOACgAWQF9AIQAlwBdAIwAWwBWAREAcwBvAYcBgwBXAFYBegBSAX0AEQBAAJABVwBpAYQBCQAeAAIA8wDQAPMAZgDQAG4BQwDNADIBXwF9AJcAzQDNAM0AAgDBAKsA2gANAG8BgwBJAcEA8wBWAWkBjADNACgAPAF9AI4ACgCCAXIBWwAWAGUAOQBpAXIATwH3AIEAVAA8AWoAeAGEAVIAhwEoAQ0AjwFSAGwA9AAOAL4AOQAnAZ8AVgBEAWkBJQDBAHQADQC2ALEAfwBdAPQAjwGDAGABeQGGAF0AdgGEAGsBjwCCASUBEQARAAUBJQErAHYBhgGkAHUBMAAjACMBQgHwAGQAWAG+AIQANwFbADoAMQAxAIQBggB/AUkAiABeAS4AcgEJAHQBpABYABgAggAnAQEAigFbAGYAGQF4Aa8AaQEGACMATwGEAYwBDwByAXsBOgB1AWUB+wAiAU8BawGIAF4AWAF2AQ0ASQAqAWUBIwFhAbQAXgB2AQoAggFbAHABZQAWAHgBWAEGAH8BgQCEAVQAPAH3AA4AZgCHAWoAUgCEAAsAKAFEAWwAnwA5AMEAVgB0AGkBeQGEAYMAfwCPAbEAtgB2AY8BXQCIAAUBggGkACUBWwBJAIIAKgEjATAADQCGAWQA8AA6AKQAWACMAVsAigEZAXgBZQF1AXIBewEiAWsBXgAlAFYBJQHSAEYBVgEkAHQAJACBAVcBPQGRAZEBqwCLAFsAgAFeAPwAIgEEAWoBWAGPAY4AAgElADAAIwAjAEQAjAAhAEAAVgF+AY4AcQEGAYIABgEoAGgAYgGPAUMBTQCwAF4AOQEzAFYBgAE1AWoBjACEAAgBPQEvADUAtgAGATsABQGPAUEBBgElAH4AAAEAAYYAdwFxAVIAdQF1AZIB6wATAJwAlQBMAGwAWwAjAIQAVQCEAToBcQHvAPwAcQH/AEwBOwFpAYQAsgDDAAUARACbAEwBgwAwAO8A/QCHAYwAQgCEAVsA7QCMACIBEwDaAIwAuQBjAGkBggA5AFgBhgBNAIcBBwGcAIkBbAAEAaAAWQFEALYADACEAYMAQwEWAIQAOAAAAQ0AWAFNAIIAjACCACoBSAEvAIkA3gBaARQAYgE2AM8AKgGuAG0BhgAnAAABzgA6AYQAggBUAVEBLwCHAIIA3gCMAN4AuAC2AKoAfACMACUATwEHAUEBEwCSAQEBaQEzAJABFgCQAfIAhAGDAUIAhAFvAU0ATAArAG0BhQFAAIEBIwAqAIQAaAA9AYwAWwAzAEQA9AASAeYAQQEdAEoBhAA8ADcA/AA6Af8A2wBCAEEBggDeAO0AswB1AQ0AJgC2AK8AMwA9ATkANQFWAaAAggCEAf8AQADtAJABrQAMAHcB2wAQAEoBjAA/ABwAWAFUACgAhQFMABMAMwAzAI4AjgCxADoBAAEAAfsArwBMADQAagB3AToBDQANAIcBjAAoAAABTAAnAIIAVQFxAdsAsQCwAIQBqwCEAR8AKABKAFEBtACxAFgBUQGTAaUAWwELAVsB3gA6AQYBggA0AJMBVgGgAI4AsQAmAWUAOgBXAAYBQQFNAE0AZQCmAA4BuQABAIIAjAA9AZkApwBlAcMAkwAGAbUApwBNAIQBZQFBATwAawFvAYwAZAFsAI8AUQFxAVwBOQBhAVQADgEiAZ8AKgFLASMAOQBOANAA/ADBABQBnwD+AIoBeAB6AAYBnwBAALIAOQAEAIIBVACfAGYB8gAKAGcAZwDvAIcBEQFOAAUAhgGEAWcBlQBpAQMBKAH4AFIAZQCMAIYAawC2AJEABwGGAXQBhAElAa4AbwEkAW4BTwFqAYEBTwFbAAMBhgHaALIAgQFxAK4AjwF/AFABLwBuAJIAaQHyAP4AbQDbAPgAagAKALgA7ACuABQBEgGCAGYBWAErADIALgBhAG4BeAAqAVsAjwFbAFIBVAB+AW8BUgE+AWcAggFXAXABtgCGACEAigFRAYAAYgGBAYYAfgEUAKcAVwBUALEAYQAdAZIAfQBpAYIASwBSAG8BhAB4AKkA8ACrAKsAtgCxACIAZAFsAGEBOQAOAYoBTgC4ABQBeABnAJUAtgCGAYQBaQF6AIIBqwBnAQMBKAF0AYQBhgCGAQcBtgCGAIEBWwCuANsACgB/AG0AUAGuAC8AjwEyAFsAggBSASoB8ABwAVcB2wC2AIEBsQBcAWcAMAAwAPMAlAEOAKMAowAwAGIBBwAOAA4ADgBiAQ4ABwAwAA4ADgAjABMB4gDiAIIBLwAvAGkBDwEOADwAKAFvAa8AOAAfAF4A/gBvAW8B/ABjAWkBbgC+APwAcwFQAUgBjQFrATgAcgGIAHIAZAFUAFUBOABOAHAAgQE4AIgAcAFRAa0AJQAiACUAQwGEAWkBigCDACMAOQBSAEAA+QCHAUQAeAE+ASoBaQHEAYkAfwBHAG4BxgAMAIIA0QBpAYcAjAGwAGMBSgEzASgBPgHuAHkA2gBMAIoAYQFjARQAbgFaAQUBRwGHAQUBQABAAEgBiQBBAUgAaQGBAUYBawBVASgBJAA1AXcBCQFYAK0AOQF/AKsAZwCkAAsANwCHAQwAfQA5ALYAbgGGAYgAbwEvAKAAUQFBAWkBOABwAbkADQDmAG8BOwA3AUwANwFlASsAJQBBAW8BKAGCAW4BcgFOAA4AbgBOAFcBfgAFATwAOABRAdIAaQFmAGcBJwCzAGMBOgFAACUAcAE1AToB/gC9AGcBagB/AQQAKAEVACUANQF3AYEBTABAALUAJQA3ALEAlQEMAf4AYQFvAWkBTgCvAIwAKAENAGcBvgBbATcBfQB+AUABUgDIAA4ADgCjAKsAcAFnAbkAqwBpAUUBPwD8AG0BIgFxAG8BwAATAQQBVgGfAFsAkwARAFUAXQHQAFwBJgEIAHABNgCBAFsBCABVAYwAbgFxADsBBQENAPMAEgAkAQoATQFAAJEBaAGxAJ8AbACHASgBmwBvAV0AdABWAYQBggB9AHkAXQGGAFYBbADQAKYAgwCdAIMBpgByAWUBJABIACUAugBbAFUBWwBgAHMApgCDAGQAjwBrARMAVgEKAKsAcgEUAFoB/ADzAAMBbgCGATwBkQH4AKQA2gAjAG4BFABZAToAjABtAQABaQFIAGUBwwAXAQoATgAqAY0AbwFyAXkAoABZAVkBNAE9AcsAVgETASgAjwGRAWkBVQFZAXIBcwBtAQ0AwQAhAFsArwBqAYoBegAAAWUBfwG/AAABYAE/AA0AYwENAHsBUQGDAcEAIgGxAPkAOgDFAGgBGQCdAFgAxQCRAZ8ArQB1AR8AbgH8AGUBHwB1AbIAfQBWAVgAdQGrAG4BRQAFAY4B8ACGAWkBXgBvAYsAZQGUAcEAOgBgAUgAggFXAHABWwByATsBQgH9AEwBMwBxAGcANQFTACcAdAHLAKcALwAnAG4BRgGEAVgBhQAkAGoBSAGGAMMAmwA2AakA+wCUAXAAZQEhAdwAUQG2AKUAZQE+AfAAfgEuADwBlAGMATMAoQBBAVgBSQB6AGABXQE8AQUBLgByAfkAlQA0AcYABwEnADcAcgFtAQMAfAFwAD0BhQD1AB8AbwGrAHcBpwBpAYUAFACGAFYBPAH5AOIAaQGrAIwAZQFpAdwAEwFjAScAZQGyAMYAxgDcAFwBhgAoAcYAZQEOABYAKAFuASgBKAGrAIUBaAGuAKsAiACIAFwAaQGvADwAgAFFAPkABQF0AFsAggGEAQUAtwBbANEAQwAiAQABmgArAI8BVABvAXsAcQBfAPwAwAAQAUAAMgFWAWkBHgAoAUgBVgHnAP4ABQEQAfMAZAGIAAUAVQAjAF0BSABxAf4AWwAUANAAXAFOAI4ATABmAGoB/gAHABgBDgEhAOEAVwByAWkBAgHzAG4AeABqAY8AQwBpAYUBVgFdABABgQA7AZMAcAG2AE4AAgFNAI8B2gBIASgBygBnAJUAsgASADIBZwATAPMAbwEyAZYBFABuAUIAgwCCASgBKAFEAYwAkwEoAToBYQGAAQkAdAANACcBKAAoARMAhwElAHMB+QBGAf4AWwB9AcEA/gBbAKsAcQHzAGYBBwATAIcAZgAqAYMBzwBWAVYBQACDAM8APAEmAWkBMgGfAJAACgCEAEYBXQF4AIYAJQBSAGEAEgAoAcEAbwBqAY8AhgEmAFkBRgHNAKkAggBvAWABDgGVAYQBBAEiASUAWAFdAQcB8wBEAYcBeQDLAJwAQwBYAVgBXwGPAB0ApwCCAPMAEwHGAGkBagFrAAIARgBuAR0BlAD+ALcAMgEBAEMAcQAVASgBmAAFAVoBgQFfAXYBQQE3AFgBeACFAUcBugDDAKYATwFcAXIBCgBVATUBbwEfAEUBEwBxAIMAeACNAFgAHwBPAYQBMgGNAFUBVQFDAZ8AjgG7AF0BAgEmAXEAuwBoASgAewGMAFgBTgDAAPsAqwDtABUBJABgAKsAPwESAIcBggFIAbMAlAGMACAAcAGEAF8AQwA+ASMBuACVALIA8wC2AKsAAwHwAI0AygCUAfIAAgDzAFgBZAGMAakAAACZADoBoQBJANYALQCPAYMBCwDeADEALgA8AUUA/AD+AIwBggBvAYgAagDBACAAQgFWAa0AQwBnADcAKgGCAbYAxQC2AHsADwBcAKQAlwBVABQA0QBPAXUBegA9AFgB9ACBAK4AUwDEAJEAZgElAK0AbgBYAUkASAFRAZABWwASAYIATgCPACMAQQF8AXoAZgFKAFcBbwGYACcBfgBRAVsAgAEdAAEBKAF4AKAA5gDOAAABAAF5AEcBMQB9AGgBygCEAEoAhAAyAaAAegBhAYEBhwCCAQ4AhQGPAV8BaAHDAOwAAQCHAP4AwwA3ADgACABXAa0AOQGRALMAZwFoAeMAUwERAT0BOQH/AGEAMQEtABMA7QA4AA0AGwFfAI8BVQFrAX4AQwGzAJEAOAEgATQBTwFgAIIBggGmAGkBcAE9Ad4AVgGDAGEAvQCNADMBkgE5AVcBWABSAdAAtgA5AeoAkgFJAV8BagBhAa0AKQEEAL8AzQC5AA0AUQGzAEAAAAExAGkBtgAEAJgA/wA1APwAIwE9Ab8AbQEfAFgAiQAPACoBtQBfATEAtAB1AYQAGQCrAFcBVgGTAC4BDAB/Af4AgwG2AHsAggD7AH8A/wD5ALEAHQFfARoBJABsADIBswDUAH4A9gA3AVQAAAEHAVYBPQFZAY4AhgCVAa8A/ACnAEsAXAF1AYIAhACFAT8AZAFrAUsAjgDjAHUB+wBEAVQAJABFACIBkQCEAFYANwG2AI0AfwBvAa0AjgEAAYQAjgGpAA0ARAF9AGgBTQBuADsAjABXADgACgBpAQEAkAFjAUMAhwF3AIwBggDeAHQAgQADAREAawFsAOAAYAGEAIQA/gAdAIQByQCrAKkAggCTAZ8AIwHyAKMASQAxAS8AugAPAAkAtgBYAZ4AtABOALYAXAGEAKUAEwCEAHEBHwBZAYQAVgFqABgA3gCpADQABgHtALkAkwG3AHcB3gCOAD0BhwGlAIgAXABpAYIBRQCAAfkArwBIAf4AKwAiARgBVABDAMQA5wBmAR4AXQFdABQAOwGMAEwAIQCFAdAACgBfAAcA/gBnAQIBjwBVAWYAkwBVAIEARwHhAAUAbwH+AIMB/gBnABMAlQD5ABQAEwBxAZMBzwA8AYMAQgBuAUQBEwCyADEB/gDBAAkAKAFhAToBDQDaAPMATQBdAZQApwBSAMAAZAFuASQAgwBoAdQAhAE7AEYBugBDAGoBkQB8AYcBWAFFAUYAWAF7AAcBIAFvAGcBYQDLAIMBHQGGAGkBHwAmAD0BAgBqARMBhwGnAPsAVQGkAD8BrQCYAFoBOQGrAHsBKABuAGAATgBfATcAuwBYAFwBswCRAIQAFQFBAaYAAgGMAAAA/wCBAeYANwDBAAsA/AA9AJUAoQAgAFYBZwC5AC0AjAGIAIQBWAGNAIEA8AA8AUUAhACMAMUAjwEBAWsBkQD/ADIBTgAdAAABhQFKADQBfgB9AAEASQDDALUAjwFWAMMAzQCCARMAYQDeAD0BjQDeANAAswBzAAgAaQGDABEAEQEPAD0BvwC5AAwAbQGJAEAAkgFhAbMAPAGOAK8A+wC2AEwApQD7ADQA/wA/AIEAqQB9AI4BrQBpAR0ADwCjAB8AWQEgACAAiwAEAEQAhwCvAMYAIADEAL0ALQEiAYEAxABlAQ0AcQANACIBkQCTAAwAeAAWARoBWAFYAYQAygBXAS8BSAB8AdQAfgHyAFcBsgAOAA0AFgF0AGoAYQB0AFMAKAB4AGwAygAdAaEApgC6AEUBIAGMAHEBcQEfAAYBsQAgACABoQBlAVIBZQFOAIAAbwFSAXgACQB4AAYBZwFSAQcAAgBRAWoBogAIAaUASQAHAcUBQgHeADoBkQB0AAgBLABqAEgA/ACgAD0BagD1AJIAVgF/AB8A8wA7AH0AOgFSAToBxAAtASIBZQFxAA0AUgEsABYBUQFYAXgAhADKAJMAxAB8AdQAbABSAToBygC6AJEAUwBhAHQAoQCLAHEBpgBJAG8BZQEgAFYBUgGAAGUBTgAfAKUABgF/AKIACAF0AEIBOgEIAZIAfQBbAFsAqABLAFwB/gBVAWkBTAFqAWYBSABOACcBBwDwAJgAcgEUAYQB8wCJAFUAZgFqAYIBhwAkAE4ABgFAAJIBlgFlAbEAAABMAUwBCgASAFsAggC2ALQAIwBdAU0AtQDNAIUAKgFNAFgBUgBsAG8BXQAiAY8AAAFdAS4AVQENAFcBIgEnAYQB+wBIAHABggEoAFgBPADeAHIBWAHwAFYAkQH8AEsAuABqAYwALQAjAPMAsgA+AVgBtgAnAVgBagGHAWYBDwFXASYAZQFqAW8BQABvAbQAUQFRAd4ASwA3AQIAfgCHADcBagFdAGUBfwBhAHIBVQFRAQEAVgE9AYIAfwE8AAQAVgFqARgBDAGxAEoBPwDzADcBNwFvAVgBVwDaAFIAggA8AFYBagGEAX8AtABWAasAqwCrAIwBdACEATgBjwDSAGkBCAFlAQIBhABeAWQBggBnAH0AhAFmAI8AMABtAYwAKAB6AHMBuQBvAScAQwA3AXEAgQAuAWoAKABzAW0BggBsACcAswCrANIAbwFzAScAggBvAW8BYgHQAFoAHQHPAFIBVwDuAHIBqwAlAGYBsgCpAAIACQBVAUIAOwB6AFUBQwBgAYIAzwAjAFoBfAFFAYIB8ADDALIA/ACGAYEAIAFWAHgAfgFqAdoAKgFLAbEAsgBHAGsBVQGyAC4BsgBXAXgAagG+AL4AcgGzAMUAEQBVAVEBogBqAVYBaQEBADoAQAFYAW8BtgC0ADkAggDuAGYBBQDzAFEBWABWAYIAvgDFAMUAqQCrAIEAAQBWADkAtACyAAEAWACrAAkAdAB0AHQAEgADAQMBrgBCAYMBiQAkAAMBiQCJAEIAiQBCAVYAVgCUAMYAxwDHAO8AaAHHAH8AaAFhAEUAHQD+AA4BQABJAFUBDgECAYgAYgHhAAUAagEYAdAAzQCSATgABwBbAWcBPgEKAIcAeADvAGYBEgBqAWEAPgGHAFsBAgACAHYAZQD9ADgAAAFFAb8ADgA3AUMBAAGNAJkADAA6ASMB8wCiAIwAowBbARIBCABRAAUBBQF0AAABzgCMAIQADgBAAIQAUgE+AWYAOgEKAFsB7QBhAA0AogA9AbUAbAAAAWIBggCEAIUAHwA4AIEAWAH+AEkATQGEAKUAUQEOAVsAwwAHAWEAUQEAAXEAIACiABIBcgElAVEBYQAGAD4BZgByAWAADQBRATcBSQBNAUkAUQEOAVsAcQBRAXIBPgGLAIsAWAFbAVgBggBqAXMBcgEkAagA8gB+AGsBcgHyAAIAagFZAXoAaAFFAAMBBQFZATABcQBgAWkBYAFOADMBoAD8AHIAbwFPAQcATABAADoA7QD5ALIAIgCJAKkAdAAAAU4ATgBRAYcAogAmAWkBaQGVAEsAbwH4AKkAWwCDAEcBfwCgAIMAuQBFASQAawGPAHoAcQCJAEoBSgERAKQASgGPAY8BLQBFAKQAPAFxAP4AlQA1AIoAAgFpARkBQQFOAE4AZQFSAZIAbQGKAWUBWAFcAWkBcAEbAUIAQgCFAKAAqQCnAPUATgG/ADMAZwFzAAABZwBjAWUBfwAfABMBxQARAFgB9wC2AKUA3gAHAWgBRQADAXEAWQEwAWABYAFPAWcATAD8AAcAMwFyAG8BtgCyAPkAiQCHAIMARQF0AGsBigCVAGkB9wB/AEoBcQBrAWsBlQBBAW0BTgCKAWUBTgDeAL8AQgAbAXMAqQAfABMB9wAHAVgADwBoAFsAVwF+AQ8AGAEFADsBsABoAGEBWgGMAA8AMgFRAWYBZwE0AZEAHAFUALMAVgGzAPUA9QCzAA8ADwAPAK8ADwAdAVgAXwFYAGYBfgEPABgBjAAyATQBZwGzAPUADwAPAFYAVABWAFYAKAEoARcAggBFADIBTAF+ATgBWQFLAQ4BbwFmASUAagFUAFQAOAFqAYcBaQGWAQ0AhwA+AQkAMABEATIBCQAoAU0AcAAOAUIBhgB0ABIAZwFGATAAWQFmAY0AUgBlAagAVgEXABMA1gBOABQAjwBIADUBbwEoAWcBgABuACgBhAAvABIAWAEUAGgBOgBWAH8BUQFqAE4A5QByAXoAfgBEAX8AhAB5AAEAXQFXAFEBZwAdADMBPQETAGAAVgGgALMANAE+AWgBUgHNAD0BvwANAG8BXwGIABoBoACKASIBVgE6AGkBggAMASQAbQE+AVEBWQF+AVcAcADFAGUBzQAfAFkBuQB1AdMAKAFFAIIATAE9AUsBVgEOAW8BJQBUAGoBhAAoAQkAMgFNAGkBUgAMAVkBdABhAIYAVgESABMASABOAG8B1gCPAG4AgABYAWoAHQCgAGcANAEfAGgBzQATALMAXwGIAL8AGgGKAdMAKQGgAG4AWQFXABMA2gANABMASAFxAFYAhAACAAEAWwBYAXIBXAFXAPcAXAG9AG8BWABxAEAATAFMASUAYwGHAYQB8ABcARABGAFyAVIBhAE6ALYAbgETAAkAnQBMAWkBBgFSAQYBigD5AIABcAHyAIYBjACHAeQAjADzAHYBgwCyAIIBOwFbAGYBKAENAEwBTAEyAbMAvQD0AD4BhAERAUABRwBjAQcBJgGKAFIAcAATAIcBagG5AIYBOgBwALMAjAAzAQIBwACuAHEASAFhAUoBjwBOACQAXQEyAbYAjAGGASUB9AChAD4BpACQAZUA/AD8AGUBVgAcAWUBYQBnAVUB9AAxAPQA/gBWAH4A/gCBAG8BQQEHAVcBkAGgABIBMgFoAEwBbAA0Af4AJACEAbMA8gBAAVYBGQBJAGUBcAGRARwBIgH8AIQBLgG2AFYBuQB/Ac0ABAAXAPUAMQAGAQ0AhAFvAWABewATADUBWgGxAH4BTACzAEwBHABCAIYARAFlAbkAfgGJAGkBaAFMAfcAhgFlAbQAugBAAVkBggAuAYwAVgF9AKsADwC9AG8BTAFjASUABgEQARMAugB2ASgBMgFbAIwAkQGHAUwB5ACDAGkBOQBaAb0AagGGAHsAuQBwAPQADwCrACQAZQFdAQIBjwD8APwAlQCMAZABNQEXAPQAhAGgABwBVQEEALMA/gAiAfUAuQAxAB8AhgGCAC4BWQFnAFEBUQFRAW8BXgBpAQMARwGHAAkACgAwAEEBQACbAHAAWgF5AJwAYQBKAWQA9AANAJUA/QBvATcBtQATAFoBCAATADAAngARAM0ArwC1AFoBSQB2ATcBQQERAJ4AtgBgAGAAAAGUAAABpwAcAQ8AoQChAEAAVQBfAQoBwQA6AKEAEQBTAEMB8wCPAVMACgFBAQkADQDBAFsAUgBSAAYBZQBfAaIAggDyAIgBJAEgAUEBqwARAJABQQHyADMBgwEHAZABMAGEAEwBegCjAIsA/ACtAIIBEQDyAL0AGgG/AL8AHwFgAbAA/gD+AOIAfQCiAOAAEQCwAAsBSABIANQAeABWAUgAkgBIAEgAiwAgAG8BbwFhAGUBWwBcAWwAkAGzAGwAIwFvAWwAwwCCAPwAXACgAIAABQD5AMMAYAFlAVoBrgBvAUoB/ABQAa4AUQFeACUA9QANAM0AggBgAScAZQF+AW8BPAAOAYIABQB4AEwBQwCCAG8BTgCCACABcgBLAc0AhwAmAQcAcAHzALYAUgF6ALYAcwFVAFcA0ABuAfQAzQB0AFcBBgFxAPMAsgBMAQUABQH4AFsADQCCAFEBjABDABMAbgFtAPMA2wBdATsBCQBbAHwBjABnACgBRwAnADoBhwAqAXkAWQFSAAIAUQGAAYcBagGwALkARgFpAWkBEgBRAYYAmwBsAFgBYQB/AKcAWwCUAF8BTAGPAEEBxwAkAXwBOQECAW8B1gCBAW0AZAA1AVUBBQEiAfsAfQBDAasAIAEgAZQAxQAkAKsAkQFWAW0BJgGPAfwAAwFZAdYALgCCAEMAAQFnAIYBRwCkAFYA2gBpAaEAtgCLACAAiQC4ALIAkQGrAMUAkAGEAdsAegBvAUAAKAEmAX0AQQF5AF0BhwGjAJABggAOAA4AfQAHAXkBUQFRAW8BLgASAUQAfgCtAGUBBQEFAYQADQBOAGYBWwAZAYQAVwFMAXoAKAEXAWEBUgGEAHMAVQHuABwBswC9ACgBKAFqAI8BQAE6AWcBTgBtAf4A/ABSARcBJgGtAAQAqAB/AMoAggBDAQYBhAAmAb8AVgEFAQ8AggCCAIcBhQBfAYoBbQF/AZMAYgEQAG8BBgFZARMAhgBjATUBfgCVASIBIgFUAGwAsQBjAWcBVgF7AVkBVwBqAHkAnQB5ARwBfgFeAGwAawGrACAAqQAqAQEAEwGCAGABegAqAasAsACoAMkAggFZAU4AtgBqAKsAWAFvATwAggBuAUsBtgBVAAUAdAAFAPgA2wC2AG4BfAFbAAUACQB5APMAOwFsAIcAlABRAVIARgF5AXkAnQCCAIYAWAF8AVkBYwFkAKsArQCEAKsAKAFDAW0AIAF9AI8AggBtAQMBsgD8AJEBVgChACAAZwDaANsAQwCJACYBKAGPAVcARAANACAAQQFSAVEBGQFOAAUBWwB+AAcBhQAOABwBBAD8ADoBagBnAe4AhACoAA8AYgEQAL8AygBtAVEBVgGOACIBsQCVAXoAXgCrAH4BagDdAGkBWwCrAIsAFABlAVsAQwCCAFgAEwFeACgBWADLAAkAcAGEAXoAAgFbAAcAUgGEACgBbwFaAGcBjgCOAPMAfQCCAQkAZQFkAYMBVQBYAFIB6gA5AIMAEwGyAMkAWwBMAcoAqwAOAIQBYQBwATAABgFaASUAOgCMAGcBZwCFAW8BZgFvAWQBRABvAUIBawFLAFUBUgBoAAEAhAFlAXcAWgGDALAAhwFmAWkBeAC2ABMBzgBhAA4BhgBfAYYBJQC5AHcA2wBOALcAgwCCAEgBfQBMARQAVQGEAG8BEwCPAI8ADQBWAY8AjABIAYkAQQFOAE4AnwB6AFUBJgGkAHUB7QC2APMAKgFbAAIAjgHyAAIB/gAKAEMAtgAIAYQAjABIAWQBcAH8AKsAaAGMAZkATQChACcB/ACJAGkBaQGJAI8BpABHAPwALgBkAIwABgFpAZUBggAqAWsBJQDIABIBAgAFAUEBegBBAU4AhwDBAFsALgBIAWUBdABwAfQAoQDDAHoAawErAFUBjABHABgAVQB0AGsBcAFYAVMBKAF0ACgAPQFXARcBswCCAGcAhAA4AXEAMAAwAGkBZwFlAYIAqwBCAZoAQQFBAWkBSAG9AFoBYABCASMAggBJAYEBBABnAWkB6gAlAIQBswBtAbUADQAuAY4BbwFVAY4AagFBATIBhgBpAXsADQBrATUBfgBUAIYArwBlAWAAiwBYAVgBSAG+AJUBbwFrAbYASQFYAWIBaQHzAIcBuQBWAWkBggB4AW8BfgFoAWYB8wDgAHoAxgBrAcUAQABxAW8BqQAUALYAdAC0AC4BcQFrAWoABgGrALcA3QCLAIIAcAHLACgB6gBkARgACQCCAWcARwC2AGQBWgFmAbIAJQAGAXABYgFMATIBhAFSAGgAXwF3AIYBYQC3AHgAVQETAKsAjQB6AE4AbwFYAUEBVQEIAcgAAgChAAoA8gD+AC4AZABwATUBegB0AE4AegAFATAAwwBVAWkBZwFTAbMAggBpAYQAdABpAWsBgQGzAK8AhgCLAG8BtgB9AH4BawF6AMUAagAuAbYAiACyAIQAWAE3AIQAhABlATcAtgBuATMAggAPADMA7wCHAY8AhwGEAMYAxgBvAbMAIwCPALEA2gD8ALYAiwCPAIkAqwBZAVgBgwDGAKsAJQF/AbEAiQD8ALIAZQEzAL4AvgB0ACEAWwDHAMcAWwDvAAYBBgHOAFsAWAGkAAYBxwAlAFgAWwAGAccAvQDNAM0AfwDGAJEBxgFXAH4AfgCIAGsAQgFHAXgAewCfAHgAKgGrANsAJQB1AHUAaQH+ADoAVgFLAc0AzQD+ADkAKABuAUIAaQFXAWUBBgHDAGUBAwFxAasAOwBJABcAZQFlAWUBOgACAIIBOQAXAGkBwwA6AGUBSQC2AIQBVwBbAFsAygDHAHABMwAGASEATQGHAYQBxQAEABAATAENAHABIQBMAUUAxgDRAEUAjwFnAGcARwBXAD4BcAHzACAAYAAZAHABPQFAASoBKgFXAFYAUgEFAEMATAGFAQYBJwEoAW4BKAFFAVUBjACJAIAAjABlAUgBMgFWAVgBZQGpAA0AZwEFAXEAVQFVAXkAWwFOAHwBXwFTAXwB4gDTAPwAfQGCAI8BggCCAPwAggAlACMAIwB0AGQBagFbAQkAeAFbAY8BJQBlAYwAQwGyALIAKAAHAVsBagHeAIsAZwEvAHIBbwEoAGkB2gB4AZEBBgFyAWUBbwFOAFQBaQEwAJEBQgAoAIgAZAElACMAdABqAYwAsgAJAEMBjwFqAW8BLwAGAVQBtADuAGUA7gBlAbQAtABlAJIAOACyADgAtABlAJIAbAAFARAAbABxAS0AdACGAFsBxwE="};
-window.__EXAMPLE_HTML__ = "<h2 data-cue-toc=\"边读边学\">Paste to Cue · 边读边学</h2>\n<table border=\"1\" style=\"border-collapse:collapse;width:100%;font-size:1em\">\n  <thead>\n    <tr style=\"background:#1F2937;color:#F8FAFC\">\n      <th style=\"padding:10px 12px;width:3.6em;white-space:nowrap\">镜号</th>\n      <th style=\"padding:10px 12px\">口播文案</th>\n      <th style=\"padding:10px 12px;width:24%;white-space:nowrap\">小提示</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">01</td>\n      <td style=\"padding:10px 12px;color:#111111\">我现在录这条视频用的提词器，叫做 <strong>Paste to Cue</strong>。</td>\n      <td style=\"padding:10px 12px;color:#EF4444\">重音：Paste to Cue</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">02</td>\n      <td style=\"padding:10px 12px;color:#111111\">以前我录口播最头疼两件事：要么自己拿鼠标一边读一边滑，眼神老往旁边飘；要么开匀速滚动，稍微卡壳一下，字幕就自己跑没影了。</td>\n      <td style=\"padding:10px 12px;color:#64748B\">停半拍</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">03</td>\n      <td style=\"padding:10px 12px;color:#111111\">但现在你看，我只要直接开口往下念，屏幕上的词就会<span style=\"background:#FEF08A;color:#111\">跟着我的声音</span>稳稳往上走。</td>\n      <td style=\"padding:10px 12px;color:#2563EB\">镜头推进</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">04</td>\n      <td style=\"padding:10px 12px;color:#111111\">哪怕我中间换口气、临场改两个词，或者稍微停顿一下，它也会在原地等我，<strong>不会自己乱跳</strong>。</td>\n      <td style=\"padding:10px 12px;color:#EF4444\">重音：不会自己乱跳</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">05</td>\n      <td style=\"padding:10px 12px;color:#111111\">平时写好稿子，不管是飞书、Word 还是 Notion 里的表格，直接按 Ctrl + V 粘进来就行，原本标的<strong style=\"color:#e53935\">重点粗体</strong>、彩色字还有<span style=\"background:#FEF08A;color:#111\">荧光笔高亮</span>全都原样保留。</td>\n      <td style=\"padding:10px 12px;color:#16A34A\">展示保样式</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">06</td>\n      <td style=\"padding:10px 12px;color:#111111\">如果粘进来的排版有点乱，点一下「格式化」，不到 <b>60</b> 秒就能规整得干干净净，重点标记一个都不会丢。</td>\n      <td style=\"padding:10px 12px;color:#64748B\">语速放慢</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">07</td>\n      <td style=\"padding:10px 12px;color:#111111\">开拍之后，你只要把眼神盯住屏幕上方的黄金视线，需要手动快进或者倒回去重录一句，鼠标移到右边触控条轻轻一滑就能随时接管。</td>\n      <td style=\"padding:10px 12px;color:#2563EB\">看镜头</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">08</td>\n      <td style=\"padding:10px 12px;color:#111111\">字号还支持从百分之五十一直放大到 <b>500%</b>，就算把浏览器缩成窄窄一条贴在摄像头旁边，文字也会自动折行，绝不会撑出屏幕。</td>\n      <td style=\"padding:10px 12px;color:#EF4444\">重音：500%</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">09</td>\n      <td style=\"padding:10px 12px;color:#111111\">而且它不用注册，所有文稿都只存在我自己的浏览器本地，关掉网页下次打开还能接着录，完全不用担心稿子外泄。</td>\n      <td style=\"padding:10px 12px;color:#64748B\">轻松一点</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">10</td>\n      <td style=\"padding:10px 12px;color:#111111\">你现在也可以直接点左下角的麦克风，跟着我这几句话开口念两句，亲自试试这种<span style=\"background:#FEF08A;color:#111\">话到词到</span>的手感。</td>\n      <td style=\"padding:10px 12px;color:#16A34A\">收尾邀请</td>\n    </tr>\n  </tbody>\n</table>\n<p style=\"color:#94A3B8;font-size:0.8em;margin-top:1.2em\">（演示样例 · 粘贴飞书 / Notion / Word 表格会保留颜色、加粗与单元格。暗底下纯黑字会自动反白，彩色强调与黄底高亮原样保留。）</p>";
-window.__EXAMPLE_EN_HTML__ = "<h2 class=\"cue-title\" data-cue-id=\"title\">Learn Paste to Cue aloud</h2>\n<div class=\"cue-seg\" data-idx=\"01\" data-cue-id=\"seg-01\">The teleprompter I'm using right now is called <span class=\"cue-term\">Paste to Cue</span>.</div>\n<div class=\"cue-seg\" data-idx=\"02\" data-cue-id=\"seg-02\">Before this, two things drove me crazy: dragging a mouse while I talked, or watching a <strong class=\"cue-stress\">constant scroll</strong> run away the second I paused.</div>\n<div class=\"cue-seg\" data-idx=\"03\" data-cue-id=\"seg-03\">Now I just speak, and the words glide up <mark class=\"cue-key\">with my voice</mark>.</div>\n<div class=\"cue-seg\" data-idx=\"04\" data-cue-id=\"seg-04\">If I stumble? Give yourself <mark class=\"cue-key\">7</mark> seconds — it holds the line until I pick back up. It waits; it doesn't jump ahead.</div>\n<div class=\"cue-seg\" data-idx=\"05\" data-cue-id=\"seg-05\">Write in Docs, Word, or Notion, hit paste, and your <strong class=\"cue-stress\">bold</strong>, colors, and <mark class=\"cue-key\">highlights</mark> stay exactly where you put them.</div>\n<div class=\"cue-seg\" data-idx=\"06\" data-cue-id=\"seg-06\">Messy layout? One tap on Format cleans it in under <mark class=\"cue-key\">60</mark> seconds without dropping a single mark.</div>\n<div class=\"cue-seg\" data-idx=\"07\" data-cue-id=\"seg-07\">Keep your eyes on the golden eyeline near the top. Need a redo? Slide the right-hand rail and take over anytime.</div>\n<div class=\"cue-seg\" data-idx=\"08\" data-cue-id=\"seg-08\">Zoom from fifty percent all the way to <mark class=\"cue-key\">500%</mark> — even a skinny sidebar next to the camera still wraps cleanly.</div>\n<div class=\"cue-seg\" data-idx=\"09\" data-cue-id=\"seg-09\">No signup. Your script lives only in this browser, so you can close the tab and pick up later without leaking a line.</div>\n<div class=\"cue-seg\" data-idx=\"10\" data-cue-id=\"seg-10\">Click the mic below and read a few lines out loud — feel that <mark class=\"cue-key\">word-for-word</mark> follow for yourself.</div>";
+window.__EXAMPLE_HTML__ = "<h2 data-cue-toc=\"边读边学\">Paste to Cue · 边读边学</h2>\n<table border=\"1\" style=\"border-collapse:collapse;width:100%;font-size:1em\">\n  <thead>\n    <tr style=\"background:#1F2937;color:#F8FAFC\">\n      <th style=\"padding:10px 12px;width:3.6em;white-space:nowrap\">镜号</th>\n      <th style=\"padding:10px 12px\">口播文案</th>\n      <th style=\"padding:10px 12px;width:24%;white-space:nowrap\">小提示</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">01</td>\n      <td style=\"padding:10px 12px;color:#111111\">我现在录这条视频用的提词器，叫做 <strong>Paste to Cue</strong>。</td>\n      <td style=\"padding:10px 12px;color:#EF4444\">重音：Paste to Cue</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">02</td>\n      <td style=\"padding:10px 12px;color:#111111\">以前我录口播最头疼两件事：要么自己拿鼠标一边读一边滑，眼神老往旁边飘；要么开匀速滚动，稍微卡壳一下，字幕就自己跑没影了。</td>\n      <td style=\"padding:10px 12px;color:#64748B\">停半拍</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">03</td>\n      <td style=\"padding:10px 12px;color:#111111\">但现在你看，我只要直接开口往下念，屏幕上的词就会<span style=\"background:#FEF08A;color:#111\">跟着我的声音</span>稳稳往上走。</td>\n      <td style=\"padding:10px 12px;color:#2563EB\">镜头推进</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">04</td>\n      <td style=\"padding:10px 12px;color:#111111\">哪怕我中间换口气、临场改两个词，或者稍微停顿一下，它也会在原地等我，<strong>不会自己乱跳</strong>。</td>\n      <td style=\"padding:10px 12px;color:#EF4444\">重音：不会自己乱跳</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">05</td>\n      <td style=\"padding:10px 12px;color:#111111\">平时写好稿子，不管是飞书、Word 还是 Notion 里的表格，直接按 Ctrl + V 粘进来就行，原本标的<strong style=\"color:#e53935\">重点粗体</strong>、彩色字还有<span style=\"background:#FEF08A;color:#111\">荧光笔高亮</span>全都原样保留。</td>\n      <td style=\"padding:10px 12px;color:#16A34A\">展示保样式</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">06</td>\n      <td style=\"padding:10px 12px;color:#111111\">如果粘进来的排版有点乱，点一下「格式化」，不到 <b>60</b> 秒就能规整得干干净净，重点标记一个都不会丢。</td>\n      <td style=\"padding:10px 12px;color:#64748B\">语速放慢</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">07</td>\n      <td style=\"padding:10px 12px;color:#111111\">开拍之后，你只要把眼神盯住屏幕五分之二处的黄金视线，需要手动快进或者倒回去重录一句，鼠标移到右边触控条轻轻一滑就能随时接管。</td>\n      <td style=\"padding:10px 12px;color:#2563EB\">看镜头</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">08</td>\n      <td style=\"padding:10px 12px;color:#111111\">字号还支持从百分之五十一直放大到 <b>500%</b>，就算把浏览器缩成窄窄一条贴在摄像头旁边，文字也会自动折行，绝不会撑出屏幕。</td>\n      <td style=\"padding:10px 12px;color:#EF4444\">重音：500%</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">09</td>\n      <td style=\"padding:10px 12px;color:#111111\">而且它不用注册，所有文稿都只存在我自己的浏览器本地，关掉网页下次打开还能接着录，完全不用担心稿子外泄。</td>\n      <td style=\"padding:10px 12px;color:#64748B\">轻松一点</td>\n    </tr>\n    <tr>\n      <td style=\"padding:10px 12px;font-weight:700;color:#F59E0B\">10</td>\n      <td style=\"padding:10px 12px;color:#111111\">你现在也可以直接点左下角的麦克风，跟着我这几句话开口念两句，亲自试试这种<span style=\"background:#FEF08A;color:#111\">话到词到</span>的手感。</td>\n      <td style=\"padding:10px 12px;color:#16A34A\">收尾邀请</td>\n    </tr>\n  </tbody>\n</table>\n<p style=\"color:#94A3B8;font-size:0.8em;margin-top:1.2em\">（演示样例 · 粘贴飞书 / Notion / Word 表格会保留颜色、加粗与单元格。暗底下纯黑字会自动反白，彩色强调与黄底高亮原样保留。）</p>";
+window.__EXAMPLE_EN_HTML__ = "<h2 class=\"cue-title\" data-cue-id=\"title\">Learn Paste to Cue aloud</h2>\n<div class=\"cue-seg\" data-idx=\"01\" data-cue-id=\"seg-01\">The teleprompter I'm using right now is called <span class=\"cue-term\">Paste to Cue</span>.</div>\n<div class=\"cue-seg\" data-idx=\"02\" data-cue-id=\"seg-02\">Before this, two things drove me crazy: dragging a mouse while I talked, or watching a <strong class=\"cue-stress\">constant scroll</strong> run away the second I paused.</div>\n<div class=\"cue-seg\" data-idx=\"03\" data-cue-id=\"seg-03\">Now I just speak, and the words glide up <mark class=\"cue-key\">with my voice</mark>.</div>\n<div class=\"cue-seg\" data-idx=\"04\" data-cue-id=\"seg-04\">If I stumble? Give yourself <mark class=\"cue-key\">7</mark> seconds — it holds the line until I pick back up. It waits; it doesn't jump ahead.</div>\n<div class=\"cue-seg\" data-idx=\"05\" data-cue-id=\"seg-05\">Write in Docs, Word, or Notion, hit paste, and your <strong class=\"cue-stress\">bold</strong>, colors, and <mark class=\"cue-key\">highlights</mark> stay exactly where you put them.</div>\n<div class=\"cue-seg\" data-idx=\"06\" data-cue-id=\"seg-06\">Messy layout? One tap on Format cleans it in under <mark class=\"cue-key\">60</mark> seconds without dropping a single mark.</div>\n<div class=\"cue-seg\" data-idx=\"07\" data-cue-id=\"seg-07\">Keep your eyes on the 2/5 golden eyeline. Need a redo? Slide the right-hand rail and take over anytime.</div>\n<div class=\"cue-seg\" data-idx=\"08\" data-cue-id=\"seg-08\">Zoom from fifty percent all the way to <mark class=\"cue-key\">500%</mark> — even a skinny sidebar next to the camera still wraps cleanly.</div>\n<div class=\"cue-seg\" data-idx=\"09\" data-cue-id=\"seg-09\">No signup. Your script lives only in this browser, so you can close the tab and pick up later without leaking a line.</div>\n<div class=\"cue-seg\" data-idx=\"10\" data-cue-id=\"seg-10\">Click the mic below and read a few lines out loud — feel that <mark class=\"cue-key\">word-for-word</mark> follow for yourself.</div>";
 window.__ICONS__ = {"mic":"<svg class=\"ic ic-mic\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" > <path d=\"M12 19v3\" /> <path d=\"M19 10v2a7 7 0 0 1-14 0v-2\" /> <rect x=\"9\" y=\"2\" width=\"6\" height=\"13\" rx=\"3\" /> </svg>","play":"<svg class=\"ic ic-play\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" > <path d=\"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z\" /> </svg>","x":"<svg class=\"ic ic-x\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" > <path d=\"M18 6 6 18\" /> <path d=\"m6 6 12 12\" /> </svg>","square":"<svg class=\"ic ic-square\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" > <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\" /> </svg>","eraser":"<svg class=\"ic ic-eraser\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" > <path d=\"M21 21H8a2 2 0 0 1-1.42-.587l-3.994-3.999a2 2 0 0 1 0-2.828l10-10a2 2 0 0 1 2.829 0l5.999 6a2 2 0 0 1 0 2.828L12.834 21\" /> <path d=\"m5.082 11.09 8.828 8.828\" /> </svg>","rotate-cw":"<svg class=\"ic ic-rotate-cw\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" > <path d=\"M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8\" /> <path d=\"M21 3v5h-5\" /> </svg>","copy":"<svg class=\"ic ic-copy\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" > <rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\" /> <path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\" /> </svg>"};
 </script>
 <script>
@@ -568,7 +573,9 @@ zh: {
   tipSmartFmt: '导入时自动拆段排版，保留原有加粗 / 字色 / 底色 / 下划线，并进入提词准备', smartFmt: '智能格式化导入', importCue: '一键导入并准备',
   openEditor: '进入编辑台', s1t: '粘贴文稿', s1d: '支持飞书、Word、Notion 富文本与表格，完整保留加粗、字色与荧光笔高亮。',
   s2t: '选择跟读方式', s2d: '开启麦克风实时语音跟读（国内推荐 Edge 直连），或用右侧三段无极触控板控速。',
-  s3t: '盯住上 1/4 视线', s3d: '文字按高粘度阻尼匀速上浮，50%–500% 缩放自适应折行，按 Esc 随时返回整备。',
+  asrEngine: '识别引擎', asrUrlLabel: '本地 WS 地址', asrAuto: '自动（优先本地极速引擎）', asrLocal: '本地流式引擎', asrBrowser: '浏览器语音',
+  vLocal: '已连接 · 本地极速流式', vLocalHint: '本机识别中，语音不会发往远端服务。', vLocalOffline: '本地引擎未连接。请运行 local-asr/start.ps1（macOS / Linux 使用 start.sh），并检查 WS 地址。',
+  s3t: '盯住五分之二视线', s3d: '文字按高粘度阻尼匀速上浮，50%–500% 缩放自适应折行，按 Esc 随时返回整备。',
   localFoot: '文稿与配置只保存在本机浏览器 · 不上传任何服务器', emptyPaste: '先在框里粘贴文稿，或点「试试示例稿」',
   home: '首页', tipReady: '收起工具栏与目录，进入 8:2 极简提词布局（Esc 返回）', ready: '进入提词准备', tipVoiceGo: '进入极简布局并立即开启语音跟读', voiceGo: '语音开拍',
   tipFormat: '清除飞书/Word 固定列宽与字号，统一紧凑排版，并完整保留原有加粗、字色、高亮底色、下划线', format: '格式化', tipFmtMenu: '排版选项',
@@ -585,7 +592,7 @@ zh: {
   aiTitle: 'AI 语义标重音', aiSub: '大模型只负责加标签：<strong class="cue-stress">重音</strong>、<mark class="cue-key">核心词</mark>、<span class="cue-term">英文/术语</span>。去掉标签后与原文逐字比对，改了任何一个字的段落会被拒收。',
   aiSvc: '服务', aiCustom: '自定义（OpenAI 兼容）', aiRemember: '在本机浏览器记住 Key', aiRun: '开始标注当前文稿', aiFb: '没有 Key？一键复制标注 Prompt，去网页版跑完再粘回来',
   aiCopy: '复制标注 Prompt', aiApply: '应用粘回结果', aiPastePh: '把模型返回的 JSON 粘在这里',
-  helpHtml: '<h2>怎么用</h2><p><b>首页</b>：在单框里粘贴飞书 / Word / Notion 文稿，点「一键导入并准备」直达 8:2 提词台；「智能格式化导入」会顺便拆段排版并保留原有标记。</p><p><b>整备台</b>：左侧目录全文显示、可勾选已录段落；格式化 / AI 标重音 / 还原；字号、画幅、镜像。选中文字会浮出 [重音] [高亮] [清除]。</p><p><b>提词台</b>：左 8 右 2 满屏；右侧上半段 = 回滚，下半段 = 前进，越靠边越快；悬停中间 = 停，点击中间 = 暂停 / 恢复。左下角语音监控窗可拖动、可收起。</p><p><kbd>空格</kbd>匀速开始/暂停 <kbd>W</kbd><kbd>S</kbd>调速 <kbd>M</kbd>镜像 <kbd>L</kbd>目录 <kbd>F</kbd>全屏 <kbd>+</kbd><kbd>-</kbd>缩放 <kbd>Esc</kbd>返回整备</p><p class="muted">文稿与设置只保存在本机浏览器 localStorage（paste-to-cue-v4.0），不会上传。按任意键关闭。</p>',
+  helpHtml: '<h2>怎么用</h2><p><b>首页</b>：在单框里粘贴飞书 / Word / Notion 文稿，点「一键导入并准备」直达 8:2 提词台；「智能格式化导入」会顺便拆段排版并保留原有标记。</p><p><b>整备台</b>：左侧目录全文显示、可勾选已录段落；格式化 / AI 标重音 / 还原；字号、画幅、镜像。选中文字会浮出 [重音] [高亮] [清除]。</p><p><b>提词台</b>：默认 40%（五分之二）视线；左 8 右 2 满屏；右侧上半段 = 回滚，下半段 = 前进，越靠边越快；悬停中间 = 停，点击中间 = 暂停 / 恢复。左下角语音监控窗可拖动、可收起。</p><p><kbd>空格</kbd>匀速开始/暂停 <kbd>W</kbd><kbd>S</kbd>调速 <kbd>M</kbd>镜像 <kbd>L</kbd>目录 <kbd>F</kbd>全屏 <kbd>+</kbd><kbd>-</kbd>缩放 <kbd>Esc</kbd>返回整备</p><p class="muted">文稿与设置只保存在本机浏览器 localStorage（paste-to-cue-v4.0），不会上传。按任意键关闭。</p>',
   // 动态文案
   vOff: '语音未开启', vOffHint: '点「开启语音跟读」，浏览器询问时允许麦克风。没插麦也可以先点「模拟试读」看效果。', vChromeHint: ' 当前是 Chrome：国内网络通常需代理，推荐用 Edge 打开。',
   vConn: '正在连接麦克风与语音服务…', vConnHint: '如果地址栏弹出麦克风权限请求，请点「允许」。',
@@ -624,7 +631,9 @@ en: {
   tipSmartFmt: 'Split into paragraphs while keeping bold / colors / highlights / underlines, then get ready to cue', smartFmt: 'Smart Format', importCue: 'Import & Cue',
   openEditor: 'Open in Editor', s1t: 'Paste your script', s1d: 'Works with Docs, Word, Notion and Lark rich text and tables. Bold, colors and highlights stay intact.',
   s2t: 'Pick a follow mode', s2d: 'Voice Sync scrolls as you speak (best in Edge), or steer the speed with the three-zone touch rail.',
-  s3t: 'Eyes on the top quarter', s3d: 'Text glides up at a smooth, damped pace. 50%–500% zoom reflows to fit. Press Esc to edit anytime.',
+  asrEngine: 'Speech engine', asrUrlLabel: 'Local WS URL', asrAuto: 'Auto (Local Streaming first)', asrLocal: 'Local Streaming', asrBrowser: 'Browser Speech',
+  vLocal: 'Voice Sync · Local Streaming', vLocalHint: 'Recognizing on this machine. Audio stays local.', vLocalOffline: 'Local engine offline. Run local-asr/start.ps1 (start.sh on macOS / Linux) and check the WS URL.',
+  s3t: 'Eyes on the 2/5 eyeline', s3d: 'Text glides up at a smooth, damped pace. 50%–500% zoom reflows to fit. Press Esc to edit anytime.',
   localFoot: 'Your script and settings never leave this browser.', emptyPaste: 'Paste a script into the box first, or try the sample.',
   home: 'Home', tipReady: 'Hide toolbars and enter the 8:2 cue stage (Esc to return)', ready: 'Get Ready', tipVoiceGo: 'Enter the cue stage and start Voice Sync', voiceGo: 'Voice Take',
   tipFormat: 'Remove fixed column widths and font sizes, tidy the layout, and keep bold, colors, highlights and underlines', format: 'Format', tipFmtMenu: 'Layout options',
@@ -641,7 +650,7 @@ en: {
   aiTitle: 'AI Emphasis', aiSub: 'The model only adds tags: <strong class="cue-stress">stress</strong>, <mark class="cue-key">key phrases</mark> and <span class="cue-term">terms</span>. Each paragraph is compared character by character after removing tags; any paragraph with changed text is rejected.',
   aiSvc: 'Provider', aiCustom: 'Custom (OpenAI compatible)', aiRemember: 'Remember the key in this browser', aiRun: 'Tag current script', aiFb: 'No key? Copy the prompt, run it in a chat app, then paste the result back',
   aiCopy: 'Copy prompt', aiApply: 'Apply pasted result', aiPastePh: 'Paste the JSON returned by the model here',
-  helpHtml: '<h2>How it works</h2><p><b>Home</b>: paste a script from Docs, Word or Notion into the box and hit “Import &amp; Cue” to jump straight to the 8:2 cue stage. “Smart Format” also splits it into tidy paragraphs and keeps your marks.</p><p><b>Editor</b>: full outline on the left with done checkboxes; Format, AI Emphasis and Revert; text size, frame and mirror. Select text to get [Stress] [Highlight] [Clear].</p><p><b>Cue stage</b>: 8:2 full screen. Upper rail = rewind, lower rail = forward, faster toward the edges; hover the middle to hold, click it to pause / resume. The voice monitor at the bottom left can be dragged or collapsed.</p><p><kbd>Space</kbd>start/pause <kbd>W</kbd><kbd>S</kbd>speed <kbd>M</kbd>mirror <kbd>L</kbd>outline <kbd>F</kbd>full screen <kbd>+</kbd><kbd>-</kbd>zoom <kbd>Esc</kbd>back to edit</p><p class="muted">Scripts and settings stay in this browser’s localStorage (paste-to-cue-v4.0). Press any key to close.</p>',
+  helpHtml: '<h2>How it works</h2><p><b>Home</b>: paste a script from Docs, Word or Notion into the box and hit “Import &amp; Cue” to jump straight to the 8:2 cue stage. “Smart Format” also splits it into tidy paragraphs and keeps your marks.</p><p><b>Editor</b>: full outline on the left with done checkboxes; Format, AI Emphasis and Revert; text size, frame and mirror. Select text to get [Stress] [Highlight] [Clear].</p><p><b>Cue stage</b>: eyeline at 40% (2/5). 8:2 full screen. Upper rail = rewind, lower rail = forward, faster toward the edges; hover the middle to hold, click it to pause / resume. The voice monitor at the bottom left can be dragged or collapsed.</p><p><kbd>Space</kbd>start/pause <kbd>W</kbd><kbd>S</kbd>speed <kbd>M</kbd>mirror <kbd>L</kbd>outline <kbd>F</kbd>full screen <kbd>+</kbd><kbd>-</kbd>zoom <kbd>Esc</kbd>back to edit</p><p class="muted">Scripts and settings stay in this browser’s localStorage (paste-to-cue-v4.0). Press any key to close.</p>',
   vOff: 'Voice Sync off', vOffHint: 'Click “Start Voice Sync” and allow the microphone. No mic? Try “Simulate” first.', vChromeHint: ' In mainland China, Chrome usually needs a proxy; Edge works directly.',
   vConn: 'Connecting mic & speech service…', vConnHint: 'If the address bar asks for microphone access, click “Allow”.',
   vLive: 'Voice Sync · Connected', vLiveHint: 'Say something: bars move = mic OK; bars move but no text = speech service unreachable; no bars = mic muted or wrong device.',
@@ -753,9 +762,9 @@ window.PTC_AI_SYSTEM_EN = [
   // ─── State ───
   const defaultState = () => ({
     theme: 'studio', ui: 'zh', recLang: 'auto', mirror: false, side: true,
-    fontSize: 30, zoom: 100, sensitivity: 100, eyeLine: 23, sideW: 264,
+    fontSize: 30, zoom: 100, sensitivity: 100, eyeLine: 40, asrMode: 'auto', asrUrl: 'ws://127.0.0.1:5329', sideW: 264,
     aspect: { w: null, h: null }, lang: 'zh-CN',
-    fwdWin: 40, backWin: 8, countdown: true,
+    fwdWin: 90, backWin: 8, countdown: true,
     // 跟读滚动物理：粘度（速度低通，1/s）、正常跟读限速（px/s）、说话时预读漂移（px/s）
     viscosity: 5.5, cruiseMax: 115, drift: 18,
     fmt: { segments: true, align: 'center' },
@@ -768,29 +777,31 @@ window.PTC_AI_SYSTEM_EN = [
     // 当前内置示例（序列化后可能带空白差异，用特征句判断）
     if (/Paste to Cue · 边读边学|Learn Paste to Cue aloud|我现在录这条视频用的提词器|The teleprompter I'm using right now is called/.test(h)) return true;
     // 旧版公开示例 / 私有拍摄稿残留（特征句避开业务敏感字面量）
-    if (/示例分镜 · AI 读得懂|data-cue-id="seg-19"|Buyers You Missed|如果你是卖.{1,6}的，AI 会把/.test(h)) return true;
+    if (/示例分镜 · AI 读得懂|data-cue-id="seg-19"/.test(h)) return true;
     return false;
   }
   function loadStored() {
-    const cur = safeParse(localStorage.getItem(LS_KEY));
-    if (Object.keys(cur).length) return cur;
-    // v3.3 → v4.0：文稿、字号、缩放、视线、跟读参数整份沿用；识别语言改为 recLang
-    const v33 = safeParse(localStorage.getItem('paste-to-cue-v3.3'));
-    if (Object.keys(v33).length) { v33.recLang = v33.lang && v33.lang !== 'zh-CN' ? v33.lang : 'auto'; delete v33.lang; v33.migratedFrom = '3.3'; return v33; }
-    // v3.2 → v3.3：整份沿用（文稿、偏好、AI 标注都保留）
-    const v32 = safeParse(localStorage.getItem('paste-to-cue-v3.2'));
-    if (Object.keys(v32).length) { delete v32.zoomMax; v32.recLang = v32.lang && v32.lang !== 'zh-CN' ? v32.lang : 'auto'; delete v32.lang; v32.migratedFrom = '3.2'; return v32; }
-    // 升级：偏好沿用；旧版非内置示例文稿备份到「上一版粘稿」
-    let old = safeParse(localStorage.getItem('paste-to-cue-v3'));
-    if (!Object.keys(old).length) old = safeParse(localStorage.getItem('paste-to-cue-v2'));
-    const out = {};
-    ['theme', 'mirror', 'fontSize', 'zoom', 'sensitivity', 'lang', 'countdown', 'side', 'aspect'].forEach(k => { if (k in old) out[k] = old[k]; });
-    if (typeof old.eyeLine === 'number' && old.eyeLine !== 34) out.eyeLine = old.eyeLine; // 默认 34 → 新默认 23
-    if (old.html && !isStockDoc(old.html)) out.prevPaste = old.html;
-    return out;
+    for (const key of [LS_KEY, 'paste-to-cue-v3.3', 'paste-to-cue-v3.2', 'paste-to-cue-v3', 'paste-to-cue-v2']) {
+      const saved = safeParse(localStorage.getItem(key));
+      if (!saved || typeof saved !== 'object' || Array.isArray(saved) || !Object.keys(saved).length) continue;
+      if (saved.eyeLineVer !== 2 && [23, 34].includes(saved.eyeLine)) saved.eyeLine = 40;
+      if (saved.fwdWinVer !== 2 && saved.fwdWin === 40) saved.fwdWin = 90;
+      if (key !== LS_KEY) {
+        saved.recLang = saved.recLang || (saved.lang && saved.lang !== 'zh-CN' ? saved.lang : 'auto');
+        saved.migratedFrom = key.replace('paste-to-cue-v', '');
+        delete saved.zoomMax;
+        if (/v[23]$/.test(key) && saved.html && !isStockDoc(saved.html)) {
+          saved.prevPaste = saved.html;
+          delete saved.html;
+        }
+      }
+      return saved;
+    }
+    return {};
   }
   let st = Object.assign(defaultState(), loadStored());
   st.zoom = Math.max(50, Math.min(500, +st.zoom || 100));
+  if (!['auto', 'local', 'browser'].includes(st.asrMode)) st.asrMode = 'auto';
   st.sideW = Math.max(180, Math.min(420, +st.sideW || 264));
   st.fmt = Object.assign({ segments: true, align: 'center' }, st.fmt || {});
   if (!localStorage.getItem(LS_KEY) && !st.uiChosen) st.ui = st.migratedFrom ? 'zh' : /^en/i.test(navigator.language || '') && !/^zh/i.test(navigator.language || '') ? 'en' : 'zh';
@@ -827,72 +838,81 @@ window.PTC_AI_SYSTEM_EN = [
   let manualOverride = false;
   let followVoice = false;
 
+  function chineseNumber(value) {
+    const digits = '零一二三四五六七八九';
+    const [whole, fraction] = String(value).split('.');
+    const n = Number(whole);
+    if (!Number.isInteger(n) || n < 0 || n > 99999) return String(value);
+    function integer(x, leading = true) {
+      if (x < 10) return digits[x];
+      if (x >= 10000) return integer(Math.floor(x / 10000)) + '万' + (x % 10000 ? (x % 10000 < 1000 ? '零' : '') + integer(x % 10000, false) : '');
+      let out = '', zero = false;
+      for (const [unit, name] of [[1000, '千'], [100, '百'], [10, '十'], [1, '']]) {
+        const d = Math.floor(x / unit) % 10;
+        if (d) {
+          if (zero) out += '零';
+          out += (unit === 10 && d === 1 && !out && leading ? '' : digits[d]) + name;
+          zero = false;
+        } else if (out && x % unit) zero = true;
+      }
+      return out;
+    }
+    return integer(n) + (fraction != null ? '点' + [...fraction].map(d => digits[+d]).join('') : '');
+  }
+  // Shared lexer preserves source spans when a numeric span expands into spoken characters.
+  function lex(text, chinese) {
+    const out = [];
+    let i = 0;
+    const cjk = (ch, start, end, raw = ch) => {
+      const py = charPinyin(ch) || (DIGIT_PY[CN_NUM[ch] || ''] || [])[0] || '';
+      out.push({ ch, raw, start, end, py, fuzzy: fuzzyPinyin(py), isDigit: !!CN_NUM[ch] });
+    };
+    while (i < text.length) {
+      const ch = text[i];
+      const number = chinese && text.slice(i).match(/^(\d+(?:\.\d+)?)([%％]?)/);
+      if (number && !/[A-Za-z]/.test(text[i + number[0].length] || '') &&
+          (number[2] || (Number(number[1]) >= 10 && !/^0\d/.test(number[1])) || number[1].includes('.')) && Number(number[1]) <= 99999) {
+        const raw = number[0], end = i + raw.length;
+        const spoken = (number[2] ? '百分之' : '') + chineseNumber(number[1]);
+        for (const c of spoken) cjk(c, i, end, raw);
+        i = end;
+      } else if (isSkippable(ch) || ch === '％') i++;
+      else if (isCJK(ch) || CN_NUM[ch]) { cjk(ch, i, i + 1); i++; }
+      else if (isLatinWordChar(ch)) {
+        let j = i + 1;
+        while (j < text.length && isLatinWordChar(text[j])) j++;
+        const raw = text.slice(i, j), lower = raw.toLowerCase();
+        out.push({ ch: lower, raw, start: i, end: j, py: lower, fuzzy: lower, en: true, stem: enStem(lower), num: numVal(lower), isDigit: /^\d+$/.test(raw) });
+        i = j;
+      } else i++;
+    }
+    return out;
+  }
   function tokenize() {
+    const text = content.textContent;
+    const chinese = (text.match(/[A-Za-z]+/g) || []).length <= (text.match(/[\u4e00-\u9fff]/g) || []).length;
     tokens = [];
     const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
-        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-        // skip script/style
-        const p = node.parentElement;
-        if (p && (p.closest('script,style,[data-cue-ignore]'))) return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
+        return node.nodeValue.trim() && !node.parentElement.closest('script,style,[data-cue-ignore]') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
       }
     });
     let node;
     while ((node = walker.nextNode())) {
-      const text = node.nodeValue;
-      let i = 0;
-      while (i < text.length) {
-        const ch = text[i];
-        if (isSkippable(ch)) { i++; continue; }
-        if (isCJK(ch) || CN_NUM[ch]) {
-          const py = charPinyin(ch) || (DIGIT_PY[CN_NUM[ch] || ''] || [])[0] || '';
-          const blockId = nearestBlockId(node);
-          tokens.push({
-            node, start: i, end: i + 1, ch, raw: ch,
-            py, fuzzy: fuzzyPinyin(py), y: 0, blockId
-          });
-          i++;
-        } else if (isLatinWordChar(ch)) {
-          let j = i + 1;
-          while (j < text.length && isLatinWordChar(text[j])) j++;
-          const word = text.slice(i, j);
-          const lower = word.toLowerCase();
-          let py = lower;
-          // digit words
-          if (/^\d+$/.test(word)) {
-            // keep digit matching; also expose spoken form later via score
-            py = lower;
-          }
-          tokens.push({
-            node, start: i, end: j, ch: lower, raw: word, en: true, stem: enStem(lower), num: numVal(lower),
-            py, fuzzy: lower, y: 0, blockId: nearestBlockId(node)
-          });
-          i = j;
-        } else {
-          i++;
-        }
-      }
+      const blockId = nearestBlockId(node);
+      for (const t of lex(node.nodeValue, chinese)) tokens.push({ ...t, node, blockId, y: 0 });
     }
     refreshTokenY();
     if (anchorIdx >= tokens.length) anchorIdx = Math.max(0, tokens.length - 1);
   }
 
   function nearestBlockId(textNode) {
-    let el = textNode.parentElement;
-    while (el && el !== content) {
-      if (el.dataset && el.dataset.cueId) return el.dataset.cueId;
-      if (/^H[1-4]$/.test(el.tagName)) return el.dataset.cueId || ('h-' + el.textContent.trim().slice(0, 24));
-      if (el.tagName === 'TR') {
-        const first = el.cells && el.cells[0];
-        const label = first ? first.textContent.trim().slice(0, 24) : 'row';
-        if (!el.dataset.cueId) el.dataset.cueId = 'row-' + label + '-' + Math.random().toString(36).slice(2, 6);
-        return el.dataset.cueId;
-      }
-      el = el.parentElement;
-    }
-    return 'body';
+    const parent = textNode.parentElement;
+    const el = parent.closest('tr,.cue-seg') || parent.closest('[data-cue-id],p,li,h1,h2,h3,h4,div') || content;
+    if (!el.dataset.cueId) el.dataset.cueId = 'block-' + (++nearestBlockId.serial);
+    return el.dataset.cueId;
   }
+  nearestBlockId.serial = 0;
 
   function refreshTokenY() {
     const rootRect = scroller.getBoundingClientRect();
@@ -912,30 +932,8 @@ window.PTC_AI_SYSTEM_EN = [
 
   // ─── Transcript tokenization for matching ───
   function tokenizeTranscript(str) {
-    const out = [];
-    const s = String(str || '');
-    let i = 0;
-    while (i < s.length) {
-      const ch = s[i];
-      if (isSkippable(ch)) { i++; continue; }
-      // filler words skip later at match time
-      if (isCJK(ch) || CN_NUM[ch]) {
-        const mapped = CN_NUM[ch];
-        const py = charPinyin(ch) || (mapped && DIGIT_PY[mapped] ? DIGIT_PY[mapped][0] : '') || '';
-        out.push({ ch, raw: ch, py, fuzzy: fuzzyPinyin(py), isDigit: !!mapped });
-        i++;
-      } else if (isLatinWordChar(ch)) {
-        let j = i + 1;
-        while (j < s.length && isLatinWordChar(s[j])) j++;
-        const word = s.slice(i, j);
-        const lower = word.toLowerCase();
-        out.push({ ch: lower, raw: word, py: lower, fuzzy: lower, en: true, stem: enStem(lower), num: numVal(lower), isDigit: /^\d+$/.test(word) });
-        i = j;
-      } else {
-        i++;
-      }
-    }
-    return out;
+    const text = String(str || '');
+    return lex(text, /[\u4e00-\u9fff]/.test(text) || !docIsEnglish());
   }
 
   const FILLERS = new Set(['呃', '啊', '嗯', '哦', '唔', '那个', '就是', '然后', 'um', 'umm', 'uh', 'uhh', 'er', 'erm', 'ah', 'hmm', 'mm', 'like']);
@@ -1006,7 +1004,6 @@ window.PTC_AI_SYSTEM_EN = [
     if (heard.en && token.en) return scoreEn(heard, token);
     // Tier 1: exact char / english word
     if (heard.ch && token.ch && heard.ch === token.ch) return 1.0;
-    if (heard.raw && token.raw && heard.raw.toLowerCase() === token.raw.toLowerCase()) return 1.0;
 
     // digits: "60" vs "六十" handled by expanding
     if (heard.isDigit || /^\d+$/.test(token.raw)) {
@@ -1035,64 +1032,105 @@ window.PTC_AI_SYSTEM_EN = [
     return 0;
   }
 
-  function matchWindow(heardTokens) {
-    const heard = filterFillers(heardTokens).slice(-12);
-    if (!heard.length || !tokens.length) return null;
-
-    const back = st.backWin | 0;
-    const fwd = st.fwdWin | 0;
-    // 起点放宽到 anchor-back-need：用「读到的末尾位置」而不是起点来约束回退
-    const from = Math.max(0, anchorIdx - back - Math.min(heard.length, 12));
-    const to = Math.min(tokens.length - 1, anchorIdx + fwd);
-    const winLen = to - from + 1;
-    if (winLen <= 0) return null;
-
-    let bestScore = -1;
-    let bestAt = anchorIdx;
-    let bestMatched = 0;
-    const need = heard.length;
-
-    for (let start = from; start <= to - Math.min(need - 1, winLen - 1); start++) {
-      let score = 0;
-      let matched = 0;
-      let ti = start;
-      for (let hi = 0; hi < need && ti <= to; hi++) {
-        const s = scorePair(heard[hi], tokens[ti]);
-        if (s > 0) {
-          score += s;
-          matched++;
-          ti++;
-        } else {
-          // allow one skip in transcript (filler already removed) by not advancing token
-          // try skipping one token (table note column noise)
-          if (ti + 1 <= to) {
-            const s2 = scorePair(heard[hi], tokens[ti + 1]);
-            if (s2 > 0) {
-              score += s2 * 0.9;
-              matched++;
-              ti += 2;
-              continue;
-            }
-          }
-          // skip heard token (hallucination)
-          score -= 0.15;
-        }
-      }
-      // prefer nearby forward progress
-      const endAt = ti - 1;
-      if (endAt < anchorIdx - back) continue;
-      const dist = endAt - anchorIdx;
-      const distPenalty = dist < 0 ? Math.abs(dist) * 0.08 : dist * 0.01;
-      const norm = matched > 0 ? score / need - distPenalty : -1;
-      if (norm > bestScore) {
-        bestScore = norm;
-        bestAt = Math.min(tokens.length - 1, ti - 1);
-        bestMatched = matched;
+  function dedupStutter(input) {
+    const out = [...input];
+    const similar = (a, b, n) => {
+      let count = 0;
+      for (let j = 0; j < n; j++) if (scorePair(out[a + j], out[b + j]) >= 0.8) count++;
+      return count / n >= 0.65;
+    };
+    for (let i = 0; i < out.length; i++) {
+      for (let n = Math.min(10, Math.floor((out.length - i) / 2)); n >= 2; n--) {
+        if (similar(i, i + n, n)) { out.splice(i + n, n); i = Math.max(-1, i - 1); break; }
       }
     }
-
-    if (bestScore < 0.35) return null;
-    return { idx: Math.max(0, bestAt), score: bestScore, ratio: bestMatched / need };
+    // A trailing partial re-read carries less evidence than the complete phrase before it.
+    let removed = true;
+    while (removed) {
+      removed = false;
+      for (let n = Math.min(10, out.length - 5); n >= 4 && !removed; n--) {
+        for (let i = 0; i + n + 3 <= out.length - n; i++) {
+          if (similar(i, out.length - n, n)) { out.splice(out.length - n); removed = true; break; }
+        }
+      }
+    }
+    return out;
+  }
+  function withoutPercentPrefix(arr) {
+    const out = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].ch === '百' && arr[i + 1]?.ch === '分' && arr[i + 2]?.ch === '之') i += 2;
+      else out.push(arr[i]);
+    }
+    return out;
+  }
+  function matchWindow(heardTokens) {
+    const heard = filterFillers(heardTokens).slice(-96);
+    if (!heard.length || !tokens.length) return null;
+    const windows = new Map();
+    for (const variant of [heard, dedupStutter(heard)]) {
+      for (const normalized of [variant, withoutPercentPrefix(variant)]) {
+        for (const size of [6, 10, 16]) {
+          const q = normalized.slice(-size);
+          if (q.length >= 4) windows.set(q.map(t => t.ch).join('|'), q);
+        }
+      }
+    }
+    const from = Math.max(0, anchorIdx - st.backWin - 16);
+    const to = Math.min(tokens.length - 1, anchorIdx + st.fwdWin);
+    const regions = [{ start: from, lastStart: to, end: to }];
+    const seen = new Set([tokens[anchorIdx].blockId]);
+    for (let i = anchorIdx + 1; i < tokens.length && seen.size <= 4; i++) {
+      if (seen.has(tokens[i].blockId)) continue;
+      seen.add(tokens[i].blockId);
+      const tr = tokens[i].node.parentElement.closest('tr');
+      const cell = tr && spokenCell(tr);
+      let head = i;
+      if (cell) {
+        const spoken = tokens.findIndex((t, k) => k >= i && cell.contains(t.node));
+        if (spoken >= 0) head = spoken;
+      }
+      regions.push({ start: head, lastStart: Math.min(tokens.length - 1, head + 27), end: Math.min(tokens.length - 1, head + 44) });
+    }
+    let best = null;
+    for (const q of windows.values()) {
+      for (const region of regions) {
+        for (let start = region.start; start <= region.lastStart; start++) {
+          let ti = start, matched = 0, quality = 0, streak = 0, longest = 0, leading = 0, noise = 0;
+          for (let hi = 0; hi < q.length && ti <= region.end; hi++) {
+            let pair = scorePair(q[hi], tokens[ti]);
+            // Percent prefixes are optional on either side of a number.
+            if (!pair && tokens[ti].ch === '百' && tokens[ti + 1]?.ch === '分' && tokens[ti + 2]?.ch === '之') {
+              ti += 3;
+              if (ti > region.end) break;
+              pair = scorePair(q[hi], tokens[ti]);
+            }
+            if (!pair && ti + 1 <= region.end && scorePair(q[hi], tokens[ti + 1]) >= 0.82) {
+              ti++; pair = scorePair(q[hi], tokens[ti]) * 0.95;
+            }
+            if (pair >= 0.8) {
+              quality += pair; matched++; ti++;
+              streak++; longest = Math.max(longest, streak);
+            } else {
+              if (!matched && hi < 2) leading++; else noise++;
+              streak = 0;
+            }
+          }
+          const endAt = ti - 1;
+          if (endAt < anchorIdx - st.backWin) continue;
+          const effective = q.length - (longest >= 3 ? leading : 0);
+          const ratio = matched / effective;
+          const short = q.length <= 6;
+          if (matched < 4 || longest < 3 || ratio < (short ? 0.8 : 0.68)) continue;
+          const dist = endAt - anchorIdx;
+          const penalty = dist < 0 ? Math.abs(dist) * 0.08 : Math.min(0.12, dist * 0.0025);
+          const score = (quality - noise * 0.15) / effective - penalty + Math.min(0.09, matched * 0.006);
+          if (score < (short ? 0.68 : 0.52)) continue;
+          if (!best || score > best.score) best = { idx: endAt, score, ratio };
+        }
+      }
+    }
+    return best;
   }
 
   // ─── Highlight & scroll follow ───
@@ -1424,8 +1462,8 @@ window.PTC_AI_SYSTEM_EN = [
     vmon.dataset.state = s;
     const def = VSTATE[s] || VSTATE.errOther;
     setVState.opts = opts;
-    vmStateEl.textContent = opts.label ? T(opts.label) : T(def.label);
-    setHint(opts.hint != null ? T(opts.hint) : def.hint(), opts.cls || def.cls || '');
+    vmStateEl.textContent = s === 'live' && asrActiveEngine === 'local' ? T('vLocal') : opts.label ? T(opts.label) : T(def.label);
+    setHint(s === 'live' && asrActiveEngine === 'local' ? T('vLocalHint') : opts.hint != null ? T(opts.hint) : def.hint(), opts.cls || def.cls || '');
     $('vmLang').textContent = vstate === 'sim' ? recLangEff() + ' · sim' : recLangEff();
     renderActions();
     if (s === 'live') { liveSince = Date.now(); silenceWarned = false; }
@@ -1458,7 +1496,7 @@ window.PTC_AI_SYSTEM_EN = [
     else if (act === 'stop') stopMic();
     else if (act === 'sim') { enterCue(); startSimulate(); }
     else if (act === 'stopSim') stopSimulate();
-    else if (act === 'clear') { finals = []; renderTranscript(''); }
+    else if (act === 'clear') clearTranscript();
     else if (act === 'copy') {
       const url = location.href;
       (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject())
@@ -1481,6 +1519,7 @@ window.PTC_AI_SYSTEM_EN = [
     vmFinal.textContent = finals.join('　');
     vmInterim.textContent = lastInterim ? (finals.length ? '　' : '') + lastInterim : '';
     vmPh.style.display = (finals.length || lastInterim) ? 'none' : '';
+    $('vmText').scrollTop = $('vmText').scrollHeight;
   }
   let beatT = null;
   function beat() {
@@ -1499,7 +1538,7 @@ window.PTC_AI_SYSTEM_EN = [
     for (let i = 0; i < N_CELLS; i++) vmCells[i].classList.toggle('on', i < n);
     drawCells.n = n;
   }
-  async function startMeter() {
+  async function startMeter(session) {
     stopMeter();
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       vmDev.textContent = T('devNoMedia');
@@ -1507,6 +1546,7 @@ window.PTC_AI_SYSTEM_EN = [
     }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+      if (session !== micSession || !wantMic) { stream.getTracks().forEach(t => t.stop()); return 'cancelled'; }
       const AC = window.AudioContext || window.webkitAudioContext;
       const ctx = new AC();
       const src = ctx.createMediaStreamSource(stream);
@@ -1514,7 +1554,7 @@ window.PTC_AI_SYSTEM_EN = [
       analyser.fftSize = 1024;
       src.connect(analyser);
       if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-      audio = { stream, ctx, analyser, buf: new Float32Array(analyser.fftSize), level: 0 };
+      audio = { stream, ctx, src, analyser, buf: new Float32Array(analyser.fftSize), level: 0 };
       const tr = stream.getAudioTracks()[0];
       vmDev.textContent = (tr && tr.label) || T('devDefault');
       vmDev.title = vmDev.textContent;
@@ -1555,42 +1595,166 @@ window.PTC_AI_SYSTEM_EN = [
   let lastResultAt = 0;
   let restartLog = [];
 
-  function startVoice() {
+  let recEpoch = 0;
+  let micSession = 0;
+  let asrActiveEngine = null;
+  let localSocket = null;
+  let localProcessor = null;
+  let localMute = null;
+  let utterSeq = 0;
+  let awaitingReset = false;
+
+  function extractHotwords() {
+    const emphasized = [...content.querySelectorAll('span.cue-term,mark.cue-key,strong')].map(el => el.textContent.trim());
+    const names = content.textContent.match(/\b[A-Z][a-zA-Z]+(?:[ -][A-Z][a-zA-Z]+)*\b/g) || [];
+    return [...new Set([...emphasized, ...names].filter(Boolean))].slice(0, 128);
+  }
+  function detachRecognition() {
+    recEpoch++;
+    if (!recognition) return;
+    const rec = recognition;
+    recognition = null;
+    rec.onstart = rec.onresult = rec.onerror = rec.onend = null;
+    try { rec.abort(); } catch {}
+  }
+  function closeLocal() {
+    if (localProcessor) { localProcessor.onaudioprocess = null; localProcessor.disconnect(); localProcessor = null; }
+    if (localMute) { localMute.disconnect(); localMute = null; }
+    if (localSocket) {
+      const ws = localSocket; localSocket = null;
+      ws.onclose = ws.onmessage = ws.onerror = null;
+      ws.close();
+    }
+  }
+  function probeLocal(session) {
+    return new Promise(resolve => {
+      let ws, settled = false;
+      const finish = value => {
+        if (settled) return;
+        settled = true; clearTimeout(timer);
+        if (!value && ws) { ws.onmessage = ws.onclose = ws.onerror = null; ws.close(); }
+        resolve(value);
+      };
+      const timer = setTimeout(() => finish(null), 350);
+      try {
+        ws = new WebSocket(st.asrUrl);
+        ws.onmessage = event => {
+          let message;
+          try { message = JSON.parse(event.data); } catch { return; }
+          if (message.type === 'ready') finish(session === micSession && wantMic ? ws : null);
+        };
+        ws.onerror = ws.onclose = () => finish(null);
+      } catch { finish(null); }
+    });
+  }
+  function feedLocalPcm16(samples) {
+    if (localSocket?.readyState !== WebSocket.OPEN || awaitingReset) return false;
+    const pcm = samples instanceof Int16Array ? samples : Int16Array.from(samples);
+    const bytes = new ArrayBuffer(pcm.length * 2), view = new DataView(bytes);
+    for (let i = 0; i < pcm.length; i++) view.setInt16(i * 2, pcm[i], true);
+    localSocket.send(bytes);
+    return true;
+  }
+  function attachLocal(ws, session) {
+    asrActiveEngine = 'local'; localSocket = ws; utterSeq = 0; awaitingReset = false;
+    ws.send(JSON.stringify({ type: 'config', lang: recLangEff(), hotwords: extractHotwords() }));
+    ws.onmessage = event => {
+      if (session !== micSession || ws !== localSocket || !wantMic) return;
+      let message;
+      try { message = JSON.parse(event.data); } catch { return; }
+      if (message.seq !== utterSeq) return;
+      if (message.type === 'reset_ack') { awaitingReset = false; return; }
+      if (awaitingReset || !['partial', 'final'].includes(message.type)) return;
+      lastResultAt = Date.now(); beat();
+      if (message.type === 'final') { pushFinal(message.text); renderTranscript(''); onHeard(''); }
+      else { renderTranscript(message.text); onHeard(message.text); }
+    };
+    ws.onerror = () => {};
+    ws.onclose = () => {
+      if (session !== micSession || ws !== localSocket || !wantMic) return;
+      closeLocal();
+      if (st.asrMode === 'auto') openRecognition({ keepLive: true });
+      else failVoice('errNet', { hint: 'vLocalOffline' });
+    };
+    // Integrate input samples across callback boundaries, including fractional sample ratios.
+    let weight = 0, sum = 0;
+    const ratio = audio.ctx.sampleRate / 16000;
+    localProcessor = audio.ctx.createScriptProcessor(2048, 1, 1);
+    localMute = audio.ctx.createGain(); localMute.gain.value = 0;
+    localProcessor.onaudioprocess = event => {
+      const input = event.inputBuffer.getChannelData(0), output = [];
+      for (const sample of input) {
+        let left = 1;
+        while (left > 1e-8) {
+          const take = Math.min(left, ratio - weight);
+          sum += sample * take; weight += take; left -= take;
+          if (weight >= ratio - 1e-8) {
+            const value = clamp(sum / ratio, -1, 1);
+            output.push(Math.round(value * (value < 0 ? 32768 : 32767)));
+            sum = 0; weight = 0;
+          }
+        }
+      }
+      if (output.length) feedLocalPcm16(output);
+    };
+    audio.src.connect(localProcessor); localProcessor.connect(localMute); localMute.connect(audio.ctx.destination);
+    micOn = true; followVoice = true; setVState('live');
+  }
+  function clearTranscript() {
+    finals = []; lastInterim = ''; renderTranscript(''); resetMatch();
+    if (!wantMic) return;
+    if (asrActiveEngine === 'local' && localSocket?.readyState === WebSocket.OPEN) {
+      utterSeq++; awaitingReset = true;
+      localSocket.send(JSON.stringify({ type: 'reset', seq: utterSeq }));
+    } else if (asrActiveEngine === 'browser') {
+      detachRecognition();
+      openRecognition({ keepLive: true });
+    }
+  }
+  async function startVoice() {
     enterCue();
-    startMic();
+    await startMic();
   }
   async function startMic() {
     if (sim) stopSimulate(true);
-    if (!SpeechRec) { setVState('errUnsupported'); return; }
-    wantMic = true;
-    restartLog = [];
-    lastResultAt = 0;
-    lastLoudAt = 0;
-    finals = []; renderTranscript('');
-    resetMatch();
-    setVState('connecting');
-    const m = await startMeter();
-    if (!wantMic) { stopMeter(); return; }
-    if (m === 'perm') { failVoice('errPerm'); return; }
-    if (m === 'nomic') { failVoice('errNoMic'); return; }
-    if (m === 'busy') { failVoice('errNoMic', { label: 'vBusy', hint: 'vBusyHint' }); return; }
-    openRecognition();
+    const session = ++micSession;
+    detachRecognition(); closeLocal();
+    asrActiveEngine = null;
+    wantMic = true; micOn = false;
+    restartLog = []; lastResultAt = 0; lastLoudAt = 0;
+    finals = []; renderTranscript(''); resetMatch(); setVState('connecting');
+    const probe = st.asrMode === 'browser' ? Promise.resolve(null) : probeLocal(session);
+    const [m, ws] = await Promise.all([startMeter(session), probe]);
+    if (!wantMic || session !== micSession) { if (ws) ws.close(); return; }
+    if (['perm', 'nomic', 'busy'].includes(m)) {
+      if (ws) ws.close(); failVoice(m === 'perm' ? 'errPerm' : 'errNoMic'); return;
+    }
+    if (ws?.readyState === WebSocket.OPEN && audio.ctx) attachLocal(ws, session);
+    else {
+      if (ws) ws.close();
+      if (st.asrMode === 'local') failVoice('errNet', { hint: 'vLocalOffline' });
+      else openRecognition();
+    }
   }
-  function openRecognition() {
-    if (recognition) { recognition.onend = null; try { recognition.abort(); } catch {} }
+  function openRecognition({ keepLive = false } = {}) {
+    detachRecognition();
+    asrActiveEngine = 'browser';
+    if (!SpeechRec) { failVoice('errUnsupported'); return; }
+    const epoch = recEpoch;
+    if (keepLive) { micOn = true; setVState('live'); }
     const rec = new SpeechRec();
     rec.lang = recLangEff();
     rec.continuous = true;
     rec.interimResults = true;
     rec.maxAlternatives = 1;
     rec.onstart = () => {
-      if (rec !== recognition) return;
+      if (rec !== recognition || epoch !== recEpoch || !wantMic) return;
       micOn = true;
       if (vstate !== 'live') setVState('live');
       followVoice = true;
     };
     rec.onresult = (ev) => {
-      if (rec !== recognition) return;
+      if (rec !== recognition || epoch !== recEpoch || !wantMic) return;
       lastResultAt = Date.now();
       restartLog = [];
       let interim = '';
@@ -1606,7 +1770,7 @@ window.PTC_AI_SYSTEM_EN = [
       onHeard(interim.trim());
     };
     rec.onerror = (ev) => {
-      if (rec !== recognition) return;
+      if (rec !== recognition || epoch !== recEpoch || !wantMic) return;
       const err = ev.error || 'error';
       if (err === 'no-speech' || err === 'aborted') return;
       if (err === 'network') { failVoice('errNet'); return; }
@@ -1617,7 +1781,7 @@ window.PTC_AI_SYSTEM_EN = [
       failVoice('errOther', { hint: 'vOtherHint' }); vmStateEl.textContent = T('vErrOther') + ' (' + err + ')';
     };
     rec.onend = () => {
-      if (rec !== recognition) return;
+      if (rec !== recognition || epoch !== recEpoch || !wantMic) return;
       micOn = false;
       if (!wantMic) return;
       // 连续识别会话会被浏览器定期结束：自动续上；但反复秒断且无结果 = 判定服务不通，亮红灯
@@ -1628,15 +1792,14 @@ window.PTC_AI_SYSTEM_EN = [
         failVoice('errNet', { label: 'vFlap', hint: 'vNetHint' });
         return;
       }
-      setTimeout(() => { if (wantMic && rec === recognition) { try { rec.start(); } catch {} } }, 250);
+      setTimeout(() => { if (wantMic && rec === recognition && epoch === recEpoch) { try { rec.start(); } catch {} } }, 250);
     };
     recognition = rec;
     try { rec.start(); }
     catch (e) { failVoice('errOther', { label: 'vNoStart' }); }
   }
   function failVoice(state, opts) {
-    wantMic = false; // 停止无脑重连
-    if (recognition) { recognition.onend = null; recognition.onerror = null; try { recognition.abort(); } catch {} recognition = null; }
+    wantMic = false; micSession++; detachRecognition(); closeLocal(); asrActiveEngine = null;
     micOn = false;
     followVoice = false;
     // network 错误时保留电平表：绿格还在跳 = 麦克风是好的，只是语音服务不通
@@ -1644,8 +1807,7 @@ window.PTC_AI_SYSTEM_EN = [
     setVState(state, opts);
   }
   function stopMic() {
-    wantMic = false;
-    if (recognition) { recognition.onend = null; recognition.onerror = null; try { recognition.abort(); } catch {} recognition = null; }
+    wantMic = false; micSession++; detachRecognition(); closeLocal(); asrActiveEngine = null;
     micOn = false;
     followVoice = false;
     manualOverride = false;
@@ -1683,7 +1845,7 @@ window.PTC_AI_SYSTEM_EN = [
     const cell = cellOf(t);
     let a = idx;
     while (a > 0 && idx - a < 9 && cellOf(tokens[a - 1]) === cell) a--;
-    const snippet = tokens.slice(a, idx + 1).map(x => x.raw).join(t.en ? ' ' : '');
+    const snippet = tokens.slice(a, idx + 1).filter((x, i, arr) => !i || x.node !== arr[i - 1].node || x.start !== arr[i - 1].start).map(x => x.raw).join(t.en ? ' ' : '');
     return { label, snippet: (a > 0 && cellOf(tokens[a - 1]) === cell ? '…' : '') + snippet };
   }
   function resetMatch() { vmMatch.textContent = T('mWait'); vmMatch.className = 'vm-match'; $('vmBar').style.width = '0%'; $('vmPct').textContent = '0%'; }
@@ -2129,13 +2291,17 @@ window.PTC_AI_SYSTEM_EN = [
     wireSideResizer();
     $('sens').oninput = () => { st.sensitivity = +$('sens').value; $('sensVal').textContent = st.sensitivity + '%'; save(); };
 
+    for (const id of ['asrMode', 'vmEngine']) $(id).onchange = () => {
+      st.asrMode = $(id).value; syncSettingsForm(); save(); if (wantMic) startMic();
+    };
+    $('asrUrl').onchange = () => { st.asrUrl = $('asrUrl').value.trim() || 'ws://127.0.0.1:5329'; save(); if (wantMic) startMic(); };
     $('recLang').onchange = () => { st.recLang = $('recLang').value; $('vmLang').textContent = recLangEff(); save(); if (wantMic) startMic(); };
-    $('fwdWin').oninput = () => { st.fwdWin = +$('fwdWin').value; $('fwdWinVal').textContent = st.fwdWin; save(); };
+    $('fwdWin').oninput = () => { st.fwdWin = +$('fwdWin').value; st.fwdWinVer = 2; $('fwdWinVal').textContent = st.fwdWin; save(); };
     $('backWin').oninput = () => { st.backWin = +$('backWin').value; $('backWinVal').textContent = st.backWin; save(); };
     $('visc').oninput = () => { st.viscosity = +$('visc').value; $('viscVal').textContent = st.viscosity.toFixed(1); save(); };
     $('cruise').oninput = () => { st.cruiseMax = +$('cruise').value; $('cruiseVal').textContent = st.cruiseMax; save(); };
     $('drift').oninput = () => { st.drift = +$('drift').value; $('driftVal').textContent = st.drift; save(); };
-    $('eyeLine').oninput = () => { st.eyeLine = +$('eyeLine').value; applyEye(); relayout(); save(); };
+    $('eyeLine').oninput = () => { st.eyeLine = +$('eyeLine').value; st.eyeLineVer = 2; applyEye(); relayout(); save(); };
 
     // 阅读视线拖拽
     let dragging = false;
@@ -2143,7 +2309,7 @@ window.PTC_AI_SYSTEM_EN = [
     guideHandle.addEventListener('pointermove', (e) => {
       if (!dragging) return;
       const rect = stage.getBoundingClientRect();
-      st.eyeLine = clamp(Math.round(((e.clientY - rect.top) / rect.height) * 100), 20, 55);
+      st.eyeLineVer = 2; st.eyeLine = clamp(Math.round(((e.clientY - rect.top) / rect.height) * 100), 15, 55);
       applyEye();
     });
     guideHandle.addEventListener('pointerup', () => { dragging = false; save(); updateCueTag(); });
@@ -2274,6 +2440,8 @@ window.PTC_AI_SYSTEM_EN = [
   }
 
   function syncSettingsForm() {
+    $('asrMode').value = $('vmEngine').value = st.asrMode;
+    $('asrUrl').value = st.asrUrl;
     $('recLang').value = st.recLang || 'auto';
     $('chkMirror').checked = !!st.mirror;
     $('defZoom').value = st.zoom; $('defZoomVal').textContent = st.zoom + '%';
@@ -2294,6 +2462,8 @@ window.PTC_AI_SYSTEM_EN = [
         cuePg: $('cuePg').textContent, vstate, anchorIdx, tokenCount: tokens.length, scrollTop: scroller.scrollTop,
         paused: speed.paused, speedTarget: speed.target, speedCurrent: speed.current,
         manualOverride, followVoice, simRunning: !!sim, wantMic, micOn,
+        asrMode: st.asrMode, asrActiveEngine, asrUrl: st.asrUrl, fwdWin: st.fwdWin, recEpoch, utterSeq, awaitingReset, meterRunning: !!audio.stream,
+        vmScrollTop: $('vmText').scrollTop, vmScrollHeight: $('vmText').scrollHeight,
         eyeLine: st.eyeLine, theme: st.theme, mirror: st.mirror,
         monitor: {
           state: vmStateEl.textContent, final: vmFinal.textContent, interim: vmInterim.textContent,
@@ -2306,6 +2476,14 @@ window.PTC_AI_SYSTEM_EN = [
         tocCount: side.querySelectorAll('.item[data-id]').length
       };
     },
+    startVoice, stopMic, clearTranscript, extractHotwords, feedLocalPcm16, isStockDoc,
+    flushLocal() { localSocket?.send(JSON.stringify({ type: 'flush' })); },
+    loadHtml(html) { loadHtml(html, true); return this.getState(); },
+    setUi,
+    chineseNumber,
+    dedup(text) { return dedupStutter(tokenizeTranscript(text)).map(t => t.ch).join(''); },
+    normalized(text) { return tokenizeTranscript(text).map(t => t.ch); },
+    rowInfo,
     feedTranscript(text, isFinal) {
       if (isFinal) { pushFinal(text); renderTranscript(''); onHeard(''); }
       else { renderTranscript(String(text || '')); onHeard(String(text || '')); }
@@ -3044,7 +3222,7 @@ window.PTC_AI_SYSTEM_EN = [
     $('sens').addEventListener('input', () => { $('sensVal').textContent = st.sensitivity + '%'; });
     loadHtml(st.html || DEFAULT_HTML, false);
     updateFmtButtons();
-    setVState(SpeechRec ? 'off' : 'errUnsupported');
+    setVState('off');
     resetMatch();
     // 三态：无 #cue / #edit → 首页
     const h = (location.hash || '').replace('#', '');

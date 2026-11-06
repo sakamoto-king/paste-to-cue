@@ -1,3 +1,9 @@
 # Project-local files managed by external sync and backup
 /_storage/*
 !/_storage/README.md
+local-asr/.venv/
+local-asr/models/
+node_modules/
+test-results/
+*.pyc
+__pycache__/

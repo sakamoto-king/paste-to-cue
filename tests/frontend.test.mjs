@@ -20,12 +20,13 @@ async function load(saved = {}, key = 'paste-to-cue-v4.0') {
     await page.call('Page.navigate', { url: server.url + '/?load=' + id });
     await until(() => page.eval(`window.__loadId === ${JSON.stringify(id)} && !!window.__cueDebug && document.readyState === 'complete'`));
   } finally { await page.call('Page.removeScriptToEvaluateOnNewDocument',{identifier:script.identifier}); }
+  await page.eval("document.querySelector('#hEditor').click()");
   return page.eval('__cueDebug.getState()');
 }
 
 test('fresh defaults, synchronized bilingual copy, static single file and icons', async () => {
   const state = await load();
-  assert.equal(state.eyeLine, 40); assert.equal(state.fwdWin, 90);
+  assert.equal(state.eyeLine, 40); assert.equal(state.extraBelowLines, 3); assert.equal(state.extraAboveLines,2);
   assert.equal(await page.eval('getComputedStyle(document.documentElement).getPropertyValue("--eye").trim()'), '40%');
   assert.equal(await page.eval('document.querySelector("#eyeLineVal").textContent'), '40%');
   assert.equal(await page.eval('document.querySelector("[data-i18n=s3t]").textContent'), '盯住五分之二视线');
@@ -44,12 +45,12 @@ test('all five storage generations migrate defaults and preserve custom/manual v
       await t.test(`${key} eye ${eye}`, async () => {
         const state = await load({ eyeLine: eye, fwdWin: 40 }, key);
         assert.equal(state.eyeLine, [23, 34].includes(eye) ? 40 : eye);
-        assert.equal(state.fwdWin, 90);
+        assert.equal(state.extraBelowLines, 3);
       });
     }
     await t.test(`${key} manual markers`, async () => {
       const state = await load({ eyeLine: 23, eyeLineVer: 2, fwdWin: 40, fwdWinVer: 2 }, key);
-      assert.equal(state.eyeLine, 23); assert.equal(state.fwdWin, 40);
+      assert.equal(state.eyeLine, 23); assert.equal(state.extraBelowLines, 3);
     });
   }
 });
@@ -118,7 +119,7 @@ test('Chinese numbers and percent prefixes align bidirectionally with valid DOM 
   assert.deepEqual(await page.eval('__cueDebug.normalized("50％")'), [...'百分之五十']);
 });
 
-test('paragraph heads beyond look-ahead and table spoken cells are included', async () => {
+test('jump to a table spoken cell within the real viewport is included', async () => {
   await load({fwdWin:30});
   const result = await page.eval(`(() => {
     __cueDebug.loadHtml('<table><tr><td><p>01</p></td><td><p>'+ '开始朗读前面的句子'.repeat(25) +'</p></td><td><p>摄影备注</p></td></tr><tr><td><p>02</p></td><td><p>下一段字号还支持从百分之五十一直放大</p></td><td><p>摄影备注</p></td></tr></table>');
